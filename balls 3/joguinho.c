@@ -6,14 +6,14 @@ int main () {
     int n [2];
     c[2] = 0;
     n[2]=rand() % 3000;
-    printf("n1: %i\n", n[1]);
-    printf("c1: %i\n", c[1]);
     printf("hora do joguinho :D\n");
     while ((c[1] < 20)) {
+        //debugzinho
         printf("n1: %i\n", n[1]);
         printf("n2: %i\n", n[2]);
         printf("c1: %i\n", c[1]);
         printf("c2: %i\n", c[2]);
+        //joguinho, de fato.
         printf("digite um numero inteiro\n");
         scanf("%i", &n[2]);
         if (n[1]==n[2]) {
