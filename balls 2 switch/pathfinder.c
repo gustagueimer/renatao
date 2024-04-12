@@ -15,7 +15,6 @@ int main () {
         scanf("%i", &L[1]);
         printf("digite o valor da largura\n");
         scanf("%i", &L[2]);
-        printf(" \n");
         if (L[1] == L[2]) {
             printf("eh quadrado\n");
         } else {
@@ -40,24 +39,19 @@ int main () {
                     printf("opcao invalida\n");
                     printf(" \n");
             } 
-        }
-        tc = 1;
-        while (tc < 11) {
+        } 
+    } 
+    tc = 1;
+    while (tc < 11) {
         printf("insira um valor\n");
         scanf("%i", &T[tc]);
         tc = tc + 1;
-        }
-        tc = 1;
-        while (tc < 11) {
-            printf("T%i: %i\n", tc, T[tc]);
-            tc = tc + 1;
-        }
-        system("pause");
-        printf("adivinha?\n");
-        scanf("%i", tc);
-        balls(tc);
-        printf("%i", tc);
-        system("pause");
     }
+    tc = 1;
+    while (tc < 11) {
+        printf("T%i: %i\n", tc, T[tc]);
+        tc = tc + 1;
+    }
+    system("pause");
     return 0;
 }
