@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <windows.h>
+//balls 101
 int main () {
     int c[2];
     c[1] = 5;

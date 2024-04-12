@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <windows.h>
+//balls 101
 int main () {
     int c = 30;
     printf("impressor de numeros impares entre 29 e 1 deluxe\n");

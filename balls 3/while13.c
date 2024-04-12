@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <windows.h>
+//balls 101
 int main () {
     float c[4];
     printf("impressor de uma media de numeros entre uma faixa definida pelo usuario deluxe\n");
