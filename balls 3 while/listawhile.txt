@@ -1,0 +1,578 @@
+ex 1:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    int c = 50;
+    printf("impressor de numeros deluxe\n");
+    while(c < 251) {
+        printf("%i\n", c);
+        c++;
+    }
+    system("pause");
+    return 0;
+}
+ex 2:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    int c = 3000;
+    printf("impressor de numeros decrescentes deluxe\n");
+    while(c > 99) {
+        printf("%i\n", c);
+        c--;
+    }
+    system("pause");
+    return 0;
+}
+ex 3:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    int c = 0;
+    printf("impressor de numeros pares entre 1 a 30 deluxe\n");
+    while(c < 31) {
+        if (c % 2) {
+            c++;
+        } else {
+            printf("%i\n", c);
+            c++;
+        }
+    }
+    system("pause");
+    return 0;
+}
+ex 4:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    int c = 30;
+    printf("impressor de numeros impares entre 29 e 1 deluxe\n");
+    while(c != 0) {
+        if (c % 2) {
+            printf("%i\n", c);
+            c--;
+        } else {
+            c--;
+        }
+    }
+    system("pause");
+    return 0;
+}
+ex 5:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    int c[2];
+    c[1] = 0;
+    c[2] = 0;
+    printf("impressor de numeros deluxe\n");
+    while(c[1] < 101 ) {
+        printf("numero atual: %i\n", c[1]);
+        c[2] = c[2] + c[1];
+        printf("soma total ate o momento: %i\n", c[2]);
+        c[1]++;
+    }
+    system("pause");
+    return 0;
+}
+ex 6:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    int c[2];
+    c[1] = 600;
+    c[2] = 0;
+    printf("impressor de numeros deluxe\n");
+    while(c[1] < 1001 ) {
+        printf("numero atual: %i\n", c[1]);
+        c[2] = c[2] + c[1];
+        printf("soma total ate o momento: %i\n", c[2]);
+        c[1]++;
+    }
+    system("pause");
+    return 0;
+}
+ex 7:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    int c[2];
+    c[1] = 6;
+    c[2] = 6;
+    printf("impressor de fatorial de 6 deluxe\n");
+    while(c[1] > 1) {
+        c[1]--;
+        printf("etapa: %i x %i: ", c[2], c[1]);
+        c[2] = c[2] * c[1];
+        printf("%i\n", c[2]);
+    }
+    printf("resultado final: %i\n", c[2]);
+    system("pause");
+    return 0;
+}
+ex 8:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    int x;
+    int c[2];
+    printf("impressor de fatorial deluxe\n");
+    printf("insira um valor\n");
+    scanf("%i", &x);
+    c[1] = x;
+    c[2] = x;
+    while(c[1] > 1) {
+        c[1]--;
+        printf("etapa: %i x %i: ", c[2], c[1]);
+        c[2] = c[2] * c[1];
+        printf("%i\n", c[2]);
+    }
+    printf("resultado final: %i\n", c[2]);
+    system("pause");
+    return 0;
+}
+ex 9:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    int c[2];
+    c[1] = 5;
+    printf("impressor de uma media de numeros entre 5 a 150 deluxe\n");
+    while(c[1] < 151) {
+        c[2] = c[2] + c[1];
+        c[1]++;
+    }
+    c[1] = c[2] / 145;
+    printf("resultado final: %i\n", c[1]);
+    system("pause");
+    return 0;
+}
+ex 10:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    float c[2];
+    c[1] = 200;
+    c[2] = 0;
+    printf("impressor de uma media de numeros entre 200 a 350 deluxe\n");
+    while(c[1] <=350) {
+        c[2] = c[2] + c[1];
+        c[1]++;
+    }
+    c[1] = c[2] / 151;
+    printf("resultado final: %.2f\n", c[1]);
+    system("pause");
+    return 0;
+}
+ex 11:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    int c = 111;
+    printf("impressor de numeros pares entre 111 e 350 deluxe\n");
+    while(c < 351) {
+        if (c % 2) {
+            c++;
+        } else {
+            printf("%i\n", c);
+            c++;
+        }
+    }
+    system("pause");
+    return 0;
+}
+ex 12:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    int c = 0;
+    printf("impressor de numeros impares entre 0 e 2500 deluxe\n");
+    while(c < 2500) {
+        if (c % 2) {
+            printf("%i\n", c);
+            c++;
+        } else {
+            c++;
+        }
+    }
+    system("pause");
+    return 0;
+}
+ex 13:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    float c[4];
+    printf("impressor de uma media de numeros entre uma faixa definida pelo usuario deluxe\n");
+    printf("insira o numero de inicio\n");
+    scanf("%f", &c[1]);
+    c[2] = 0;
+    c[4] = c[1];
+    printf("insira o numero de final\n");
+    scanf("%f", &c[3]);
+    while(c[1] <= c[3]) {
+        c[2] = c[2] + c[1];
+        printf("c1: %.2f\n", c[1]);
+        printf("c2: %.2f\n", c[2]);
+        c[1]++;
+    }
+    printf("c1: %.2f\n", c[1]);
+    printf("c2: %.2f\n", c[2]);
+    printf("c3: %.2f\n", c[3]);
+    printf("c4: %.2f\n", c[4]);
+    c[1] = c[2] / ((c[3] - c[4]) + 1);
+    printf("resultado final: %.2f\n", c[1]);
+    system("pause");
+    return 0;
+}
+ex 14:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main(){
+    int c;
+    char nome[3][20];
+    c = 0;
+    printf("leitor e impressor de nomes deluxe\n");
+    while (c < 3) {
+        printf("insira um nome - ");
+        scanf("%s", &nome[c]);
+        c++;
+    }
+    c = 0;
+    printf("nomes digitados: \n");
+    while (c < 3) {
+        c++;
+        switch (c) {
+            case 1: printf("primeiro nome: %s\n", nome[0]); break;
+            case 2: printf("segundo nome: %s\n", nome[1]); break;
+            default: printf("terceiro nome: %s\n", nome[2]); break;
+        }    
+    }
+    system("pause");
+    return 0;
+}
+ex 15:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main() {
+    int c[2];
+    int nota1[3], nota2[3], nota3[3], nota4[4], nota5[3];
+    char aluno[6][20];
+    c[1]= 0;
+    c[2]= 0;
+    printf("leitor de nomes, notas e calculador de medias deluxe\n");
+    while (c[1] < 5) {
+        c[1]++;
+        printf("insira o nome do aluno %i - ", c[1]);
+        scanf("%s", &aluno[c[1]]);
+            switch (c[1]) {
+            case 1: printf("insira as tres notas do aluno\n"); scanf("%i %i %i", &nota1[1], &nota1[2], &nota1[3]); nota1[1] = (nota1[1] + nota1[2] + nota1[3]) / 3; break;
+            case 2: printf("insira as tres notas do aluno\n"); scanf("%i %i %i", &nota2[1], &nota2[2], &nota2[3]); nota2[1] = (nota2[1] + nota2[2] + nota2[3]) / 3; break;
+            case 3: printf("insira as tres notas do aluno\n"); scanf("%i %i %i", &nota3[1], &nota3[2], &nota3[3]); nota3[1] = (nota3[1] + nota3[2] + nota3[3]) / 3; break;
+            case 4: printf("insira as tres notas do aluno\n"); scanf("%i %i %i", &nota4[1], &nota4[2], &nota4[3]); nota4[1] = (nota4[1] + nota4[2] + nota4[3]) / 3; break;
+            default: printf("insira as tres notas do aluno\n"); scanf("%i %i %i", &nota5[1], &nota5[2], &nota5[3]); nota5[1] = (nota5[1] + nota5[2] + nota5[3]) / 3; break;
+        }
+    }
+    c[1] = 0;
+        while (c[1] < 5) {
+        c[1]++;
+        printf("nome: %s - ", aluno[c[1]]);
+        switch (c[1]) {
+            case 1: printf("media: %i\n", nota1[1]); break;
+            case 2: printf("media: %i\n", nota2[2]); break;
+            case 3: printf("media: %i\n", nota3[1]); break;
+            case 4: printf("media: %i\n", nota4[1]); break;
+            default: printf("media: %i\n", nota5[1]); break;
+        }
+    }
+    system("pause");
+    return 0;
+}
+ex 16:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main() {
+    int c = 1;
+    float nota[3];
+    char aluno[20];
+    printf("leitor de nome, notas e calculador de media deluxe\n");
+    while (c > 0) {
+        printf("--------------------------------------------------------------------------------------\n");
+        printf("insira o nome do aluno - ");
+        scanf("%s", &aluno);
+        printf("insira as tres notas do aluno\n"); 
+        scanf("%f %f %f", &nota[1], &nota[2], &nota[3]); 
+        nota[1] = (nota[1] + nota[2] + nota[3]) / 3;
+        printf("aluno: %s - media: %.2f\n", aluno, nota[1]);
+        system("pause");
+        printf("deseja repetir?\n");
+        printf("sim-1 nao-0\n");
+        scanf("%i", &c);
+    }
+    return 0;
+}
+ex 17:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main () {
+    int q;
+    printf("defina quantos numeros serao digitados - ");
+    scanf("%d", &q);
+    int t[q];
+    int c = 1;
+    while (c <= q) {
+        printf("insira numero - ");
+        scanf("%i", &t[c]);
+        c++;
+    }
+    c = 1;
+    printf("numeros pares: \n");
+    while (c <= q) {
+        if (t[c] % 2) {
+            c++;
+        } else {
+            printf("%i \n", t[c]);
+            c++;
+        } 
+    }
+    system("pause");
+    return 0;
+}
+ex 18:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main() {
+    int q;
+    int c = 1;
+    int soma = 0;
+    printf("defina a quantidade de numeros a serem digitados - ");
+    scanf("%i", &q);
+    int t[q];
+    while (c <= q) {
+        printf("insira um numero - ");
+        scanf("%i", &t[c]);
+        soma = soma + t[c];
+        c++;
+    }
+    printf("resultado da soma: %i", soma);
+    return 0;
+}
+ex 19:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main() {
+    int q;
+    int c = 1;
+    int soma = 0;
+    printf("defina a quantidade de numeros a serem digitados - ");
+    scanf("%i", &q);
+    int t[q];
+    while (c <= q) {
+        printf("insira um numero - ");
+        scanf("%i", &t[c]);
+        if (t[c] > 5) {
+            soma = soma + t[c];
+        } 
+        c++;
+    }
+    printf("resultado da soma: %i", soma);
+    system("pause");
+    return 0;
+}
+ex 20:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main() {
+    int q;
+    int c = 1;
+    int soma = 0;
+    printf("defina a quantidade de numeros a serem digitados - ");
+    scanf("%i", &q);
+    int t[q];
+    while (c <= q) {
+        printf("insira um numero - ");
+        scanf("%i", &t[c]);
+        if (t[c] < 0) {
+            soma = soma + 1;
+        }
+        c++;
+    }
+    printf("qualtidade de numeros negativos: %i", soma);
+    system("pause");
+    return 0;
+}
+ex 21:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main() {
+    int n[2];
+    n[2] = 0;
+    printf("somador de numeros - digite 0 para ver o resultado\n");
+    printf("insira um numero - ");
+    scanf("%i", &n[1]);
+    while (n[1] > 0) {
+        n[2] = n[2] + n[1];
+        printf("insira um numero - ");
+        scanf("%i", &n[1]);
+    }
+    printf("resultado da soma: %i\n", n[2]);
+    system("pause");
+    return 0;
+}
+ex 22:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main() {
+    int q;
+    int c = 1;
+    int soma = 0;
+    int soma2 = 0;
+    printf("defina a quantidade de numeros a serem digitados - ");
+    scanf("%i", &q);
+    int t[q];
+    while (c <= q) {
+        printf("insira um numero - ");
+        scanf("%i", &t[c]);
+        if (t[c] > 10) {
+            soma = soma + t[c];
+        } else {
+            soma2 = soma2 + 1;
+        }
+        c++;
+    }
+    printf("resultado da soma de numeros maiores que 10: %i\n", soma);
+    printf("numero e numeros menores ou iguais a 10: %i\n", soma2);
+    system("pause");
+    return 0;
+}
+ex 23:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main() {
+    int c = 1;
+    int n = 3;
+    printf("20 termos de 3 elevado a n\n");
+    printf("1 termo: 0\n");
+    while (c < 20) {
+        c++;
+        printf("%i termo: %d\n", c, n);
+        n = n * 3;
+    }
+    system("pause");
+    return 0;
+}
+ex 24:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main() {
+    int c = 1;
+    int numero = 0;
+    int potenciador = 0;
+    int resultado = 0;
+    printf("digite um numero - ");
+    scanf("%i", &numero);
+    printf("digite o numero potenciador - ");
+    scanf("%i", &potenciador);
+    resultado = numero;
+    while (c < potenciador) {
+        resultado = resultado * numero;
+        c++;
+    }
+    printf("resultado da potenciacao: %i", resultado);
+    system("pause");
+    return 0;
+}
+ex 25:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main() {
+    int c = 1;
+    int numero = 0;
+    int multiplicador = 0;
+    int resultado = 0;
+    printf("digite um numero a ser multiplicado - ");
+    scanf("%i", &numero);
+    printf("digite o numero multiplicador - ");
+    scanf("%i", &multiplicador);
+    while (c <= multiplicador) {
+        resultado = resultado + numero;
+        c++;
+    }
+    printf("resultado da multiplicacao: %i", resultado);
+    system("pause");
+    return 0;
+}
+ex 26:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+int main() {
+    int c = 1;
+    int cg[5];
+    float valor[4];
+    while (c < 6) {
+        cg[c] = 0;
+        valor[c] = 0;
+        c++;
+    }
+    c = 1;
+    printf("lojinha\n");
+    printf("codigo|produtro|preco\n");
+    printf("001|cachorro quente|R$2,50\n");
+    printf("002|x salada       |R$3,00\n");
+    printf("003|x tudo         |R$3,50\n");
+    printf("004|refrigerante   |R$2,50\n");
+    printf("digite 0 para finalizar a compra\n");
+    while (c > 0) {
+        printf("insira o codigo de um produto - ");
+        scanf("%i", &cg[5]);
+        switch (cg[5]) {
+            case 0: c = 0; break;
+            case 1: cg[1]++; break;
+            case 2: cg[2]++; break;
+            case 3: cg[3]++; break;
+            case 4: cg[4]++; break;
+            default: printf("opcao invalida\n");
+        }
+    }
+    c = 1;
+    printf("produtos selecionados: \n");
+    while (c < 5) {
+        switch (c) {
+            case 1: if (cg[1] != 0) {printf("cachorros quentes:-%i   ", cg[1]); valor[1] = cg[1] * 2.50; printf("preco:R$%.2f\n", valor[1]);} break;
+            case 2: if (cg[2] != 0) {printf("x saladas:---------%i   ", cg[2]); valor[2] = cg[2] * 3.00; printf("preco:R$%.2f\n", valor[2]);} break;
+            case 3: if (cg[3] != 0) {printf("x tudos:-----------%i   ", cg[3]); valor[3] = cg[3] * 3.50; printf("preco:R$%.2f\n", valor[3]);} break;
+            default: if (cg[4] != 0) {printf("refrigerantes:-----%i   ", cg[4]); valor[4] = cg[4] * 2.50; printf("preco:R$%.2f\n", valor[4]);} break;
+        }
+        c++;
+    }
+    valor[1] = valor[1] + valor[2] + valor[3] + valor[4];
+    printf("valor total:                 R$%.2f\n", valor[1]);
+    system("pause");
+    return 0;
+}
