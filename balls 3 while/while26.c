@@ -2,6 +2,7 @@
 #include <windows.h>
 //balls 101
 int main() {
+     
     int c = 1;
     int cg[5];
     float valor[4];
@@ -12,14 +13,14 @@ int main() {
     }
     c = 1;
     printf("lojinha\n");
-    printf("codigo|produtro|preco\n");
+    printf("código|produtro|preço\n");
     printf("001|cachorro quente|R$2,50\n");
     printf("002|x salada       |R$3,00\n");
     printf("003|x tudo         |R$3,50\n");
     printf("004|refrigerante   |R$2,50\n");
     printf("digite 0 para finalizar a compra\n");
     while (c > 0) {
-        printf("insira o codigo de um produto - ");
+        printf("insira o código de um produto - ");
         scanf("%i", &cg[5]);
         switch (cg[5]) {
             case 0: c = 0; break;
@@ -27,7 +28,7 @@ int main() {
             case 2: cg[2]++; break;
             case 3: cg[3]++; break;
             case 4: cg[4]++; break;
-            default: printf("opcao invalida\n");
+            default: printf("opcao inválida\n");
         }
     }
     c = 1;
