@@ -11,9 +11,9 @@ int main() {
         scanf("%i/ %i/ %i", &data[1], &data[2], &data[3]);
         for (int i = 1; i < 4; i++) {
             switch (i) {
-                case 1: if (data[1] > 31) {printf("data invalida\n"); i = 4;} break;
-                case 2: if (data[2] > 12) {printf("data invalida\n"); i = 4;} break;
-                default: if (data[3] < 0) {printf("data invalida\n"); i = 4;} else {printf("data: %i/%i/%i\n", data[1], data[2], data[3]); c = 1;}
+                case 1: if (data[1] > 31) {printf("data inválida\n"); i = 4;} break;
+                case 2: if (data[2] > 12) {printf("data inválida\n"); i = 4;} break;
+                default: if (data[3] < 0) {printf("data inválida\n"); i = 4;} else {printf("data: %i/%i/%i\n", data[1], data[2], data[3]); c = 1;}
             }
         }
     }
