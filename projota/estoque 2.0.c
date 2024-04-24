@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define ProdutosMax 100 // Defiine o maximo de produtos
+// Defiine o máximo de produtos/clientes que pode ser cadastrados
+#define LimiteMax 100 
 
 // Estrutura que representa um produto
 typedef struct {
@@ -18,37 +19,37 @@ typedef struct {
     int cpf;
 } Cliente;
 
+// função que faz o print de uma nota fiscal
 void notaFiscal(char nome[], int qnt, int nf, float valor) {
     printf("Venda registrada com sucesso.\n");
-    printf("\n##### Comprovante fiscal#####\n"); // print do comprovante fiscal com informacoes
+    printf("\n##### Comprovante fiscal#####\n"); 
     printf("Nome do produto: %s\n", nome);
     printf("Quantidade Vendida: %i\n", qnt);
-    printf("Nota fiscal %i\n", nf); //nota fiscal com numero aleatorio para toda vez ser uma nota diferente da outra
+    printf("Nota fiscal %i\n", nf); 
     printf("valor: %f reais \n", valor);
     printf("##### Farmacia Biopark #####\n");
 }
 
 int main() {
 
+    // seção de login (WIP)
     int senha, login;
-
     printf("##### ID DO USUARIO #####\n");
-    scanf("%d", &login);
-    
+    scanf("%d", &login); //pega o id do usuário
     printf("##### SENHA #####\n");
-    scanf("%d", &senha);
-    if (login==1234 && senha==1234){
+    scanf("%d", &senha); // pega a senha do usuário
+    if (login==1234 && senha==1234){ //sistema básico improvisado de login 
 
         //definição de variaveis relacionadas ao estoque
-        Produto estoque[ProdutosMax]; // Variavel array que é utilizada para guardar valores
+        Produto estoque[LimiteMax]; // Variavel array que é utilizada para guardar valores
         int produtonum = 0, idTest, nf; // Numeros de produtos do estoque
         float valor, valorTotal;
 
         //definição de variaveis relacionadas aos clientes
-        Cliente cliente[ProdutosMax]; // Variavel array que é utilizada para guardar informações de clientes
+        Cliente cliente[LimiteMax]; // Variavel array que é utilizada para guardar informações de clientes
         int clientenum = 0, validacaoCliente = 0; //contador de clientes cadastardos / variavel usada pra conferir se existe um cliente cadastrado
 
-        for (int i; i < ProdutosMax; i++)  { //pequena função para limpar o lixo da memória dos cpfs dos clientes
+        for (int i; i < LimiteMax; i++)  { //pequena função para limpar o lixo da memória dos cpfs dos clientes
             cliente[i].cpf = 0;
         }
 
@@ -67,7 +68,7 @@ int main() {
                 case 1: // função 1 vai adicionar produtos / quantidade / valor
                     printf("\nID do produto: ");
                     scanf("%i", &idTest); //pega o id do produto
-                    for (int i=0; i <= ProdutosMax; i++) { //confere se a id do produto já existe
+                    for (int i=0; i <= LimiteMax; i++) { //confere se a id do produto já existe
                         if (estoque[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
                             printf("\nInsira a quantidade a ser adicionada - ");
                             scanf("%i", &idTest); //lê a quantidade nova a ser adicionada
@@ -77,7 +78,7 @@ int main() {
                             break;
                         }
                     }
-                    if (produtonum < ProdutosMax) { // se a quantidade de produtos for menor que o limite, ele procede, caso contrário, informa que o estoque está cheio
+                    if (produtonum < LimiteMax) { // se a quantidade de produtos for menor que o limite, ele procede, caso contrário, informa que o estoque está cheio
                         if (idTest != 0) { // se o comparador de id for diferente de 0, ele avança pro cadastro do produto
                             estoque[produtonum].id = idTest; // define a id do produto
 
@@ -101,8 +102,8 @@ int main() {
                     }
                     break;
                 case 2:
-
-
+                    cliente[1].cpf = 10039456911; //placeholder: cadastra um cpf no cliente 1 para liberar a opção de venda
+                    printf("cpf: %i", cliente[1].cpf); //placeholder: mostra o cpf cadastardo do cliente 1
 
                     break;
                 case 3: // Função 3 vai mostrar o id do produto, o nome do produto, a quantidade disponivel no estoque e o valor
@@ -112,7 +113,7 @@ int main() {
                     }
                     break;
                 case 4: // Função 4 vai registrar qualquer venda feita printando uma nota fiscal 
-                    for (int i=0; i < ProdutosMax; i++) { //confere se existe qualquer cliente cadastrado
+                    for (int i=0; i < LimiteMax; i++) { //confere se existe qualquer cliente cadastrado
                        if (cliente[i].cpf != 0) {
                        validacaoCliente = 1; //define a variavel de checagem de cliente para 1
                        break;
@@ -123,10 +124,11 @@ int main() {
                         printf("Favor cadastrar um cliente\n");
                         break;
                     } 
+                    //adendo: a integração do cliente na venda ainda não foi completamente implementada
                     printf("\nID do produto: ");
                     scanf("%i", &idTest);// pega a id do produto
-                    for (int i=0; i <= ProdutosMax; i++) { //confere se a id do produto existe
-                        if (estoque[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
+                    for (int i=0; i <= LimiteMax; i++) { //confere se a id do produto existe
+                        if (estoque[i].id == idTest) { //se a id do produto existe, ele pede a quantidade a ser vendida
                             int quantidadeVenda; //variavel responsavel pela quantidade vendida
                             printf("Quantidade: ");
                             scanf("%d", &quantidadeVenda);
