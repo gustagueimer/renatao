@@ -3,12 +3,6 @@
 #include <math.h>
 #define balls int vMax = 10;
 
-typedef struct cliente
-{
-
-};
-
-
 int main() {
     balls
     int c = 1;
