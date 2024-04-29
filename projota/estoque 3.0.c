@@ -209,3 +209,14 @@ int main() {
     menu();
     return 0;
 }
+
+//ideias//
+//dividir o estoque em submenus
+//adicionar cadastro de fornecedores
+//dividir o cadastro e a atualização de estoque
+//adicionar esquema de validade
+//não limitar a venda ao cliente cadastrado, separar opções
+//adicionar valor ao cliente cadastrado
+//cadastrar cpnj
+//trocar nf rand por nf count++
+//melhorar aquele login pelo amor de Deus
