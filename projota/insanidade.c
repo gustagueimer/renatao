@@ -17,7 +17,7 @@ int main() {
     ANBT;
     int A, B;
     time_t hora = time(NULL);
-    escreval("hoje é %s", asctime(localtime(&hora)))
+    escreval("hoje é %s ", asctime(localtime(&hora)))
     escreva("Faz o L \n");
     escreva("insira um valor - ");
     leia("%i", &A);
@@ -26,7 +26,7 @@ int main() {
     int resultSm = soma(A, B);
     escreval("resultado soma = %i\n", resultSm);
     int resultSb = subtração(A, B);
-    escreval("resultaso subtração = %i\n", resultSb);
+    escreval("resultado subtração = %i\n", resultSb);
     int resultMp = multiplicação(A, B);
     escreval("resultado multiplicação = %i\n", resultMp);
     float resultDv = divisão(A, B);
