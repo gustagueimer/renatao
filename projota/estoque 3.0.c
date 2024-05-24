@@ -270,7 +270,7 @@ void menu() {
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao); // vai ler a opcao para iniciar o switch case
         switch (opcao) {
-            case 1: // função 1 vai adicionar produtos / quantidade / valor
+            case 1: //abre o submenu relacionado a produtos
                 do {
                     printf("\n##### MENU - ESTOQUE #####\n"); //menu principal
                     printf("1. Adicionar produto\n");
@@ -292,7 +292,7 @@ void menu() {
                     }
                 } while (subOpcao != 0);
                 break; 
-            case 2: //Função 2 cadastra o nome e o cpf de um cliente                     
+            case 2: //abre o submenu relacionado a clientes                    
                 do {
                     printf("\n##### MENU - CLIENTES #####\n"); //menu principal
                     printf("1. Cadastrar pessoa física\n");
@@ -323,7 +323,7 @@ void menu() {
                     }
                 } while (subOpcao != 0);
                 break;
-            case 4: // Função 4 vai registrar qualquer venda feita printando uma nota fiscal 
+            case 4: //chama a função de venda 
                 realizarVenda();    
                 break; 
             case 0: // Sair
