@@ -1,0 +1,934 @@
+ex1:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(float * a) {
+    for (int i = 0; i < 10; i++) {
+        printf("insira um numero real - ");
+        scanf("%f", &a[i]);
+    }
+    return 0;
+}
+int inversePrinter(float * a) {
+    for (int i = 9; i >= 0; i--) {
+        printf("%i° numero: %.2f\n", i+1, a[i]);
+    }
+    return 0;
+}
+int main() {
+    float seggs[10] = {0};
+    anbt();
+    getter(&seggs);
+    inversePrinter(&seggs);
+    system("pause");
+    return 0;
+}
+ex2:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[8]){
+    for (int i=0 ; i<8 ; i++) {
+        printf("digite um numero - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int byThree(int vetor[8]) {
+    int vetor3x[8]= {0};
+    for (int i=0 ; i<8 ; i++) {
+        vetor3x[i] = vetor[i] * 3;
+    }
+    printer(vetor3x);
+    return 0;
+}
+int printer(int vetor[8]) {
+    for (int i=0 ; i<8 ; i++) {
+        printf("%i° numero: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int main() {
+    int vectoor[8] = {0};
+    anbt();
+    printf("pegador de numeros inteiros e multiplicador\npor 3 usando vetores deluxe (2020 atualizado)\n");
+    getter(vectoor);
+    byThree(vectoor);
+    system("pause");
+    return 0;
+}
+ex3:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[20]) {
+    for (int i=0;i<20;i++) {
+        printf("insiraaaa um numerooo - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int math(int vetorA[20], int vetorB[20]) {
+    int vectorC[20] = {0};
+    for (int i=0;i<20;i++) {
+        vectorC[i] = vetorA[i] - vetorB[i];
+    }
+    printer(vectorC);
+    return 0;
+}
+int printer(int vetor[]) {
+    for (int i=0 ; i<20 ; i++) {
+        printf("%i° numero: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int main() {
+    int vectorA[20] = {0};
+    int vectorB[20] = {0};
+    anbt();
+    printf("pegador de listas de numeros e realizador\nde sutração entre elas usando vetores deluxe\n");
+    printf("insira os valores da lista A:\n");
+    getter(&vectorA);
+    printf("insira os valores da lista B:\n");
+    getter(&vectorB);
+    math(vectorA, vectorB);
+    system("pause");
+    return 0;
+}
+ex4:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[]) {
+    for (int i=0;i<4;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int maincraft(int vetor[]) {
+    int vectorMinceraft[15] = {0};
+    for (int i=0;i<4;i++) {
+        vectorMinceraft[i] = vetor[i] * vetor[i];
+    }
+    printf("tabela original:\n");
+    printer(vetor);
+    printf("(nova) tabela ao quadrado:\n");
+    printer(vectorMinceraft);
+    return 0;
+}
+int printer(int vetor[]) {
+    for (int i=0 ;i<4;i++) {
+        printf("%i° numero: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int main() {
+    int vector[15] = {0};
+    anbt();
+    printf("pegador de tabela e criador de outra tabela com\nvalores ao quadrado relativos a outra tabela deluxe\n");
+    printf("defina a primeira tabela:\n");
+    getter(&vector);
+    maincraft(vector);
+    system("pause");
+    return 0;
+}
+ex5:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+double factorial(double a) {
+    double result = 1;
+    for (int i=2;i<=a;i++) {
+        result = result * i;
+    }
+    return result;
+}
+int getter(int vetor[]) {
+    for (int i=0;i<15;i++) {
+        printf("type a (positive) number - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int fatorMacho(int vetor[]) {
+    double tabelao2[15] = {0};
+    for (int i=0;i<15;i++) {
+        tabelao2[i] = (double)vetor[i];
+        tabelao2[i] = factorial(tabelao2[i]);
+    } 
+    printf("tabela original:\n");
+    printer(vetor);
+    printf("tabela fatorada:\n");
+    printerD(tabelao2);
+    return 0;
+}
+int printer(int vetor[]) {
+    for (int i=0;i<15;i++) {
+        printf("%i° numero: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int printerD(double vetor[]) {
+    for (int i=0;i<15;i++) {
+        printf("%i° numero: %.f\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int main() {
+    int tabelao[15] = {0};
+    anbt();
+    printf("pegador de tabela e criador de outra tabela com o\nresultado fatorial com base na primeira tabela deluxe\n");
+    getter(&tabelao);
+    fatorMacho(tabelao);
+    system("pause");
+    return 0;
+}
+ex6:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[]) {
+    for (int i=0;i<15;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int fuser(int table1[], int table2[]) {
+    int tableC[30] = {0};
+    for (int i=0;i<15;i++) {
+        tableC[i] = table1[i];
+    }
+    for (int i=15;i<30;i++) {
+        tableC[i] = table2[i-15];
+    }
+    printf("value of the first table:\n");
+    printer(table1, 15);
+    printf("value of the second table:\n");
+    printer(table2, 15);
+    printf("fused table:\n");
+    printer(tableC, 30);
+    return 0;
+}
+int printer(int vetor[], int a) {
+    for (int i=0;i<a;i++) {
+        printf("%i° número: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int main() {
+    int tableA[15] = {0};
+    int tableB[15] = {0};
+    anbt();
+    printf("juntador de duas tabelas em uma só deluxe\n");
+    printf("insira os valores da primeirissima tabela:\n");
+    getter(&tableA);
+    printf("insira os valores da segundissima tabela:\n");
+    getter(&tableB);
+    fuser(tableA, tableB);
+    system("pause");
+    return 0;
+}
+ex7:
+#include<stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[]) {
+    for (int i=0;i<20;i++) {
+        printf("coloque um número - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int inverter(int vetor[]) {
+    int count[20] = {0};
+    int inv = 19;
+    for (int i=0;i<20;i++) {
+        count[i] = vetor[inv];
+        inv--;  
+    }
+    printf("tabela original:\n");
+    printer(vetor);
+    printf("tabela invertida:\n");
+    printer(count);
+    return 0;
+}
+int printer(int vetor[]) {
+    for (int i=0;i<20;i++) {
+        printf("%i° numero: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int main() {
+    int bleck[20] = {0};
+    anbt();
+    printf("pegador de tabela e criador de tabela inversa deluxe\n");
+    getter(&bleck);
+    inverter(bleck);
+    system("pause");
+    return 0;
+}
+ex8:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[]) {
+    for (int i=0;i<5;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int fuser(int table1[], int table2[], int table3[]) {
+    int vD[15] = {0};
+    for (int i=0;i<5;i++) {
+        vD[i] = table1[i];
+    }
+    for (int i=5;i<10;i++) {
+        vD[i] = table2[i-5];
+    }
+    for (int i=10;i<15;i++) {
+        vD[i] = table3[i-10];
+    }
+    printf("valores da primeira table:\n");
+    printer(table1, 5);
+    printf("valores da segunda table:\n");
+    printer(table2, 5);
+    printf("valores da terceira table:\n");
+    printer(table3, 5);
+    printf("table final:\n");
+    printer(vD, 15);
+    return 0;
+}
+int printer(int vetor[], int a) {
+    for (int i=0;i<a;i++) {
+        printf("%i° numero: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int main() {
+    int vA[5] = {0};
+    int vB[5] = {0};
+    int vC[5] = {0};
+    anbt();
+    printf("pegador de três tabelas e fundidor em uma só deluxe\n");
+    printf("insira os valores da primeira tabela:\n");
+    getter(&vA);
+    printf("insira os valores da segunda tabela:\n");
+    getter(&vB);
+    printf("insira os valores da terceira tabela:\n");
+    getter(&vC);
+    fuser(vA, vB, vC);
+    system("pause");
+    return 0;
+}
+ex9:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int valueInverter(int vetor[], int tamanho) {
+    int invValor[tamanho];
+    for (int i=0;i<tamanho;i++) {
+        invValor[i] = vetor[i] * (-1);
+    }
+    printf("valores da tabela original:\n");
+    printer(vetor, tamanho);
+    printf("valores da tabela negativa:\n");
+    printer(invValor, tamanho);
+    return 0;
+}
+int printer(int vetor[], int tamanho) {
+    for (int i=0 ; i<tamanho ; i++) {
+        printf("%i° numero: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int main() {
+    int valor[10] = {0};
+    anbt();
+    printf("pegador de tabela e criador de outra tabela com\nos mesmos valores da primeira tabela porém negativo\n");
+    getter(&valor, 10);
+    valueInverter(valor, 10);
+    system("pause");
+    return 0;
+}
+ex10:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int halfer(int vetor[], int tamanho) {
+    float half[tamanho];
+    for (int i=0;i<tamanho;i++) {
+        half[i] = (float)vetor[i] / 2;
+    }
+    printf("Whole table:\n");
+    printer(vetor, tamanho);
+    printf("Halfed table:\n");
+    printerF(half, tamanho);
+    return 0;
+}
+int printer(int vetor[], int tamanho) {
+    for (int i=0 ; i<tamanho ; i++) {
+        printf("%i° número: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int printerF(float vetor[], int tamanho) {
+    for (int i=0 ; i<tamanho ; i++) {
+        printf("%i° número: %.2f\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int main() {
+    int whole[10] = {0};
+    anbt();
+    printf("pegador de tabela e criador de outra tabela\ncom os valores da metade da primeira tabela deluxe\n");
+    getter(&whole, 10);
+    halfer(whole, 10);
+    system("pause");
+    return 0;
+}
+ex11:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int tabuador(int vetor[], int tamanho) {
+    for (int i=1; i<=tamanho;i++) {
+        vetor[i] = vetor[0] * (i+1);
+    }
+    printf("tabela da tabuada do %i:\n", vetor[0]);
+    printerTabuada(vetor, 10);
+    return 0;
+}
+int printerTabuada(int vetor[], int tamanho) {
+    for (int i=0 ; i<tamanho ; i++) {
+        printf("%i x %i: %i\n", vetor[0], i+1, vetor[i]);
+    }
+    return 0;
+}
+int main() {
+    int tabulada = {0};
+    anbt();
+    printf("pegador de número e transformador em tabela de tabuada até 10 deluxe\n");
+    getter(&tabulada, 1);
+    tabuador(&tabulada, 10);
+    system("pause");
+    return 0;
+}
+ex12:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(float vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%f", &vetor[i]);
+    }
+    return 0;
+}
+int fahrenheitter(float vetor[], int tamanho) {
+    float tempF[tamanho];
+    for (int i=0;i<tamanho;i++) {
+        tempF[i] = (vetor[i] * 1.8) + 32;
+    }
+    printf("tabela em °C:\n");
+    printerF(vetor, 10);
+    printf("tabela em °F:\n");
+    printerF(tempF, 10);
+    return 0;
+}
+int printerF(float vetor[], int tamanho) {
+    for (int i=0 ; i<tamanho ; i++) {
+        printf("%i° número: %.2f\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int main() {
+    float tempC[10] = {0};
+    anbt();
+    printf("pegador de tabela de temperaturas em\n°C pra tabela de temperaturas em °F deluxe\n");
+    getter(tempC, 10);
+    fahrenheitter(tempC, 10);
+    system("pause");
+    return 0;
+}
+ex13:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int idkman(int vetor[], int tamanho) {
+    int shiny[tamanho];
+    for (int i=0;i<tamanho;i++) {
+        if (vetor[i] % 2 != 0) {
+            shiny[i] = vetor[i] * 2;
+        } else {
+            shiny[i] = vetor[i];
+        }
+    }
+    printf("Tabela original:\n");
+    printer(vetor, 12);
+    printf("Tabela nova:\n");
+    printer(shiny, 12);
+    return 0;
+}
+int printer(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho ;i++) {
+        printf("%i° número: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int main() {
+    int japa[12] = {0};
+    anbt();
+    printf("muito trampo pra explicar deluxe\n");
+    getter(&japa, 12);
+    idkman(japa, 12);
+    system("pause");
+    return 0;
+}
+ex14:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int printer(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("%i° número: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int finder(int vetor[], int *countPar, int *countImpar, int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        //debugging// printf("vetor %i: %i, ", i, vetor[i]);
+        if (vetor[i] % 2 == 0) {
+            //debugging// printf("é par\n");
+            *countPar = *countPar + 1;
+        } else {
+            //debugging// printf("é impar\n");
+            *countImpar = *countImpar + 1;
+        }
+    }
+    //debugging// printf("\n\nqntPar: %i\n", *countPar);
+    //debugging// printf("qntImpar: %i\n\n", *countImpar);
+    return 0;
+}
+int organizer(int vetor1[], int vetor2[], int tamanho, int tamanhoPar, int tamanhoImpar) {
+    int pares[tamanhoPar];
+    int notPares[tamanhoImpar];
+    for (int i=0;i<tamanhoPar;i++) {
+        pares[i] = 0;
+    }
+    for (int i=0;i<tamanhoImpar;i++) {
+        notPares[i] = 0;
+    }
+    for (int i=0;i<tamanho;i++) {
+        int t;
+        if (vetor1[i] % 2 == 0) {
+            t = 0;
+            while ((pares[t] != 0) && (t < tamanhoPar)) {t++;}
+            pares[t] = vetor1[i];
+            //debugging// printf("vt1 par happened\n");
+            //debugging// printf("t: %i\n", t); printf("pares[%i]: %i\n\n", t, pares[t]);
+        } else {
+            t = 0;
+            while ((notPares[t] != 0) && (t < tamanhoImpar)) {t++;}
+            notPares[t] = vetor1[i];
+            //debugging// printf("vt1 impar happened\n");
+            //debugging// printf("notpares[%i]: %i\n\n", t, notPares[t]);
+        }
+    }
+    for (int i=0;i<tamanho;i++) {
+        int t;
+        if (vetor2[i] % 2 == 0) {
+            t = 0;
+            while ((pares[t] != 0) && (t < tamanhoPar)) {t++;}
+            pares[t] = vetor2[i];
+           //debugging//  printf("vt2 par happened\n");
+           //debugging//  printf("t: %i\n", t); printf("pares[%i]: %i\n\n", t, pares[t]);
+        } else {
+            t = 0;
+            while ((notPares[t] != 0) && (t < tamanhoImpar)) {t++;}
+            notPares[t] = vetor2[i];
+            //debugging// printf("vt2 impar happened\n");
+            //debugging// printf("notpares[%i]: %i\n\n", t, notPares[t]);
+        }
+    }
+    printf("\nTabela de numeros pares:\n");
+    printer(pares,tamanhoPar);
+    printf("\nTabela de numeros impares:\n");
+    printer(notPares, tamanhoImpar);
+    return 0;
+}
+int main() {
+    int starship[6] = {0};
+    int superheavy[6] = {0};
+    int qntPar = 0;
+    int qntImpar = 0;
+    anbt();
+    printf("pegador de duas listas e separador de valores pares e impáres deluxe\n");
+    printf("\ninsira os valores da primeira lista:\n");
+    getter(&starship, 6);
+    finder(starship, &qntPar, &qntImpar, 6);
+    printf("\ninsira os valores da segunda lista:\n");
+    getter(&superheavy, 6);
+    finder(superheavy, &qntPar, &qntImpar, 6);
+    organizer(starship, superheavy, 6, qntPar, qntImpar);
+    system("pause");
+    return 0;
+}
+ex15:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int printer(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("%i° número: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int fuser(int table1[], int table2[], int tamanho) {
+    int island[tamanho * 2];
+    for (int i=0;i<tamanho;i++) {
+        island[i] = table1[i];
+    }
+    for (int i=tamanho;i<(tamanho*2);i++) {
+        island[i] = table2[i-tamanho];
+    }
+    printf("\nvalues of the first table:\n");
+    printer(table1, tamanho);
+    printf("\nvalues of the second table:\n");
+    printer(table2, tamanho);
+    printf("\nfused table:\n");
+    printer(island, tamanho*2);
+    return 0;
+}
+int main() {
+    int dragon[10] = {0};
+    int roost[10] = {0};
+    anbt();
+    printf("fundidor de tabelas deluxe 2\n");
+    printf("insira os dados da primeira tabela:\n");
+    getter(&dragon, 10);
+    printf("\ninsira os dados da segunda tabela:\n");
+    getter(&roost, 10);
+    fuser(dragon, roost, 10);
+    system("pause");
+    return 0;
+}
+ex16:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int negativeCounter(int vetor[], int tamanho) {
+    int qntNegativos = 0;
+    for (int i=0;i<tamanho;i++) {
+        if (vetor[i] < 0) {
+            qntNegativos++;
+        }
+    }
+    printf("\nquantidde de numeros negativos na tabela: %i\n\n", qntNegativos);
+    return 0;
+}
+int main() {
+    int blumiere[6] = {0};
+    anbt();
+    printf("pegador de tabela e contador de quantos numeros negativos tal tabela tem deluxe\n");
+    printf("insira os valores da tabela:\n");
+    getter(&blumiere, 6);
+    negativeCounter(blumiere, 6);
+    system("pause");
+    return 0;
+}
+ex17:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int printer(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("%i° número: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int pointlessSheet(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        if (i % 2 == 0) {
+            vetor[i] = 2; 
+        } else {
+            vetor[i] = 1;
+        }
+    }
+    printf("\ntabela após pointless:\n");
+    printer(vetor, tamanho);
+    return 0;
+}
+int main() {
+    int timpani[15] = {0};
+    anbt();
+    printf("conversor de tabelas em algo pontless deluxe\n");
+    printf("digite os numeros da tabela:\n");
+    getter(&timpani, 15);
+    pointlessSheet(&timpani, 15);
+    system("pause");
+    return 0;
+}
+ex18:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("informe um elemento da tabela numérica - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int menorNum(int vetor[], int tamanho, int maiorNum) {
+    int menor=maiorNum;
+    for (int i=0;i<tamanho;i++) {
+        if (vetor[i] < menor) {
+            menor = vetor[i];
+        }
+    }
+    printf("Menor numero da tabela: %i\n", menor);
+
+}
+int maiorNum(int vetor[], int tamanho) {
+    int maior=0;
+    for (int i=0;i<tamanho;i++) {
+        if (vetor[i] > maior) {
+            maior = vetor[i];
+        }
+    }
+    printf("\nMaior numero da tabela: %i\n", maior);
+    menorNum(vetor, tamanho, maior);
+}
+int mediaTabela(int vetor[], int tamanho) {
+    float media=0;
+    for (int i=0;i<tamanho;i++) {
+        media = media + (float)vetor[i];
+    }
+    media = media / tamanho;
+    printf("Média da tabela: %.2f\n\n", media);
+}
+int main() {
+    int olly[12];
+    anbt();
+    printf("pegador de tabela e descobridor de maior numero, menor numero e média deluxe\n");
+    printf("defina os valores da tabela:\n");
+    getter(&olly, 12);
+    maiorNum(olly, 12);
+    mediaTabela(olly, 12);
+    system("pause");
+    return 0;
+}
+ex19:
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("escolha um número de 1 a 60 - ");
+        scanf("%i", &vetor[i]);
+    }
+    return 0;
+}
+int printer(int vetor[], int tamanho) {
+    for (int i=0;i<tamanho;i++) {
+        printf("número %i\n", vetor[i]);
+    }
+    return 0;
+}
+int defMegasena(int vetor[], int tamanho) {
+    srand(time(NULL));
+    for (int i=0;i<tamanho;i++) {
+        vetor[i] = rand() % 60;
+    }
+    printf("\nNumeros da megasena:\n");
+    printer(vetor, tamanho);
+    return 0;
+}
+int compMegasena(int vetorJogo[], int vetorMegasena[], int tamanho) {
+    int qntIguais=0;
+    for (int i=0;i<tamanho;i++) {
+        for (int c=0;c<tamanho;c++) {
+            //debugging// printf("nj[%i]: %i  nm[%i]: %i\n", i, vetorJogo[i], c, vetorMegasena[c]);
+            if (vetorJogo[i] == vetorMegasena[c]) {
+                qntIguais++;
+                //debugging// printf("somou\n");
+                break;
+            }
+        }
+    }
+    //debugging// printf("qntIguais: %i\n", qntIguais);
+    if (qntIguais != 0) {
+        int resultados[qntIguais];
+        for (int i=0;i<qntIguais;i++) {
+            resultados[i] = 0;
+        }
+        int c=0;
+        for (int i=0;i<tamanho;i++) {
+            for (int f=0;f<tamanho;f++) {
+                //debugging// printf("nj[%i]: %i  nm[%i]: %i\n", i, vetorJogo[i], f, vetorMegasena[f]);
+                if (vetorJogo[i] == vetorMegasena[f]) {
+                    resultados[c] = vetorJogo[i];
+                    //debugging// printf("r[%i]:%i\n\n", c, resultados[c]);
+                    c++;
+                    break;
+                }
+            }
+        }
+        printf("\nNúmeros jogados:\n");
+        printer(vetorJogo, tamanho);
+        printf("\nNúmeros acertados:\n");
+        printer(resultados, qntIguais);
+    } else {
+        printf("\nNenhum número foi acertado :( \n");
+    }
+    return 0;
+}
+int main() {
+    int rauru[6] = {0};
+    int mineru[6] = {0};
+    anbt();
+    printf("pegador de numeros da megasena e sorteador do\nresultado com comparação aos numeros escolhidos deluxe 2024 atualizado\n");
+    getter(&rauru, 6);
+    printer(rauru, 6);
+    defMegasena(&mineru, 6);
+    compMegasena(rauru, mineru, 6);
+    system("pause");
+    return 0;
+}
