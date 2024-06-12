@@ -1,0 +1,271 @@
+ex1:
+#include <stdio.h>
+#include <windows.h>
+#include <string.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int comparer(char nome1[], char nome2[], int size) {
+    int count1 = 0;
+    int count2 = 0;
+    for (int i=0;i<size;i++) {
+        if (nome1[i] != 0) {
+            count1++;
+        }
+        if (nome2[i] != 0) {
+            count2++;
+        }
+    }
+    if (count1 > count2) {
+        printf("palavra 1 é maior que palavra 2\n");
+        for (int i=0;i<size;i++){
+           nome1[i] = toupper(nome1[i]);
+        }
+        for (int i=0;i<size;i++) {
+            nome2[i] = tolower(nome2[i]);
+        }
+        printf("nome 1: %s\n", nome1);
+        printf("nome 2: %s\n", nome2);
+    } else if (count2 > count1){
+        printf("palavra 2 é maior que palavra 1\n");
+        for (int i=0;i<size;i++){
+           nome2[i] = toupper(nome2[i]);
+        }
+        for (int i=0;i<size;i++) {
+            nome1[i] = tolower(nome1[i]);
+        }
+        printf("nome 1: %s\n", nome1);
+        printf("nome 2: %s\n", nome2);
+    } else {
+        printf("ambas palavras tem o mesmo tamanho\n");
+        printf("nome 1: %s\n", nome1);
+        printf("nome 2: %s\n", nome2);
+    }
+    return 0;
+}
+int main() {
+    anbt();
+    char nome1[64] = {0};
+    char nome2[64] = {0};
+    printf("comparador de string e botador da maior em caixa alta deluxe HD\n");
+    printf("digite a primeira palavra:\n");
+    scanf("%s", nome1);
+    printf("digite a segunda palavra:\n");
+    scanf("%s", nome2);
+    comparer(nome1, nome2, 64);
+    system("pause");
+    return 0;
+}
+ex2:
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int comparerConcatener(char string1[], char string2[], int size) {
+    char space[] = {" "};
+    int countBleck = 0;
+    int countBlumiere = 0;
+    for (int i=0;i<size;i++) {
+        if (string1[i] != '\0') {
+            countBleck++;
+        }
+        if (string2[i] != '\0') {
+            countBlumiere++;
+        }
+    }
+    if (countBleck == countBlumiere) {
+        printf("as strings tem o mesmo tamanho\n");
+        printf("string 1: %s\n", string1);
+        printf("string 2: %s\n", string2);
+    } else {
+        strcat(string1, space);
+        strcat(string1, string2);
+        printf("as strings tem tamanho diferentes\n");
+        printf("string concatenada: %s\n", string1);
+    }
+    return 0;
+}
+int main() {
+    anbt();
+    char string[64] = {"\0"};
+    char string2[64] = {"\0"};
+    printf("comparador de tamanho de string e concatetanor caso o tamanho das mesmas sejam diferentes deluxe\n");
+    printf("insira a primeira string:\n");
+    scanf("%s", string);
+    printf("insira a segunda string:\n");
+    scanf("%s", string2);
+    comparerConcatener(string, string2, 64);
+    system("pause");
+    return 0;
+}
+ex3:
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int verticalStringPrinter(char string[], int size) {
+    int count = 0;
+    for (int i=0;i<size;i++) {
+        if (string[i] != '\0') {count++;}
+    }
+    for (int i=0;i<count;i++) {
+        printf("%c\n", string[i]);
+    }
+    return 0;
+}
+int main() {
+    anbt();
+    char streeng[64] = {"\0"};
+    char string[8] = {"CASA"};
+    printf("impressor de string na vertical ultra deluxe\n");
+    printf("insira a string:\n");
+    scanf("%s", streeng);
+    verticalStringPrinter(streeng, 64);
+    printf("string \"casa\" na vertical:\n");
+    verticalStringPrinter(string, 8);
+    return 0;
+}
+ex4:
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int verticalStringPrinterPlus(char string[], int size) {
+    int count = 0;
+    for (int i=0;i<size;i++) {
+        if (string[i] != '\0') {count++;}
+    }
+    for (int i=0;i<count;i++) { 
+        for (int j=0;j<=i;j++) {
+            printf("%c", string[i]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
+int main() {
+    char abracadabra[16] = {"ABRACADABRA"};
+    anbt();
+    printf("impressor de abracadabra na vertical adicionando letras conforme a loccalização no vetor remake\n");
+    verticalStringPrinterPlus(abracadabra, 16);
+    system("pause");
+    return 0;
+}
+ex5:
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int verticalStringPrinterPlusPlus(char string[], int size) {
+    int count = 0;
+    for (int i=0;i<size;i++) {
+        if (string[i] != '\0') {count++;}
+    }
+    for (int i=0;i<count;i++) {
+        for (int j=0;j<=i;j++) {
+            printf("%c", string[j]);
+        }
+        printf("\n");   
+    }
+    for (int i=count;i>=0;i--) {
+        for (int j=0;j<i-1;j++) {
+            printf("%c", string[j]);
+        }
+        printf("\n");   
+    }
+    return 0;
+}
+int main() {
+    anbt();
+    char balls[8] = {"LINUX"};
+    printf("printador de LINUX em vertical pra frente e pra traz FHD\n");
+    verticalStringPrinterPlusPlus(balls, 8);
+    system("pause");
+    return 0;
+}
+ex6:
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int iAndBeyondRemover(char string[], int size) {
+    char stringBuffer[size];
+    int toBeRemoved = 4; //quantidade de caracteres a serem removidos
+    int startRemoval = 3; //numero da posição que vai começar a remover os caracteres
+    int count = 0;
+    int countRemoval = 0;
+    for (int i=0;i<size;i++) {
+        if ((i >= startRemoval) && (countRemoval <= toBeRemoved) ) {
+            countRemoval++;
+        } else {
+            stringBuffer[count] = string[i];
+            count++;
+        }  
+        //printf("countremove: %i\n", countRemoval);
+        //printf("count: %i\n", count);
+        //printf("%c\n", string[i]);
+        //printf("%c\n", stringBuffer[count-1]);
+    }
+    printf("resultado: %s\n", stringBuffer);
+    return 0;
+}
+int main() {
+    char L[16] = {"machintosh"};
+    anbt();
+    printf("removedor de caracteres na palavra machintosh remaster\n");
+    iAndBeyondRemover(L, 16);
+    system("pause");
+    return 0;
+}
+ex7:
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int andrewAdder(char string1[], char string2[], int size) {
+    char stringBuffer[size];
+    char tok[] = {"T"};
+    for (int i=0;i<size;i++) {
+        stringBuffer[i] = string1[2+i];
+    }
+    strtok(string1, tok);
+    strcat(string1, string2);
+    strcat(string1, stringBuffer);
+    printf("resultado: %s\n", string1);
+    return 0;
+}
+int main() {
+    char by[64] = {"By Tanenbaum"};
+    char andrew[64] = {"Andrew"};
+    anbt();
+    printf("adicionador de \"Andrew\" na frase \"By Tanenbaum\" 64\n");
+    andrewAdder(by, andrew, 64);
+    system("pause");
+    return 0;
+}

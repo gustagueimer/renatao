@@ -1,0 +1,1082 @@
+ex1:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x, y, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int matrixMultiplier(int *matrix, int linhas, int colunas, int multiplicador) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            matrix[x * linhas + y] = matrix[x * linhas + y] * multiplicador;
+        }
+    }
+    return 0;
+}
+int main() {
+    anbt();
+    int arrayyy[6][6] = {0};
+    int multiplier=0;
+    printf("pegador de matrix 6x6 e multiplicador por valor definido pelo usuário deluxe\n");
+    printf("defina os elementos do array:\n");
+    getter(arrayyy, 6, 6);
+    printf("digite o numero a qual a matriz será multiplicada:\n");
+    scanf("%i", &multiplier);
+    matrixMultiplier(arrayyy, 6, 6, multiplier);
+    printer(arrayyy, 6, 6);
+    system("pause");
+    return 0;
+}
+ex2:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x, y, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int comparer(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            for (int l=0;l<linhas;l++) {
+                for (int c=0;c<colunas;c++) {
+                    if (matrix[x * linhas + y] == matrix[l * linhas + c]) {
+                        if ((x != l) || (y != c)) {
+                            printf("Linha %i coluna %i (%i) é identico a linha %i coluna %i\n", x, y, matrix[x * linhas + y], l, c, matrix[l * linhas + c]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+int main() {
+    int campoMinado[4][3] = {0};
+    anbt();
+    printf("comparador de existencia de elementos identicos na mesma matriz deluxe\n");
+    printf("defina os valores da matriz:\n");
+    getter(campoMinado, 4, 3);
+    //debugging// printer(campoMinado, 4, 3);
+    comparer(campoMinado, 4, 3);
+    system("pause");
+    return 0;
+}
+ex3:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x, y, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int parPrinter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            if (matrix[x * linhas + y] % 2 == 0) {
+                printf("Linha %i coluna %i (%i) é par\n", x, y, matrix[x * linhas + y]);
+            }
+        }
+    }
+    return 0;
+}
+int main() {
+    int matrix[2][5] = {0};
+    anbt();
+    printf("pegador de matrix e procurador de numeros pares nela deluxe\n");
+    getter(matrix, 2, 5);
+    //debugging// printer(matrix, 2, 5);
+    parPrinter(matrix, 2, 5);
+    system("pause");
+    return 0;
+}
+ex4:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x, y, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int diagonalPrinter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            if (y == x) {
+                printf("Linha %i coluna %i: %i\n", x, y, matrix[x * linhas + y]);
+            }
+        }
+    }
+    return 0;
+}
+int main() {
+    int dig[4][4] = {0};
+    anbt();
+    printf("criador de matrix e exibidor de seus valores localizados na diagonal deluxe\n");
+    getter(dig, 4, 4);
+    //debugging// printer(dig, 4, 4);
+    diagonalPrinter(dig, 4, 4);
+    system("pause");
+    return 0;
+}
+ex5:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x, y, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int matrizSoma(int *matriz1, int *matriz2,int linhas, int colunas) {
+    int matriz3[linhas][colunas];
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            matriz3[x][y] = matriz1[x * linhas + y] + matriz2[x * linhas + y];
+        }
+    }
+    printf("valores da matriz 3 (soma):\n");
+    printer(matriz3, linhas, colunas);
+    return 0;
+}
+int matrizSubtracao(int *matriz1, int *matriz2, int linhas, int colunas) {
+    int matriz4[linhas][colunas];
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            matriz4[x][y] = matriz1[x * linhas + y] - matriz2[x * linhas + y];
+        }
+    }
+    printf("valores da matriz 4 (subtração):\n");
+    printer(matriz4, linhas, colunas);
+    return 0;
+}
+int main() {
+    int matriz1[4][6] = {0};
+    int matriz2[4][6] = {0};
+    anbt();
+    printf("criador de duas matrizes e criador de mais duas matrizes\ncom base na soma e diferença entre as duas primeiras deluxe\n");
+    printf("insira os valores da primera matriz:\n");
+    getter(matriz1, 4, 6);
+    printf("insira os valores da segunda tabela:\n");
+    getter(matriz2, 4, 6);
+    printf("valores da matriz 1:\n");
+    printer(matriz1, 4, 6);
+    printf("valores da matriz 2:\n");
+    printer(matriz2, 4, 6);
+    matrizSoma(matriz1, matriz2, 4, 6);
+    matrizSubtracao(matriz1, matriz2, 4, 6);
+    system("pause");
+    return 0;
+}
+ex6:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x, y, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int getRekt(int *matrix, int linhas, int colunas) {
+    int somatória=0;
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            if ((x == y) && (matrix[x * linhas + y] % 2 == 0)) {
+                somatória = somatória + matrix[x * linhas +y];   
+            }
+        }
+    }
+    printf("somatória dos elementos pares na diagonal da matriz: %i\n", somatória);
+    return 0;
+}
+int main() {
+    int flextape[15][15] = {0};
+    anbt();
+    printf("criador de tabela e mostrador a soma dos elementos pares na diagonal dessa tabela deluxe");
+    printf("insira os valores da tabela:\n");
+    getter(flextape, 4, 4);
+    //debugging// printer(flextape, 4, 4);
+    getRekt(flextape, 4, 4);
+    system("pause");
+    return 0;    
+}
+ex7:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x+1, y+1, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int psor(int *matriz, int linhas, int colunas) {
+    int somator = 0;
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            if ((x == y) && (x+1 % 2 != 0)) {
+                somator = somator + matriz[x * linhas + y];
+            }
+        }
+    }
+    printf("soma dos elementos das linhas e colunas impares na diagonal da matrix: %i\n", somator);
+    return 0;
+}
+int main() {
+    int renatão[5][5] = {0};
+    anbt();
+    printf("criador de tabela e somador das linhas e colunas impares na diagonal deluxe 3D\n");
+    printf("defina os valores da matriz:\n");
+    getter(renatão, 5, 5);
+    //debugging// printer(renatão, 5, 5);
+    psor(renatão, 5, 5);
+    system("pause");
+    return 0;
+}
+ex8:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(float *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe uma temperatura em °C - ");
+            scanf("%f", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(float *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %.2f\n", x, y, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int fahrenheitter(float *matriz, int linhas, int colunas) {
+    float tempF[linhas][colunas]; 
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            tempF[x][y] = (matriz[x * linhas + y] * 1.8) + 32;
+        }
+        
+    }
+    printf("tabela em °C:\n");
+    printer(matriz, linhas, colunas);
+    printf("tabela em °F:\n");
+    printer(tempF, linhas, colunas);
+    return 0;
+}
+int main() {
+    float tempC[4][5] = {0};
+    anbt();
+    printf("criador de matriz armazenando temperaturas em °C\ne criador de outra matiz com temperaturas em °F deluxe 44k 60fps\n");
+    getter(tempC, 4, 5);
+    fahrenheitter(tempC, 4, 5);
+    system("pause");
+    return 0;
+}
+ex9:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x+1, y+1, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int muitoTrampo(int *matriz, int linhas, int colunas) {
+    int batlepass[linhas][colunas];
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            if (x == y) {
+                batlepass[x][y] = matriz[x * linhas + y] * 3;
+            } else {
+                batlepass[x][y] = matriz[x * linhas + y] * 2;
+            }
+        }
+    }
+    printf("matriz em dobro (e em triplo também):\n");
+    printer(batlepass, linhas, colunas);
+    return 0;
+}
+int main() {
+    int fornai[5][5] = {0};
+    anbt();
+    printf("criador de matriz e criador de outra matriz com base na primeira\nonde tudo é em dobro exceto pelos elementos em diagonal pq eles\nsão em triplo deluxe remake\n");
+    printf("insira os valores da primeira matriz:\n");
+    getter(fornai, 5, 5);
+    muitoTrampo(fornai, 5, 5);
+    system("pause");
+    return 0;
+}
+ex10:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x+1, y+1, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int noTime(int *matriz, int linhas, int colunas) {
+    int ed[linhas][colunas];
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            if (matriz[x * linhas + y] % 2 == 0) {
+                ed[x][y] = matriz[x * linhas + y] + 5;
+            } else {
+                ed[x][y] = matriz[x * linhas + y] - 4;
+            }
+        }
+    }
+    printf("matriz original:\n");
+    printer(matriz, linhas, colunas);
+    printf("matriz nova:\n");
+    printer(ed, linhas, colunas);
+    return 0;
+}
+int main() {
+    int timdodd[6][5] = {0};
+    anbt();
+    printf("sem tempo pra explicar deluxe\n");
+    printf("insira os valores da matriz:\n");
+    getter(timdodd, 6, 5);
+    noTime(timdodd, 6, 5);
+    system("pause");
+    return 0;
+}
+ex11:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x+1, y+1, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int iGotNoTime(int *matriz, int linhas, int colunas) {
+    int l4soma = 0;
+    int c2soma = 0;
+    int diagonalSoma = 0;
+    int allSoma =0;
+    int batlepass[linhas][colunas];
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            if (x == 3) {
+                l4soma = l4soma + matriz[x * linhas + y];
+                printf("somou: l4+ = %i\n", l4soma);
+            }
+            if (y == 1) {
+                c2soma = c2soma + matriz[x * linhas + y];
+                printf("somou: c2+ = %i\n", c2soma);
+            }
+            if (x == y) {
+                diagonalSoma = diagonalSoma + matriz[x * linhas + y];
+            }
+            allSoma = allSoma + matriz[x * linhas + y];
+        }
+    }
+    printf("matriz original:\n");
+    printer(matriz, linhas, colunas);
+    printf("soma dos elementos da quarta linha: %i\n", l4soma);
+    printf("soma dos elementos da segunda coluna: %i\n", c2soma);
+    printf("soma dos elementos na diagonal: %i\n", diagonalSoma);
+    printf("soma de todos os elementos: %i\n", allSoma);
+    return 0;
+}
+int main() {
+    int theBookOnTheTable[5][5] = {0};
+    anbt();
+    printf("criador de matriz e realizador de diversas somas deluxe\n");
+    printf("insira os valores da primeira tabela\n");
+    getter(theBookOnTheTable, 5, 5);
+    iGotNoTime(theBookOnTheTable, 5, 5);
+    system("pause");
+    return 0;
+}
+ex:12
+#include <stdio.h>
+#include <windows.h>
+#define LINES 4
+#define ROWS 5
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int matrix[LINES][ROWS], int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ", x, y);
+            scanf("%i", &matrix[x][y]);
+        }
+    }
+    return 0;
+}
+int printer(int matrix[LINES][ROWS], int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("%i ", matrix[x][y]);
+        }
+        printf("\n");
+    }
+    printf("----//----\n");
+    return 0;
+}
+int transposer(int matriz[LINES][ROWS], int linhas, int colunas) {
+    int transpost[colunas][linhas];
+    for (int x=0;x<colunas;x++) {
+        for (int y=0;y<linhas;y++) {
+            transpost[x][y] = 0;
+        }
+    }
+    printf("matriz original:\n");
+    printer(matriz, linhas, colunas);
+    
+    int tX = 0, tY = 0;
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            transpost[tX][tY] = matriz[x][y];
+            // debugging// printf("matriz[%i][%i]: %i trasposer[%i][%i]: %i\n", x, y, matriz[x][y], tX, tY, transpost[tX][tY]);
+            tX++;
+        }
+        tY++;
+        tX = 0;
+    }
+    printf("matriz transposta:\n");;
+    for (int x=0;x<colunas;x++) {
+        for (int y=0;y<linhas;y++) {
+            printf("%i ", transpost[x][y]);
+        }
+        printf("\n");
+    }
+    printf("----//----\n");
+    return 0;
+}
+int main() {
+    int balls[LINES][ROWS] = {0};
+    anbt();
+    printf("tranpostador de matriz deluxe UHD\n");
+    printf("insira os valores da matriz:\n");
+    getter(balls, LINES, ROWS);
+    transposer(balls, LINES, ROWS);
+    system("pause");
+    return 0;
+}
+ex13:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x+1, y+1, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+double factorial(double a) {
+    double result = 1;
+    for (int i=2;i<=a;i++) {
+        result = result * i;
+    }
+    return result;
+}
+int fatoriador(int *matriz, int linhas, int colunas) {
+    double fatorial[linhas][colunas];
+    printf("matriz fatorada:\n");
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            fatorial[x][y] = matriz[x * linhas + y];
+            fatorial[x][y] = factorial(fatorial[x][y]);
+            printf("transposer[%i][%i] = %.f\n", x, y, fatorial[x][y]);
+        }
+    }
+    return 0;
+}
+int main() {
+    int normal[5][4] = {0};
+    anbt();
+    printf("criador de matriz e criador de matriz com fatorial em cada elemento deluxe\n");
+    printf("insira os valores da primeira matriz:\n");
+    getter(normal, 5, 4);
+    printf("tabela original:\n");
+    printer(normal, 5, 4);
+    fatoriador(normal, 5, 4);
+    system("pause");
+    return 0;
+}
+ex14:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printerVetor(int vetor[], int tamanho) {
+    for (int i=0 ; i<tamanho ; i++) {
+        printf("%i° número: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int printerMatrix(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x+1, y+1, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int sheet(int *matriz, int linhas, int colunas) {
+    int vetor[linhas];
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            if (x == y) {
+                vetor[x] = matriz[x * linhas + y] * 5;
+            }
+        }
+    }
+    printf("valor da matriz original:\n");
+    printerMatrix(matriz, linhas, colunas);
+    printf("valores do vetor:\n");
+    printerVetor(vetor, linhas);
+    return 0;
+
+}
+int main() {
+    int mtv[4][4] = {0};
+    anbt();
+    printf("criador de matriz e criador de vetor com valores dos elementos da diagonal do vetor multiplicados por 5 delixe\n");
+    printf("insira os valores da matriz:\n");
+    getter(mtv, 4, 4);
+    sheet(mtv, 4, 4);
+    system("pause");
+    return 0;
+}
+ex15:
+#include <stdio.h>
+#include <windows.h>
+#define LINES 2
+#define ROWS 6
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int matrix[LINES][ROWS], int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x][y]);
+        }
+    }
+    return 0;
+}
+int printerVetor(int vetor[], int tamanho) {
+    for (int i=0 ; i<tamanho ; i++) {
+        printf("%i° número: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int printerMatrix(int matrix[LINES][ROWS], int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %i\n", x+1, y+1, matrix[x][y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int compiladorVetor(int matriz[LINES][ROWS], int linhas, int colunas) {
+    int vetor[colunas];
+    for (int i=0;i<colunas;i++) {
+        vetor[i] = 0;
+    }
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("vetor %i: %i matriz[%i][%i]: %i\n", y, vetor[y], x, y, matriz[x][y]);
+            vetor[y] = vetor[y] + matriz[x][y];
+        }
+    } 
+    printf("vetor:\n");
+    printerVetor(vetor, colunas);
+    return 0;
+}
+int main() {
+    int pqp[LINES][ROWS] = {0};
+    anbt();
+    printf("faltam 2h pra eu terminar isso, n tenho tempo pra explicar premium\n");
+    printf("insira os valores da matriz:\n");
+    getter(pqp, LINES, ROWS);
+    printf("matriz original:\n");
+    printerMatrix(pqp, LINES, ROWS);
+    compiladorVetor(pqp, LINES, ROWS);
+    system("pause");
+    return 0;
+}
+ex16:
+#include <stdio.h>
+#include <windows.h>
+#define LINES 4
+#define ROWS 5
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int matrix[LINES][ROWS], int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x][y]);
+        }
+    }
+    return 0;
+}
+int printerVetor(int vetor[], int tamanho) {
+    for (int i=0 ; i<tamanho ; i++) {
+        printf("%i° número: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int printerMatrix(int matrix[LINES][ROWS], int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("%i ", matrix[x][y]);
+        }
+        printf("\n");
+    }
+    printf("----//----\n");
+    return 0;
+}
+int jooj(int matriz[LINES][ROWS], int linhas, int colunas) {
+    int vector[linhas];
+    for (int x=0;x<linhas;x++) {
+        vector[x] = 0; 
+    }
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            vector[x] += matriz[x][y];
+        }
+    }
+    printf("vetor:\n");
+    printerVetor(vector, linhas);
+    return 0;
+}
+int main() {
+    int test[LINES][ROWS] = {0};
+    anbt();
+    printf("compilador de vetor sendo a soma de linhas de uma matriz ultra deluxe\n");
+    printf("insira valores:\n");
+    getter(test, LINES, ROWS);
+    printf("matriz original:\n");
+    printerMatrix(test, LINES, ROWS);
+    jooj(test, LINES, ROWS);
+    system("pause");
+    return 0;
+}
+ex17:
+#include <stdio.h>
+#include <windows.h>
+#define LINES 4
+#define ROWS 4
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int matrix[LINES], int linhas) {
+    for (int x=0;x<linhas;x++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x]);
+    }
+    return 0;
+}
+int printerVetor(int vetor[], int tamanho) {
+    for (int i=0 ; i<tamanho ; i++) {
+        printf("%i° número: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int printerMatrix(double matrix[LINES][ROWS], int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("%.f ", matrix[x][y]);
+        }
+        printf("\n");
+    }
+    printf("----//----\n");
+    return 0;
+}
+double factorial(double a) {
+    double result = 1;
+    for (int i=2;i<=a;i++) {
+        result = result * i;
+    }
+    return result;
+}
+int vectorConvector(int vetorA[], int vetorB[], int vetorC[], int vetorD[], int tamanho) {
+    double notMatrixMultiplier[tamanho][tamanho];
+    for (int x=0;x<tamanho;x++) {
+        for (int y=0;y<tamanho;y++) {
+            notMatrixMultiplier[x][y] = 0;
+        }
+    }
+    for (int x=0;x<tamanho;x++) {
+        for (int y=0;y<tamanho;y++) {
+            switch(x) {
+                case 0: notMatrixMultiplier[x][y] = vetorA[y] * 2; break;
+                case 1: notMatrixMultiplier[x][y] = vetorB[y] * 3; break;
+                case 2: notMatrixMultiplier[x][y] = vetorC[y] * 4; break;
+                case 3: notMatrixMultiplier[x][y] = factorial((double)vetorD[y]); break;
+            }
+        }
+    }
+    printerMatrix(notMatrixMultiplier, tamanho, tamanho);
+    return 0;
+}
+int main() {
+    anbt();
+    int vA[LINES] = {0},
+        vB[LINES] = {0},
+        vC[LINES] = {0},
+        vD[LINES] = {0};
+    getter(vA, LINES);
+    printerVetor(vA, LINES);
+    getter(vB, LINES);
+    printerVetor(vB, LINES);
+    getter(vC, LINES);
+    printerVetor(vC, LINES);
+    getter(vD, LINES);
+    printerVetor(vD, LINES);
+    vectorConvector(vA, vB, vC, vD, LINES);
+    system("pause");
+}
+ex18:
+#include <stdio.h>
+#include <windows.h>
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(float *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%f", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printer(float *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("Linha %i coluna %i: %.2f\n", x+1, y+1, matrix[x * linhas + y]);
+        }
+        printf("-------//-------\n");
+    }
+    return 0;
+}
+int iCant(float *matriz, int linhas, int colunas) {
+    int maior=0;
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            if (matriz[x * linhas + y] > maior) {
+                maior = matriz[x * linhas + y];
+            }
+        }
+    }
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            matriz[x * linhas + y] = matriz[x * linhas + y] / maior;
+        }
+    }
+    printf("matriz dividida pelo maior elemento:\n");
+    printer(matriz, linhas, colunas);
+    return 0;
+}
+int main() {
+    float matriz[6][3] = {0};
+    anbt();
+    printf("eu realmente estou sem tempo pra explicar deluxe\n");
+    printf("insira os valores da matriz:\n");
+    getter(matriz, 6, 3);
+    printf("matriz original:\n");
+    printer(matriz, 6, 3);
+    iCant(matriz, 6, 3);
+    system("pause");
+    return 0;
+}
+ex19:
+#include <stdio.h>
+#include <windows.h>
+#define LINES 1
+#define ROWS 12
+//balls 101
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+int getter(int *matrix, int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("informe um elemento da tabela numérica - ");
+            scanf("%i", &matrix[x * linhas + y]);
+        }
+    }
+    return 0;
+}
+int printerVetor(int vetor[], int tamanho) {
+    for (int i=0 ; i<tamanho ; i++) {
+        printf("%i° número: %i\n", i+1, vetor[i]);
+    }
+    return 0;
+}
+int printerMatrix(int matrix[LINES][ROWS], int linhas, int colunas) {
+    for (int x=0;x<linhas;x++) {
+        for (int y=0;y<colunas;y++) {
+            printf("%i ", matrix[x][y]);
+        }
+        printf("\n");
+    }
+    printf("----//----\n");
+    return 0;
+}
+int fuser(int *vetor1, int *vetor2, int linhas, int colunas) {
+    int linhasM = linhas *2;
+    int matriz[linhasM][colunas];
+    for (int x=0;x<linhas*2;x++) {
+        for (int y=0;y<colunas;y++) {
+            if (x == 0) {
+                matriz[x][y] = vetor1[y] * 2;
+            } else {
+                matriz[x][y] = vetor2[y] - 5;
+            }
+        }
+    }
+    printf("vetor 1:\n");
+    printerVetor(vetor1,  colunas);
+    printf("vetor 2:\n");
+    printerVetor(vetor2, colunas);
+    printf("matriz:\n");
+    printerMatrix(matriz, linhasM, colunas);
+    return 0;
+}
+int main() {
+    int v1[LINES][ROWS] = {0};
+    int v2[LINES][ROWS] = {0};
+    anbt();
+    printf("pegador de dois vetores e juntador em uma matrix deluxe\n");
+    printf("insira os valores do primeiro vetor:\n");
+    getter(v1, LINES, ROWS);
+    printf("insira os valores do segundo vetor:\n");
+    getter(v2, LINES, ROWS);
+    fuser(v1, v2, LINES, ROWS);
+    system("pause");
+    return 0;
+}
