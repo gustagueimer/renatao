@@ -6,6 +6,7 @@
 
 // Defiine o máximo de produtos/clientes que pode ser cadastrados
 #define LimiteMax 100
+#define LimiteMaxUser 10
 #define LimiteMaxRelatório 200
 #define ANBT UINT CPAGE_UTF8 = 65001; \
              SetConsoleOutputCP(CPAGE_UTF8); 
@@ -14,22 +15,23 @@
 typedef struct {
     char nome[50];
     float valor;
-    int quantidade, id;
+    int quantidade;
+    int id;
 } Produto;
 
 // Estrutura que representa um cliente
 typedef struct { 
-    char nome[50];
+    char nome[64];
     int cpf;
 } ClienteCPF;
 
 typedef struct {
-    char nome[50];
+    char nome[64];
     int cnpj;
 } ClienteCNPJ;
 
 typedef struct {
-    char nome[50];
+    char nome[64];
     int cnpj;
 } Fornecedor;
 
@@ -38,10 +40,18 @@ typedef struct {
     char password[64];
 } User;
 
+typedef struct {
+    char nomeProduto[64];
+    int idProduto;
+    int quantidadeVendida;
+    int notaFiscal;
+    time_t dataVenda;
+} Relatotio;
+
 // definição de variáveis globais //
 
     //definição de variáveis relacionadas ao login
-    User usuario[LimiteMax]; //variavel array que contém os usuários registrados no sistema
+    User usuario[LimiteMaxUser]; //variavel array que contém os usuários registrados no sistema
 
     //definição de variaveis relacionadas ao estoque
     Produto estoque[LimiteMax]; // Variavel array que é utilizada para guardar valores
@@ -93,13 +103,13 @@ void notaFiscal(char nome[], time_t data, int qnt, int nf, float valor) {
 int adicionarProdutos() {
     printf("\nID do produto: ");
     scanf("%i", &idTest); //pega o id do produto
-    for (int i=0; i <= LimiteMax; i++) { //confere se a id do produto já existe
+    for (int i=0; i<LimiteMax; i++) { //confere se a id do produto já existe
         if (estoque[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
             printf("\nErro: ID já existente");
             return 1;
         }
     }
-    for (int i = 0; i <= LimiteMax; i++) {
+    for (int i=0; i<LimiteMax; i++) {
         if (estoque[i].id == 0) {
             produtonum = i;
             break;
@@ -135,7 +145,7 @@ int removerProdutos() {
     printf("\ninsira o ID do produto - ");
     scanf("%i", &idTest);
     int selecaoRemover = 0;
-    for (int i=0;i<LimiteMax;i++) {
+    for (int i=0; i<LimiteMax; i++) {
         if (estoque[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
             selecaoRemover = i;
             idTest = 0;
@@ -163,7 +173,7 @@ int removerProdutos() {
 int atualizarQuantidade() {
     printf("\nID do produto: ");
     scanf("%i", &idTest); //pega o id do produto
-    for (int i=0; i <= LimiteMax; i++) { //confere se a id do produto já existe
+    for (int i=0; i<LimiteMax; i++) { //confere se a id do produto já existe
         if (estoque[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
             printf("\nInsira a quantidade a ser adicionada - ");
             scanf("%i", &idTest); //lê a quantidade nova a ser adicionada
@@ -183,7 +193,7 @@ int atualizarQuantidade() {
 //função que exibe o estoque
 void exibirEstoque() {
     printf("\n### Estoque ###\n");
-    for (int i = 0; i < LimiteMax; i++) {
+    for (int i = 0; i <LimiteMax; i++) {
         if (estoque[i].id != 0) {
             printf("%s - Id: %i Quantidade: %d Valor: R$%.2f\n", estoque[i].nome, estoque[i].id, estoque[i].quantidade, estoque[i].valor);
         }
@@ -198,7 +208,7 @@ void cadastrarCPF() {
     printf("insira o cpf do cliente (somente numeros): ");
     scanf("%i",&cpfTest); //pega o cpf do cliente
 
-    for (int x = 0; x < LimiteMax; x++) { // pega o cpf do cliente e compara se já existe outro cliente com o mesmo cpf
+    for (int x=0; x <LimiteMax; x++) { // pega o cpf do cliente e compara se já existe outro cliente com o mesmo cpf
         if (clienteFísico[x].cpf == cpfTest) {
             validacaoCliente = 1; // define a validação para 1 caso exista outro cliente com o mesmo cpf
             break;
@@ -216,7 +226,7 @@ void cadastrarCPF() {
 
 //função que realiza vendas
 int realizarVenda() {
-    for (int i=0; i < LimiteMax; i++) { //confere se existe qualquer cliente cadastrado
+    for (int i=0; i<LimiteMax; i++) { //confere se existe qualquer cliente cadastrado
         if (clienteFísico[i].cpf != 0) {
             validacaoCliente = 1; //define a variavel de checagem de cliente para 1
             break; // sai do for
@@ -229,14 +239,13 @@ int realizarVenda() {
     //adendo: a integração do cliente na venda ainda não foi completamente implementada//
     printf("\nID do produto: ");
     scanf("%i", &idTest);// pega a id do produto
-    for (int i=0; i <= LimiteMax; i++) { //confere se a id do produto existe
+    for (int i=0; i<LimiteMax; i++) { //confere se a id do produto existe
         if (estoque[i].id == idTest) { //se a id do produto existe, ele pede a quantidade a ser vendida
             int quantidadeVenda; //variavel responsavel pela quantidade vendida
             printf("Quantidade: ");
             scanf("%d", &quantidadeVenda);
             if (estoque[i].quantidade >= quantidadeVenda) {//[i] usando para acessar elemento da array, confere se a quantidade de estoque do produto é maior ou igual a quantidade de venda
                 estoque[i].quantidade -= quantidadeVenda; // Diminue a quantidade do produto no estoque
-                srand(time(0));//Da start no gerador de numeros aleatorios
                 nf = nf + 1;
                 valorTotal = estoque[i].valor * quantidadeVenda; //calcula o valor total da venda
                 time_t hora = time(NULL);
