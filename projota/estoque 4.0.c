@@ -5,53 +5,58 @@
 #include <windows.h>
 
 // Defiine o máximo de produtos/clientes que pode ser cadastrados
-#define LimiteMax 100
-#define LimiteMaxUser 10
-#define LimiteMaxRelatório 200
+#define charConst 64 //define a constante do maximo de caracteres por string
+#define LimiteMax 100 //define a constante que representa o limite maximo de muita coisa
+#define LimiteMaxUser 10 //define a constante que representa o limite maximo de usuarios
+#define LimiteMaxRelatório 200 //define a constante que representa o limite maximo de relatórios
 #define ANBT UINT CPAGE_UTF8 = 65001; \
              SetConsoleOutputCP(CPAGE_UTF8); 
 
 // Estrutura que representa um produto
 typedef struct {
-    char nome[50];
-    float valor;
-    int quantidade;
-    int id;
+    char nome[charConst]; //elemento que representa o nome do produto
+    float valor; //elemento que representa o valor de uma unidade do produto
+    int quantidade; //elemento que representa a quantidade disponível do produto
+    int id; //elemento que representa o id do produto
 } Produto;
 
 // Estrutura que representa um cliente
 typedef struct { 
-    char nome[64];
-    int cpf;
+    char nome[charConst]; //elemento que representa o nome do cliente;
+    int cpf; //elemento que representa o cpf do cliente;
 } ClienteCPF;
 
+// Estrutura que representa uma empresa
 typedef struct {
-    char nome[64];
-    int cnpj;
+    char RS[charConst]; //elemento que representa a razão social da empresa 
+    int TF; //elemento que representa o telefone da empresa
+    int cnpj; //elemento que representa o cnpj da empresa
 } ClienteCNPJ;
 
+// Estrutura que representa um fornecedor
 typedef struct {
-    char nome[64];
+    char nome[charConst];
     int cnpj;
 } Fornecedor;
 
+// Estrutura que representa uma empresa
 typedef struct {
-    char user[64];
-    char password[64];
+    char user[charConst]; //elemento que representa o login/id do usuário
+    char password[charConst]; //elemento que representa a senha do usuário
+    int accessLevel; //elemento que define o nível de acesso do usuário |1 = normal|2= admin|
 } User;
 
+// Estrutura de relatório
 typedef struct {
-    char nomeProduto[64];
-    int idProduto;
-    int quantidadeVendida;
-    int notaFiscal;
-    time_t dataVenda;
+    char nomeProduto[charConst]; //elemento que armazena o nome do produto
+    int idProduto; //elemento que armazena o id do produto
+    int quantidadeVendida; //elemento que armazena a quantidade vendida
+    float valor; //elemento que armazena o valor pelo qual foi vendido
+    int notaFiscal; //elemento que armaena a nota fiscal da venda
+    time_t dataVenda; //elemento que armazena a data da venda
 } Relatotio;
 
 // definição de variáveis globais //
-
-    //definição de variáveis relacionadas ao login
-    User usuario[LimiteMaxUser]; //variavel array que contém os usuários registrados no sistema
 
     //definição de variaveis relacionadas ao estoque
     Produto estoque[LimiteMax]; // Variavel array que é utilizada para guardar valores
@@ -59,16 +64,23 @@ typedef struct {
     float valor, valorTotal;
 
     //definição de variaveis relacionadas aos clientes
-    ClienteCPF clienteFísico[LimiteMax]; // Variavel array que é utilizada para guardar informações de clientes tipo pessoa física
-    ClienteCNPJ clienteJurídico[LimiteMax];
-    int clientenum = 0, cpfTest, validacaoCliente = 0; //contador de clientes cadastardos / variavel usada pra conferir se existe um cliente cadastrado
-        
+    ClienteCPF clienteFísico[LimiteMax]; //Variavel array que é utilizada para guardar informações de clientes tipo pessoa física
+    ClienteCNPJ clienteJurídico[LimiteMax]; //Variavel array que é utilizada para guardar informações de clientes tipo pessoa juridica
+    int clientenum = 0; //contador de clientes cadastardos
+    int cpfTest=0; //variavel usada pra conferir se existe um cliente cadastrado
+    int validacaoCliente = 0;
 
+    ClienteCNPJ empresa[LimiteMax];
+    int Empresanum = 0; //contador de clientes cnpj cadastardos
+    int cnpjTest = 0; //variavel usada pra conferir se existe um cliente cnpj cadastrado
+    int validacaoEmpresa = 0; 
+      
+        
 // definição das funções //
 
 //função de login
-int login() {
-    char tempUser[64], tempPassword[64];
+int login(User *usuario) {
+    char tempUser[charConst], tempPassword[charConst];
     printf("##### ID DO USUARIO #####\n");
     scanf("%s", tempUser); //pega o id do usuário
     printf("##### SENHA #####\n");
@@ -85,6 +97,29 @@ int login() {
     }
     printf("usuário ou senha incorretos");
     return 1;
+}
+
+//função que cadastra um novo usuário no sistema
+int registrarUsuario(User *usuario, int *userCount) {
+    int tempOpcao;
+    int tempCount = *userCount;
+    printf("#### CADASTRAMENTO DE USUÁRIO ####\n");
+    printf("informe o login do novo usuário - ");
+    scanf("%s", usuario[tempCount].user);
+    printf("informe a senha do novo usuário - ");
+    scanf("%s", usuario[tempCount].password);
+    do {
+        printf("informe o nivel de acesso do novo usuário\n1. normal\n2. administador\nEscolha uma opção: ");
+        scanf("%d", &tempOpcao);
+        switch (tempOpcao) {
+            case 1: usuario[tempCount].accessLevel = 1; tempOpcao = -1; break;
+            case 2: usuario[tempCount].accessLevel = 2; tempOpcao = -1; break;
+            default: puts("opção invalida"); break;
+        }
+    } while (tempOpcao != -1);
+    puts("usuário registrado com sucesso");
+    userCount++;
+    return 0;
 }
 
 //função que faz o print de uma nota fiscal
@@ -191,7 +226,7 @@ int atualizarQuantidade() {
 }
 
 //função que exibe o estoque
-void exibirEstoque() {
+void exibirEstoque(Produto *estoque) {
     printf("\n### Estoque ###\n");
     for (int i = 0; i <LimiteMax; i++) {
         if (estoque[i].id != 0) {
@@ -222,6 +257,36 @@ void cadastrarCPF() {
         clientenum++; // Incrementa o clientenum
     }
     validacaoCliente = 0;// Reseta o valor da validação para 0
+}
+
+//Função para adicionar CNPJ
+void cadastrarCNPJ () {
+    printf("\nRazao Social: ");
+    scanf("%s", empresa[Empresanum].RS); //pega o nome da empresa
+    
+    printf("Escreva somente os numeros!!!");
+    printf("\nCNPJ: ");
+    scanf("%i",&cnpjTest); //pega o cnpj da empresa 
+
+    printf("Telefone: ");
+    scanf("%i", empresa[Empresanum].TF);
+
+    for (int x=0; x<LimiteMax; x++) { // pega o cnpj da empresa e compara se já existe outra empresa com o mesmo cnpj
+        if (empresa[x].cnpj == cnpjTest) {
+            validacaoEmpresa = 1; // define a validação para 1 caso exista outro cliente com o mesmo cpf
+            break;
+        }
+    }
+
+    if (validacaoEmpresa == 1) { // caso exista outra empresa com o mesmo CNPJ, informa erro
+        printf("\nErro: CNPJ ja cadastrado.\n");
+    }
+    else { // caso não exista outra empresa com o mesmo cnpj, informa sucesso
+        clienteFísico[clientenum].cpf = cpfTest;
+        printf("\n#####Empresa cadastrada com sucesso#####\n");
+        Empresanum++; // Incrementa o Empresanum
+    }
+    validacaoEmpresa = 0;// Reseta o valor da validação para 0
 }
 
 //função que realiza vendas
@@ -266,8 +331,9 @@ int realizarVenda() {
     return 0;
 }
 
+
 //função do menu
-void menu() {
+void menu(User *usuario, int *userCount) {
     int opcao;
     int subOpcao;
     do {
@@ -294,7 +360,7 @@ void menu() {
                         case 1: adicionarProdutos(); break;
                         case 2: removerProdutos(); break; 
                         case 3: atualizarQuantidade(); break;
-                        case 4: exibirEstoque(); break;
+                        case 4: exibirEstoque(estoque); break;
                         case 5: printf("\nAinda não implementado\n"); break;
                         case 0: break;
                         default: printf("Opcao invalida!\n");
@@ -303,16 +369,17 @@ void menu() {
                 break; 
             case 2: //abre o submenu relacionado a clientes                    
                 do {
-                    printf("\n##### MENU - CLIENTES #####\n"); //menu principal
+                    printf("\n##### MENU - PESSOAS #####\n"); //menu principal
                     printf("1. Cadastrar pessoa física\n");
                     printf("2. Cadastrar pessoa juridíca\n");
                     printf("3. Mostrar lista de cadastros\n");
+                    printf("4. Cadastrar novo usuário\n");
                     printf("0. Voltar\n");
                     printf("Escolha uma opcao: ");
                     scanf("%d", &subOpcao);
                     switch (subOpcao) {
                         case 1: cadastrarCPF(); break;
-                        case 2: printf("\nAinda não implementado\n"); break;
+                        case 2: cadastrarCNPJ(); break;
                         case 3: do {
                                     printf("\n##### MOSTRAR LISTA DE CADASTROS #####\n"); //menu principal
                                     printf("1. Mostrar pessoas físicas\n");
@@ -327,6 +394,7 @@ void menu() {
                                         default: printf("Opcao invalida!\n");
                                     }
                                 } while (subOpcao != 0); subOpcao = 1; break;
+                        case 4: registrarUsuario(usuario, userCount); break;
                         case 0: break;
                         default: printf("Opcao invalida!\n");
                     }
@@ -345,6 +413,9 @@ void menu() {
 }
 
 int main() {
+    //definição de variáveis relacionadas ao login
+    int userCount = 0; //variavel que conta quantos usuários cadstrados existem
+    User usuario[LimiteMaxUser]; //variavel array que contém os usuários registrados no sistema
     ANBT;
     for (int i; i < LimiteMax; i++)  { //pequena função para limpar o lixo da memória dos cpfs dos clientes
         clienteFísico[i].cpf = 0;
@@ -358,15 +429,12 @@ int main() {
         }
     }
     if (userTest == 0) {
-        printf("cadastre o primeiro usuário (automáticamente admin)\n");
-        printf("Usuario - ");
-        scanf("%s", usuario[0].user);
-        printf("Senha - ");
-        scanf("%s", usuario[0].password);
+        printf("Nenhum usuário registrado, favor registrar um usuário\n");
+        registrarUsuario(usuario, &userCount);
     }
-    int logon = login();
+    int logon = login(usuario);
     if (logon == 0) {
-        menu();    
+        menu(usuario, &userCount);    
     }
     return 0;
 }
