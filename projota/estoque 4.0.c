@@ -9,6 +9,8 @@
 #define LimiteMax 100 //define a constante que representa o limite maximo de muita coisa
 #define LimiteMaxUser 10 //define a constante que representa o limite maximo de usuarios
 #define LimiteMaxRelatório 200 //define a constante que representa o limite maximo de relatórios
+#define VALIDO 0
+#define INVALIDO 1
 #define ANBT UINT CPAGE_UTF8 = 65001; \
              SetConsoleOutputCP(CPAGE_UTF8); 
 
