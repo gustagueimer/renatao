@@ -77,8 +77,31 @@ typedef struct {
     int cnpjTest = 0; //variavel usada pra conferir se existe um cliente cnpj cadastrado
     int validacaoEmpresa = 0; 
       
-        
+    char varTemp[charConst] = {'\0'}; //variavel char temporaria usada para validação de input
+
 // definição das funções //
+
+//função para limpar a variavel temporária
+void varTempClean() {
+    char varClean[charConst] = {'\0'};
+    memcpy(varTemp, varClean, charConst);
+}
+
+//função que valida um input apenas numérico
+int validateInput(char *input, int size) {
+    for (int i=0;i<size;i++) {
+         printf("input[%d]: %c\n", i, input[i]);
+        if(!isdigit(input[i]) && (input[i] != '\0')) {
+            printf("input invalido!\n");
+            varTempClean();
+            printf("vartemp: %s\n", input);
+            return INVALIDO;
+        }
+       printf("ainda no for\n");
+    }
+    printf("saiu do for\n");
+    return VALIDO;
+}
 
 //função de login
 int login(User *usuario) {
@@ -87,18 +110,16 @@ int login(User *usuario) {
     scanf("%s", tempUser); //pega o id do usuário
     printf("##### SENHA #####\n");
     scanf("%s", tempPassword); // pega a senha do usuário
-    for (int i = 0; i < LimiteMax; i++) {
-        if (strcmp(tempUser, usuario[i].user) == 0) {
-            for (int i = 0; i < LimiteMax; i++) {
-                if (strcmp(tempPassword, usuario[i].password) == 0) {
-                    printf("logado com sussexo");
-                    return 0;
-                }
+    for (int i = 0; i < LimiteMax; i++) { //estrutura for pra percorrer o array de usuários
+        if (strcmp(tempUser, usuario[i].user) == 0) { //if comparando o id do usuário informado com a base de dados, caso encontre o usuário, procede pra checkagem de senha
+            if (strcmp(tempPassword, usuario[i].password) == 0) { //compara a senha informada com a senha do usuário encontrado na base de dados, caso esteja correta, procede para retornar sucesso
+                printf("logado com sussexo"); //mensagem de login bem sucedido
+                return 0; //retorna 0 (login bem sucedido)
             }
         }
     }
-    printf("usuário ou senha incorretos");
-    return 1;
+    printf("usuário ou senha incorretos"); //mensagem de erro de login
+    return 1; //retorna 1 (login mal sucedido)
 }
 
 //função que cadastra um novo usuário no sistema
@@ -196,6 +217,7 @@ int removerProdutos() {
     printf("\n####Certeza que deseja remover %s? (não poderá ser desfeito)####\n", estoque[selecaoRemover].nome);
     printf("1. Sim\n");
     printf("0. Não\n");
+    printf("Escolha uma opção: ");
     int opcaoRemover = 0;
     scanf("%i", &opcaoRemover);
     switch (opcaoRemover) {
@@ -344,8 +366,12 @@ void menu(User *usuario, int *userCount) {
         printf("2. Gerenciar clientes\n");
         printf("4. Registrar venda\n");
         printf("0. Sair\n");
-        printf("Escolha uma opcao: ");
-        scanf("%d", &opcao); // vai ler a opcao para iniciar o switch case
+        do {
+            printf("Escolha uma opcao: ");
+            scanf("%s", &varTemp);
+        } while (validateInput(varTemp, charConst) == INVALIDO);
+        opcao = atoi(varTemp);
+        varTempClean();
         switch (opcao) {
             case 1: //abre o submenu relacionado a produtos
                 do {
@@ -356,8 +382,12 @@ void menu(User *usuario, int *userCount) {
                     printf("4. Mostrar estoque\n");
                     printf("5. Gerar relatótio\n");
                     printf("0. Voltar\n");
-                    printf("Escolha uma opcao: ");
-                    scanf("%d", &subOpcao);
+                    do {
+                        printf("Escolha uma opcao: ");
+                        scanf("%s", &varTemp);
+                    } while (validateInput(varTemp, charConst) == INVALIDO);
+                    subOpcao = atoi(varTemp);
+                    varTempClean(); 
                     switch (subOpcao) {
                         case 1: adicionarProdutos(); break;
                         case 2: removerProdutos(); break; 
@@ -377,8 +407,12 @@ void menu(User *usuario, int *userCount) {
                     printf("3. Mostrar lista de cadastros\n");
                     printf("4. Cadastrar novo usuário\n");
                     printf("0. Voltar\n");
-                    printf("Escolha uma opcao: ");
-                    scanf("%d", &subOpcao);
+                    do {
+                        printf("Escolha uma opcao: ");
+                        scanf("%s", &varTemp);
+                    } while (validateInput(varTemp, charConst) == INVALIDO);
+                    subOpcao = atoi(varTemp);
+                    varTempClean();
                     switch (subOpcao) {
                         case 1: cadastrarCPF(); break;
                         case 2: cadastrarCNPJ(); break;

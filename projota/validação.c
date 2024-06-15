@@ -15,6 +15,13 @@ int validInput(char *input, int size) {
     // debugging // printf("saiu do for\n");
     return VALIDO;
 }
+void varTempClean(char *varTemp) {
+    memcpy(varTemp, "\0", 8);
+    //for (int i=0; i<8; i++) {
+        // strcpy(varTemp, "\0");
+
+    //}
+}
 int main() {
     char varTemp[8] = {'\0'};
     int a = 0;
@@ -23,6 +30,8 @@ int main() {
     scanf("%s", &varTemp);
     } while (validInput(varTemp, 8) == INVALIDO);
     a = atoi(varTemp);
+    varTempClean(varTemp);
     printf("a: %d\n", a);
+    printf("vartemp: %s", varTemp);
     return 0;
 }
