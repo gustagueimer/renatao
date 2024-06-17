@@ -31,7 +31,7 @@ typedef struct {
 // Estrutura que representa uma empresa
 typedef struct {
     char RS[charConst]; //elemento que representa a razão social da empresa 
-    int TF; //elemento que representa o telefone da empresa
+    char TF[charConst]; //elemento que representa o telefone da empresa
     int cnpj; //elemento que representa o cnpj da empresa
 } ClienteCNPJ;
 
@@ -60,6 +60,10 @@ typedef struct {
 
 // definição de variáveis globais //
 
+    //definição de variaveis relacionadas a versão do programa
+    char buildVersion[charConst] = {"0.4.2"};
+    char buildDate[charConst] = {"17/06/2024 14:50"};
+
     //definição de variaveis relacionadas ao estoque
     Produto estoque[LimiteMax]; // Variavel array que é utilizada para guardar valores
     int produtonum = 0, idTest, nf = 0; // Numeros de produtos do estoque
@@ -73,11 +77,12 @@ typedef struct {
     int validacaoCliente = 0;
 
     ClienteCNPJ empresa[LimiteMax];
-    int Empresanum = 0; //contador de clientes cnpj cadastardos
+    int empresanum = 0; //contador de clientes cnpj cadastardos
     int cnpjTest = 0; //variavel usada pra conferir se existe um cliente cnpj cadastrado
     int validacaoEmpresa = 0; 
       
     char varTemp[charConst] = {'\0'}; //variavel char temporaria usada para validação de input
+    int isRunning = 0; //variavel que defnie se o programa continuará rodando ou não ||0: roda||any other: não roda||
 
 // definição das funções //
 
@@ -90,16 +95,16 @@ void varTempClean() {
 //função que valida um input apenas numérico
 int validateInput(char *input, int size) {
     for (int i=0;i<size;i++) {
-         printf("input[%d]: %c\n", i, input[i]);
+        // debuggng // printf("input[%d]: %c\n", i, input[i]);
         if(!isdigit(input[i]) && (input[i] != '\0')) {
             printf("input invalido!\n");
             varTempClean();
-            printf("vartemp: %s\n", input);
+            // debugging // printf("vartemp: %s\n", input);
             return INVALIDO;
         }
-       printf("ainda no for\n");
+        // debugging // printf("ainda no for\n");
     }
-    printf("saiu do for\n");
+    // debugging // printf("saiu do for\n");
     return VALIDO;
 }
 
@@ -110,9 +115,13 @@ int login(User *usuario) {
     scanf("%s", tempUser); //pega o id do usuário
     printf("##### SENHA #####\n");
     scanf("%s", tempPassword); // pega a senha do usuário
-    for (int i = 0; i < LimiteMax; i++) { //estrutura for pra percorrer o array de usuários
+    for (int i = 0; i < LimiteMaxUser; i++) { //estrutura for pra percorrer o array de usuários
         if (strcmp(tempUser, usuario[i].user) == 0) { //if comparando o id do usuário informado com a base de dados, caso encontre o usuário, procede pra checkagem de senha
             if (strcmp(tempPassword, usuario[i].password) == 0) { //compara a senha informada com a senha do usuário encontrado na base de dados, caso esteja correta, procede para retornar sucesso
+                if (usuario[i].accessLevel == 2) {
+                    printf("logado com sussexo"); //mensagem de login bem sucedido
+                    return 2; //retorna 2 (login admin bem sucedido)
+                }
                 printf("logado com sussexo"); //mensagem de login bem sucedido
                 return 0; //retorna 0 (login bem sucedido)
             }
@@ -120,6 +129,20 @@ int login(User *usuario) {
     }
     printf("usuário ou senha incorretos"); //mensagem de erro de login
     return 1; //retorna 1 (login mal sucedido)
+}
+
+//função que cadastra o primeiro usuário do sistema (admin)
+int registrarAdmin(User *usuario, int *userCount) {
+    int tempOpcao;
+    printf("#### CADASTRAMENTO DE ADMIN ####\n");
+    printf("informe o login do administrador - ");
+    scanf("%s", usuario[0].user);
+    printf("informe a senha do administrador - ");
+    scanf("%s", usuario[0].password);
+    usuario[0].accessLevel = 2;
+    puts("adiministrador registrado com sucesso");
+    userCount++;
+    return 0;
 }
 
 //função que cadastra um novo usuário no sistema
@@ -199,6 +222,7 @@ int adicionarProdutos() {
     return 0;
 }
 
+//função que remove produtos cadastrados
 int removerProdutos() {
     printf("\ninsira o ID do produto - ");
     scanf("%i", &idTest);
@@ -228,7 +252,7 @@ int removerProdutos() {
     return 0;
 }
 
-
+//função que atualiza a quantidade de produtos (só adiciona na verdade)
 int atualizarQuantidade() {
     printf("\nID do produto: ");
     scanf("%i", &idTest); //pega o id do produto
@@ -286,29 +310,25 @@ void cadastrarCPF() {
 //Função para adicionar CNPJ
 void cadastrarCNPJ () {
     printf("\nRazao Social: ");
-    scanf("%s", empresa[Empresanum].RS); //pega o nome da empresa
-    
-    printf("Escreva somente os numeros!!!");
-    printf("\nCNPJ: ");
+    scanf("%s", empresa[empresanum].RS); //pega o nome da empresa
+    printf("\nCNPJ (somente numeros): ");
     scanf("%i",&cnpjTest); //pega o cnpj da empresa 
-
-    printf("Telefone: ");
-    scanf("%i", empresa[Empresanum].TF);
-
-    for (int x=0; x<LimiteMax; x++) { // pega o cnpj da empresa e compara se já existe outra empresa com o mesmo cnpj
-        if (empresa[x].cnpj == cnpjTest) {
-            validacaoEmpresa = 1; // define a validação para 1 caso exista outro cliente com o mesmo cpf
+    printf("\nTelefone (somente numeros): ");
+    scanf("%s", &empresa[empresanum].TF);
+    for (int z=0; z<LimiteMax; z++) { // pega o cnpj da empresa e compara se já existe outra empresa com o mesmo cnpj
+        if (empresa[z].cnpj == cnpjTest) {
+            printf("Testando: %i", empresa[z].cnpj);
+            validacaoEmpresa = 1; // define a validação para 1 caso exista outro cliente com o mesmo cnpj
             break;
         }
     }
-
     if (validacaoEmpresa == 1) { // caso exista outra empresa com o mesmo CNPJ, informa erro
         printf("\nErro: CNPJ ja cadastrado.\n");
     }
     else { // caso não exista outra empresa com o mesmo cnpj, informa sucesso
-        clienteFísico[clientenum].cpf = cpfTest;
+        empresa[empresanum].cnpj = cnpjTest;
         printf("\n#####Empresa cadastrada com sucesso#####\n");
-        Empresanum++; // Incrementa o Empresanum
+        empresanum++; // Incrementa o Empresanum
     }
     validacaoEmpresa = 0;// Reseta o valor da validação para 0
 }
@@ -355,16 +375,15 @@ int realizarVenda() {
     return 0;
 }
 
-
-//função do menu
-void menu(User *usuario, int *userCount) {
+//função do menu (administrador)
+void menuAdmin(User *usuario, int *userCount) {
     int opcao;
     int subOpcao;
     do {
         printf("\n##### MENU #####\n"); //menu principal
         printf("1. Gerenciar estoque\n");
         printf("2. Gerenciar clientes\n");
-        printf("4. Registrar venda\n");
+        printf("3. Registrar venda\n");
         printf("0. Sair\n");
         do {
             printf("Escolha uma opcao: ");
@@ -436,11 +455,26 @@ void menu(User *usuario, int *userCount) {
                     }
                 } while (subOpcao != 0);
                 break;
-            case 4: //chama a função de venda 
+            case 3: //chama a função de venda 
                 realizarVenda();    
                 break; 
             case 0: // Sair
-                printf("Saindo...\n");
+                do {
+                    printf("\n##### SAIR #####\n");
+                    printf("1. Trocar usuário\n");
+                    printf("2. Fechar o programa\n");
+                    do {
+                        printf("Escolha uma opcao: ");
+                        scanf("%s", &varTemp);
+                    } while (validateInput(varTemp, charConst) == INVALIDO);
+                    subOpcao = atoi(varTemp);
+                    varTempClean();
+                    switch (subOpcao) {
+                        case 1: printf("Saindo...\n"); break;
+                        case 2: printf("Fechando...\n"); isRunning = 1; break;
+                        default: printf("Opção invalida!\n");
+                    }
+                } while ((subOpcao != 1) && (subOpcao != 2));
                 break;
             default:
                 printf("Opcao invalida!\n");
@@ -448,11 +482,147 @@ void menu(User *usuario, int *userCount) {
     } while (opcao != 0); // do while voltando apos o switch para novos comandos
 }
 
+//função do menu (padrão)
+void menuDefault(User *usuario, int *userCount) {
+    int opcao;
+    int subOpcao;
+    do {
+        printf("\n##### MENU #####\n"); //menu principal
+        printf("1. Gerenciar estoque\n");
+        printf("2. Gerenciar pessoas\n");
+        printf("3. Registrar venda\n");
+        printf("0. Sair\n");
+        do {
+            printf("Escolha uma opcao: ");
+            scanf("%s", &varTemp);
+        } while (validateInput(varTemp, charConst) == INVALIDO);
+        opcao = atoi(varTemp);
+        varTempClean();
+        switch (opcao) {
+            case 1: //abre o submenu relacionado a produtos
+                do {
+                    printf("\n##### MENU - ESTOQUE #####\n"); //menu principal
+                    printf("1. Adicionar produto\n");
+                    printf("2. Remover produto\n");
+                    printf("3. Atualizar quantidade\n");
+                    printf("4. Mostrar estoque\n");
+                    printf("0. Voltar\n");
+                    do {
+                        printf("Escolha uma opcao: ");
+                        scanf("%s", &varTemp);
+                    } while (validateInput(varTemp, charConst) == INVALIDO);
+                    subOpcao = atoi(varTemp);
+                    varTempClean(); 
+                    switch (subOpcao) {
+                        case 1: adicionarProdutos(); break;
+                        case 2: removerProdutos(); break; 
+                        case 3: atualizarQuantidade(); break;
+                        case 4: exibirEstoque(estoque); break;
+                        case 0: break;
+                        default: printf("Opcao invalida!\n");
+                    }
+                } while (subOpcao != 0);
+                break; 
+            case 2: //abre o submenu relacionado a clientes                    
+                do {
+                    printf("\n##### MENU - PESSOAS #####\n"); //menu principal
+                    printf("1. Cadastrar pessoa física\n");
+                    printf("2. Cadastrar pessoa juridíca\n");
+                    printf("3. Mostrar lista de cadastros\n");
+                    printf("0. Voltar\n");
+                    do {
+                        printf("Escolha uma opcao: ");
+                        scanf("%s", &varTemp);
+                    } while (validateInput(varTemp, charConst) == INVALIDO);
+                    subOpcao = atoi(varTemp);
+                    varTempClean();
+                    switch (subOpcao) {
+                        case 1: cadastrarCPF(); break;
+                        case 2: cadastrarCNPJ(); break;
+                        case 3: do {
+                                    printf("\n##### MOSTRAR LISTA DE CADASTROS #####\n"); //menu principal
+                                    printf("1. Mostrar pessoas físicas\n");
+                                    printf("2. Mostrar pessoas juridícas\n");
+                                    printf("0. Voltar\n");
+                                    printf("Escolha uma opcao: ");
+                                    scanf("%d", &subOpcao);
+                                    switch (subOpcao) {
+                                        case 1: printf("\nAinda não implementado\n"); break;
+                                        case 2: printf("\nAinda não implementado\n"); break;
+                                        case 0: break;
+                                        default: printf("Opcao invalida!\n");
+                                    }
+                                } while (subOpcao != 0); subOpcao = 1; break;
+                        case 0: break;
+                        default: printf("Opcao invalida!\n");
+                    }
+                } while (subOpcao != 0);
+                break;
+            case 3: //chama a função de venda 
+                realizarVenda();    
+                break; 
+            case 0: // Sair
+                do {
+                    printf("##### SAIR #####");
+                    printf("1. Trocar usuário\n");
+                    printf("2. Fechar o programa");
+                    do {
+                        printf("Escolha uma opcao: ");
+                        scanf("%s", &varTemp);
+                    } while (validateInput(varTemp, charConst) == INVALIDO);
+                    subOpcao = atoi(varTemp);
+                    varTempClean();
+                    switch (subOpcao) {
+                        case 1: printf("Saindo...\n"); break;
+                        case 2: printf("Fechando...\n"); isRunning = 1; break;
+                        default: printf("Opção invalida!\n");
+                    }
+                } while ((subOpcao != 1) || (subOpcao !=2));
+                break;
+            default:
+                printf("Opcao invalida!\n");
+        }
+    } while (opcao != 0); // do while voltando apos o switch para novos comandos
+}
+
+//função que pede se o usuário quer fechar o programa ou tentar o login novamente
+int retry(int retry) {
+    do {
+        printf("\ntentar novamente?\n");
+        printf("1. sim\n");
+        printf("2. não\n");
+        do {
+            printf("Escolha uma opcao: ");
+            scanf("%s", &varTemp);
+        } while (validateInput(varTemp, charConst) == INVALIDO);
+        retry = atoi(varTemp);
+        varTempClean();
+        switch (retry) {
+            case 1: break;
+            case 2: isRunning = 1; break;
+            default: printf("opção invalida!\n");
+                     retry = 0;
+        } 
+    } while (retry == 0);
+    return 0;
+}
+
+//função que mostra a versão da build do programa e sua data
+void disclaimer() {
+    printf("######## ESTOQUE 4.0 ########\n");
+    printf("build: %s\n", buildVersion);
+    printf("date: %s\n", buildDate);
+    printf("Todos os direitos reservados.\n");
+    printf("#############################\n\n");
+}
+
 int main() {
+    ANBT;
+    disclaimer();
     //definição de variáveis relacionadas ao login
     int userCount = 0; //variavel que conta quantos usuários cadstrados existem
     User usuario[LimiteMaxUser]; //variavel array que contém os usuários registrados no sistema
-    ANBT;
+    
     for (int i; i < LimiteMax; i++)  { //pequena função para limpar o lixo da memória dos cpfs dos clientes
         clienteFísico[i].cpf = 0;
         clienteJurídico[i].cnpj = 0;
@@ -465,13 +635,18 @@ int main() {
         }
     }
     if (userTest == 0) {
-        printf("Nenhum usuário registrado, favor registrar um usuário\n");
-        registrarUsuario(usuario, &userCount);
+        printf("Nenhum usuário registrado, favor registrar um usuário\n\n");
+        registrarAdmin(usuario, &userCount);
     }
-    int logon = login(usuario);
-    if (logon == 0) {
-        menu(usuario, &userCount);    
-    }
+    do {
+            int logon = login(usuario);
+            int tryAgain = 0;
+            switch (logon) {
+                case 0: menuDefault(usuario, &userCount); break;
+                case 2: menuAdmin(usuario, &userCount); break; 
+                default: retry(&tryAgain);
+            }
+    } while (isRunning == 0);
     return 0;
 }
 
