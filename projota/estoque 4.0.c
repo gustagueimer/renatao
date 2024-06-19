@@ -61,8 +61,8 @@ typedef struct {
 // definição de variáveis globais //
 
     //definição de variaveis relacionadas a versão do programa
-    char buildVersion[charConst] = {"0.4.2"};
-    char buildDate[charConst] = {"17/06/2024 14:50"};
+    char buildVersion[charConst] = {"0.4.3"};
+    char buildDate[charConst] = {"19/06/2024 01:10"};
 
     //definição de variaveis relacionadas ao estoque
     Produto estoque[LimiteMax]; // Variavel array que é utilizada para guardar valores
@@ -111,7 +111,7 @@ int validateInput(char *input, int size) {
 //função de login
 int login(User *usuario) {
     char tempUser[charConst], tempPassword[charConst];
-    printf("##### ID DO USUARIO #####\n");
+    printf("\n##### ID DO USUARIO #####\n");
     scanf("%s", tempUser); //pega o id do usuário
     printf("##### SENHA #####\n");
     scanf("%s", tempPassword); // pega a senha do usuário
@@ -119,28 +119,28 @@ int login(User *usuario) {
         if (strcmp(tempUser, usuario[i].user) == 0) { //if comparando o id do usuário informado com a base de dados, caso encontre o usuário, procede pra checkagem de senha
             if (strcmp(tempPassword, usuario[i].password) == 0) { //compara a senha informada com a senha do usuário encontrado na base de dados, caso esteja correta, procede para retornar sucesso
                 if (usuario[i].accessLevel == 2) {
-                    printf("logado com sussexo"); //mensagem de login bem sucedido
+                    printf("\nlogado com sucesso!\n"); //mensagem de login bem sucedido
                     return 2; //retorna 2 (login admin bem sucedido)
                 }
-                printf("logado com sussexo"); //mensagem de login bem sucedido
+                printf("\nlogado com sucesso!\n"); //mensagem de login bem sucedido
                 return 0; //retorna 0 (login bem sucedido)
             }
         }
     }
-    printf("usuário ou senha incorretos"); //mensagem de erro de login
+    printf("\nusuário ou senha incorretos"); //mensagem de erro de login
     return 1; //retorna 1 (login mal sucedido)
 }
 
 //função que cadastra o primeiro usuário do sistema (admin)
 int registrarAdmin(User *usuario, int *userCount) {
     int tempOpcao;
-    printf("#### CADASTRAMENTO DE ADMIN ####\n");
+    printf("\n#### CADASTRAMENTO DE ADMIN ####\n");
     printf("informe o login do administrador - ");
     scanf("%s", usuario[0].user);
     printf("informe a senha do administrador - ");
     scanf("%s", usuario[0].password);
     usuario[0].accessLevel = 2;
-    puts("adiministrador registrado com sucesso");
+    puts("\nadiministrador registrado com sucesso");
     userCount++;
     return 0;
 }
@@ -155,8 +155,15 @@ int registrarUsuario(User *usuario, int *userCount) {
     printf("informe a senha do novo usuário - ");
     scanf("%s", usuario[tempCount].password);
     do {
-        printf("informe o nivel de acesso do novo usuário\n1. normal\n2. administador\nEscolha uma opção: ");
-        scanf("%d", &tempOpcao);
+        printf("informe o nivel de acesso do novo usuário\n \
+                1. normal\n \
+                2. administador\n");
+        do {
+            printf("\nEscolha uma opção: ");
+            scanf("%s", &varTemp);
+        } while (validateInput(varTemp, charConst) == INVALIDO);
+        tempOpcao = atoi(varTemp);
+        varTempClean();
         switch (tempOpcao) {
             case 1: usuario[tempCount].accessLevel = 1; tempOpcao = -1; break;
             case 2: usuario[tempCount].accessLevel = 2; tempOpcao = -1; break;
@@ -182,8 +189,13 @@ void notaFiscal(char nome[], time_t data, int qnt, int nf, float valor) {
 
 //função que adiciona produtos
 int adicionarProdutos() {
-    printf("\nID do produto: ");
-    scanf("%i", &idTest); //pega o id do produto
+    //pega a id do produto
+    do {
+        printf("\ninsira o ID do novo produto - ");
+        scanf("%s", &varTemp);
+    } while (validateInput(varTemp, charConst) == INVALIDO);
+    idTest = atoi(varTemp);
+    varTempClean();
     for (int i=0; i<LimiteMax; i++) { //confere se a id do produto já existe
         if (estoque[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
             printf("\nErro: ID já existente");
@@ -224,8 +236,13 @@ int adicionarProdutos() {
 
 //função que remove produtos cadastrados
 int removerProdutos() {
-    printf("\ninsira o ID do produto - ");
-    scanf("%i", &idTest);
+    //pega a id do produto
+    do {
+        printf("\ninsira o ID do produto - ");
+        scanf("%s", &varTemp);
+    } while (validateInput(varTemp, charConst) == INVALIDO);
+    idTest = atoi(varTemp);
+    varTempClean();
     int selecaoRemover = 0;
     for (int i=0; i<LimiteMax; i++) {
         if (estoque[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
@@ -241,11 +258,19 @@ int removerProdutos() {
     printf("\n####Certeza que deseja remover %s? (não poderá ser desfeito)####\n", estoque[selecaoRemover].nome);
     printf("1. Sim\n");
     printf("0. Não\n");
-    printf("Escolha uma opção: ");
     int opcaoRemover = 0;
-    scanf("%i", &opcaoRemover);
+    do {
+        printf("Escolha uma opção: ");
+        scanf("%s", &varTemp);
+    } while (validateInput(varTemp, charConst) == INVALIDO);
+    opcaoRemover = atoi(varTemp);
+    varTempClean();
     switch (opcaoRemover) {
-        case 1: estoque[selecaoRemover].id = 0; estoque[selecaoRemover].quantidade = 0; printf("\nProduto removido com sucesso\n"); break;
+        case 1: 
+            estoque[selecaoRemover].id = 0; 
+            estoque[selecaoRemover].quantidade = 0;
+            printf("\nProduto removido com sucesso\n");
+            break;
         case 0: break;
         default: printf("\nopção invalida\n");
     }
@@ -254,13 +279,24 @@ int removerProdutos() {
 
 //função que atualiza a quantidade de produtos (só adiciona na verdade)
 int atualizarQuantidade() {
-    printf("\nID do produto: ");
-    scanf("%i", &idTest); //pega o id do produto
+    // pega a id do produto
+    do {
+        printf("\ninsira o ID do produto - ");
+        scanf("%s", &varTemp);
+    } while (validateInput(varTemp, charConst) == INVALIDO);
+    idTest = atoi(varTemp);
+    varTempClean();
     for (int i=0; i<LimiteMax; i++) { //confere se a id do produto já existe
         if (estoque[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
-            printf("\nInsira a quantidade a ser adicionada - ");
-            scanf("%i", &idTest); //lê a quantidade nova a ser adicionada
-            estoque[i].quantidade = estoque[i].quantidade + idTest; //adiciona a quantidade nova a quanitdade já existente
+            //lê a quantidade nova a ser adicionada
+            int quantidadeAdicionada;
+            do {
+                printf("\nInsira a quantidade a ser adicionada - ");
+                scanf("%s", &varTemp);
+            } while (validateInput(varTemp, charConst) == INVALIDO);
+            quantidadeAdicionada = atoi(varTemp);
+            varTempClean();
+            estoque[i].quantidade = estoque[i].quantidade + quantidadeAdicionada; //adiciona a quantidade nova a quanitdade já existente
             idTest = 0; //reseta o comparador de id pra 0 e fecha o for
             printf("\n#####Quantidade atualizada com sucesso#####\n");
             return 0;
@@ -287,10 +323,13 @@ void exibirEstoque(Produto *estoque) {
 void cadastrarCPF() {
     printf("\ninsira o nome do cliente: ");
     scanf("%s", clienteFísico[clientenum].nome); //pega o nome do cliente
-
-    printf("insira o cpf do cliente (somente numeros): ");
-    scanf("%i",&cpfTest); //pega o cpf do cliente
-
+    //pega o cpf do cliente
+    do {
+            printf("insira o cpf do cliente (somente numeros): ");
+            scanf("%s", &varTemp);
+    } while (validateInput(varTemp, charConst) == INVALIDO);
+    cpfTest = atoi(varTemp);
+    varTempClean();
     for (int x=0; x <LimiteMax; x++) { // pega o cpf do cliente e compara se já existe outro cliente com o mesmo cpf
         if (clienteFísico[x].cpf == cpfTest) {
             validacaoCliente = 1; // define a validação para 1 caso exista outro cliente com o mesmo cpf
@@ -311,9 +350,14 @@ void cadastrarCPF() {
 void cadastrarCNPJ () {
     printf("\nRazao Social: ");
     scanf("%s", empresa[empresanum].RS); //pega o nome da empresa
-    printf("\nCNPJ (somente numeros): ");
-    scanf("%i",&cnpjTest); //pega o cnpj da empresa 
-    printf("\nTelefone (somente numeros): ");
+    //pega o cnpj da empresa
+    do {
+        printf("\nCNPJ (somente numeros): ");
+        scanf("%s", &varTemp);
+    } while (validateInput(varTemp, charConst) == INVALIDO);
+    cnpjTest = atoi(varTemp);
+    varTempClean();
+    printf("\nTelefone ((xx) xxxx-xxxx): ");
     scanf("%s", &empresa[empresanum].TF);
     for (int z=0; z<LimiteMax; z++) { // pega o cnpj da empresa e compara se já existe outra empresa com o mesmo cnpj
         if (empresa[z].cnpj == cnpjTest) {
@@ -346,13 +390,22 @@ int realizarVenda() {
         printf("Por favor cadastre um cliente\n");
     } 
     //adendo: a integração do cliente na venda ainda não foi completamente implementada//
-    printf("\nID do produto: ");
-    scanf("%i", &idTest);// pega a id do produto
+    // pega a id do produto
+    do {
+        printf("\nID do produto: ");
+        scanf("%s", &varTemp);
+    } while (validateInput(varTemp, charConst) == INVALIDO);
+    idTest = atoi(varTemp);
+    varTempClean();
     for (int i=0; i<LimiteMax; i++) { //confere se a id do produto existe
         if (estoque[i].id == idTest) { //se a id do produto existe, ele pede a quantidade a ser vendida
             int quantidadeVenda; //variavel responsavel pela quantidade vendida
-            printf("Quantidade: ");
-            scanf("%d", &quantidadeVenda);
+            do {
+                printf("Quantidade: ");
+                scanf("%s", &varTemp);
+            } while (validateInput(varTemp, charConst) == INVALIDO);
+            quantidadeVenda = atoi(varTemp);
+            varTempClean();
             if (estoque[i].quantidade >= quantidadeVenda) {//[i] usando para acessar elemento da array, confere se a quantidade de estoque do produto é maior ou igual a quantidade de venda
                 estoque[i].quantidade -= quantidadeVenda; // Diminue a quantidade do produto no estoque
                 nf = nf + 1;
@@ -463,6 +516,7 @@ void menuAdmin(User *usuario, int *userCount) {
                     printf("\n##### SAIR #####\n");
                     printf("1. Trocar usuário\n");
                     printf("2. Fechar o programa\n");
+                    printf("0. Voltar\n");
                     do {
                         printf("Escolha uma opcao: ");
                         scanf("%s", &varTemp);
@@ -472,9 +526,10 @@ void menuAdmin(User *usuario, int *userCount) {
                     switch (subOpcao) {
                         case 1: printf("Saindo...\n"); break;
                         case 2: printf("Fechando...\n"); isRunning = 1; break;
+                        case 0: opcao = 1; break;
                         default: printf("Opção invalida!\n");
                     }
-                } while ((subOpcao != 1) && (subOpcao != 2));
+                } while ((subOpcao != 1) && (subOpcao != 2) && (subOpcao != 0));
                 break;
             default:
                 printf("Opcao invalida!\n");
@@ -563,9 +618,10 @@ void menuDefault(User *usuario, int *userCount) {
                 break; 
             case 0: // Sair
                 do {
-                    printf("##### SAIR #####");
+                    printf("\n##### SAIR #####\n");
                     printf("1. Trocar usuário\n");
-                    printf("2. Fechar o programa");
+                    printf("2. Fechar o programa\n");
+                    printf("0. Voltar\n");
                     do {
                         printf("Escolha uma opcao: ");
                         scanf("%s", &varTemp);
@@ -575,9 +631,10 @@ void menuDefault(User *usuario, int *userCount) {
                     switch (subOpcao) {
                         case 1: printf("Saindo...\n"); break;
                         case 2: printf("Fechando...\n"); isRunning = 1; break;
+                        case 0: opcao = 1; break;
                         default: printf("Opção invalida!\n");
                     }
-                } while ((subOpcao != 1) || (subOpcao !=2));
+                } while ((subOpcao != 1) && (subOpcao !=2) && (subOpcao != 0));
                 break;
             default:
                 printf("Opcao invalida!\n");
@@ -609,11 +666,11 @@ int retry(int retry) {
 
 //função que mostra a versão da build do programa e sua data
 void disclaimer() {
-    printf("######## ESTOQUE 4.0 ########\n");
-    printf("build: %s\n", buildVersion);
-    printf("date: %s\n", buildDate);
-    printf("Todos os direitos reservados.\n");
-    printf("#############################\n\n");
+    printf("########## ESTOQUE 4.0 ##########\n");
+    printf("  build: %s\n", buildVersion);
+    printf("  date: %s\n", buildDate);
+    printf("  Todos os direitos reservados.\n");
+    printf("#################################\n\n");
 }
 
 int main() {
@@ -635,7 +692,7 @@ int main() {
         }
     }
     if (userTest == 0) {
-        printf("Nenhum usuário registrado, favor registrar um usuário\n\n");
+        printf("Nenhum usuário registrado, favor registrar um usuário\n");
         registrarAdmin(usuario, &userCount);
     }
     do {
@@ -651,12 +708,6 @@ int main() {
 }
 
 //ideias//
-//dividir o estoque em submenus - joia
 //adicionar cadastro de fornecedores
-//dividir o cadastro e a atualização de estoque
-//adicionar esquema de validade
 //não limitar a venda ao cliente cadastrado, separar opções
 //adicionar valor ao cliente cadastrado
-//cadastrar cpnj
-//trocar nf rand por nf count++ - joia
-//melhorar aquele login pelo amor de Deus - feito
