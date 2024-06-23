@@ -9,10 +9,10 @@
 #define LimiteMax 100 //define a constante que representa o limite maximo de muita coisa
 #define LimiteMaxUser 10 //define a constante que representa o limite maximo de usuarios
 #define LimiteMaxRelatório 200 //define a constante que representa o limite maximo de relatórios
-#define VALIDO 0
-#define INVALIDO 1
+#define VALIDO 0 //define valido como 0
+#define INVALIDO 1 //define invalido como 1
 #define ANBT UINT CPAGE_UTF8 = 65001; \
-             SetConsoleOutputCP(CPAGE_UTF8); 
+             SetConsoleOutputCP(CPAGE_UTF8); //define o bagulhonson pra deixar o terminal mostrar acentos e etc
 
 // Estrutura que representa um produto
 typedef struct {
@@ -60,32 +60,13 @@ typedef struct {
 
 // definição de variáveis globais //
 
-    //definição de variaveis relacionadas a versão do programa
-    char buildVersion[charConst] = {"0.4.4"};
-    char buildDate[charConst] = {"20/06/2024 14:15"};
+//definição de variaveis relacionadas a versão do programa
+char buildVersion[charConst] = {"0.4.5"}; //variável que armazena o numero da versão da build
+char buildDate[charConst] = {"23/06/2024 17:00"}; //variável que armazena a data e hora da versão da build
 
-    //definição de variaveis relacionadas ao estoque
-    Produto estoque[LimiteMax]; // Variavel array que é utilizada para guardar valores
-    int produtonum = 0; //variavel utilizada para contar o numero de produtos já cadastrados
-    int idTest; //variavel utilizada para pegar o id inserido pelo usuário e comparar com a lista de ids dos produtos
-    int nf = 0; // Numeros de produtos do estoque
-    float valor; //variavel que pega o valor de um produto no cadastro de produtos e depois passa pra variavel do produto
-    float valorTotal; //variavel que vai conter o valor total da venda de um produto durante o processo de venda
-
-    //definição de variaveis relacionadas aos clientes
-    ClienteCPF clienteFísico[LimiteMax]; //Variavel array que é utilizada para guardar informações de clientes tipo pessoa física
-    ClienteCNPJ clienteJurídico[LimiteMax]; //Variavel array que é utilizada para guardar informações de clientes tipo pessoa juridica
-    int clientenum = 0; //contador de clientes cadastardos
-    int cpfTest=0; //variavel usada pra conferir se existe um cliente cadastrado
-    int validacaoCliente = 0;
-
-    ClienteCNPJ empresa[LimiteMax];
-    int empresanum = 0; //contador de clientes cnpj cadastardos
-    int cnpjTest = 0; //variavel usada pra conferir se existe um cliente cnpj cadastrado
-    int validacaoEmpresa = 0; 
-      
-    char varTemp[charConst] = {'\0'}; //variavel char temporaria usada para validação de input
-    int isRunning = 0; //variavel que defnie se o programa continuará rodando ou não ||0: roda||any other: não roda||
+//definição de variáveis relacionadas a verificação de inputs
+char varTemp[charConst] = {'\0'}; //variavel char temporaria usada para validação de input
+int isRunning = 0; //variavel que defnie se o programa continuará rodando ou não ||0: roda||any other: não roda||
 
 // definição das funções //
 
@@ -183,19 +164,21 @@ int registrarUsuario(User *usuario, int *userCount) {
 }
 
 //função que faz o print de uma nota fiscal
-void notaFiscal(char nome[], time_t data, int qnt, int nf, float valor) {
+void impressorNotaFiscal(char nome[], int qnt, int nfCount, float valor) {
+    time_t hora = time(NULL); //variável relacionada com a hora da emissão da nota fiscal
     printf("Venda registrada com sucesso.\n");
     printf("\n##### Comprovante fiscal#####\n"); 
     printf("Nome do produto: %s\n", nome);
     printf("Quantidade Vendida: %i\n", qnt); 
     printf("valor: %.2f reais \n", valor);
-    printf("Nota fiscal n° %i\n", nf); 
-    printf("data da emissão: %s", asctime(localtime(&data)));
+    printf("Nota fiscal n° %i\n", nfCount); 
+    printf("data da emissão: %s", asctime(localtime(&hora)));
     printf("##### Farmacia Biopark #####\n");
 }
 
 //função que adiciona produtos
-int adicionarProdutos() {
+int adicionarProdutos(Produto *produtos, int idTest, int contadorProdutos) {
+    float valor = 0; //variavel que pega o valor de um produto no cadastro de produtos e depois passa pra variavel do produto
     //verificação de input
     do {
         printf("\ninsira o ID do novo produto - "); //pede pro usuário inserir o id do novo produto
@@ -204,25 +187,26 @@ int adicionarProdutos() {
     idTest = atoi(varTemp); //converte o input na variável string para a variavél de destino
     varTempClean();//função que limpa a variável temporária após a mesma já ter sido utilizada
     for (int i=0; i<LimiteMax; i++) { //confere se a id do produto já existe
-        if (estoque[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
+        if (produtos[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
             printf("\nErro: ID já existente");
             return 1;
         }
     }
-    for (int i=0; i<LimiteMax; i++) {
-        if (estoque[i].id == 0) {
-            produtonum = i;
+    //for que percorre a lista de ids dos produtos a procura de um 0 (espaço de produto não utilizado)
+    for (int i=0; i<=LimiteMax; i++) {
+        if (produtos[i].id == 0) {
+            contadorProdutos = i;
             break;
         } else {
-            produtonum++;
+            contadorProdutos++;
         }
     }
-    if (produtonum < LimiteMax) { // se a quantidade de produtos for menor que o limite, ele procede, caso contrário, informa que o estoque está cheio
+    if (contadorProdutos < LimiteMax) { // se a quantidade de produtos for menor que o limite, ele procede, caso contrário, informa que o estoque está cheio
         if (idTest != 0) { // se o comparador de id for diferente de 0, ele avança pro cadastro do produto
-            estoque[produtonum].id = idTest; // define a id do produto
+            produtos[contadorProdutos].id = idTest; // define a id do produto
 
             printf("\nNome do produto: ");
-            scanf("%s", estoque[produtonum].nome); // Vai ler o nome do produto
+            scanf("%s", produtos[contadorProdutos].nome); // Vai ler o nome do produto
                           
             //verificação de input
             do {
@@ -232,8 +216,8 @@ int adicionarProdutos() {
             valor = atof(varTemp); //converte o input na variável string para a variavél de destino
             varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
                         
-            estoque[produtonum].valor = valor; // Armazena o valor lido na estrutura do produto
-            produtonum = 0; // Adicionar mais um numero de produto
+            produtos[contadorProdutos].valor = valor; // Armazena o valor lido na estrutura do produto
+            contadorProdutos = 0; // redefine o contador de produtos para zero 
             idTest = 0; // reseta o idTest
 
             printf("\n#####Produto registrado com sucesso#####\n"); //informa na tela que o produto foi registrado com sucesso 
@@ -247,7 +231,7 @@ int adicionarProdutos() {
 }
 
 //função que remove produtos cadastrados
-int removerProdutos() {
+int removerProdutos(Produto *produtos, int idTest) {
     //verificação de input
     do {
         printf("\ninsira o ID do produto - "); //pede pro usuário informar o id do produto a ser deletado
@@ -257,7 +241,7 @@ int removerProdutos() {
     varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
     int selecaoRemover = 0;
     for (int i=0; i<LimiteMax; i++) {
-        if (estoque[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
+        if (produtos[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
             selecaoRemover = i;
             idTest = 0;
             break;
@@ -267,7 +251,7 @@ int removerProdutos() {
         printf("\nERRO: ID NÃO EXISTENTE\n");
         return 1;
     }
-    printf("\n####Certeza que deseja remover %s? (não poderá ser desfeito)####\n", estoque[selecaoRemover].nome); //informa na tela o nome do produto a ser removido e o fato de ser uma mudança permanente
+    printf("\n####Certeza que deseja remover %s? (não poderá ser desfeito)####\n", produtos[selecaoRemover].nome); //informa na tela o nome do produto a ser removido e o fato de ser uma mudança permanente
     printf("1. Sim\n");
     printf("0. Não\n");
     int opcaoRemover = 0;
@@ -281,8 +265,8 @@ int removerProdutos() {
         varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
         switch (opcaoRemover) {
             case 1: //case 1 realiza o processo de remoção do produto
-                estoque[selecaoRemover].id = 0; //redefine o id do produto escolhido pra 0 (id = 0 -> espaço de produto inutilizado)
-                estoque[selecaoRemover].quantidade = 0; //redefine a quantidade do produto escolhido pra 0;
+                produtos[selecaoRemover].id = 0; //redefine o id do produto escolhido pra 0 (id = 0 -> espaço de produto inutilizado)
+                produtos[selecaoRemover].quantidade = 0; //redefine a quantidade do produto escolhido pra 0;
                 printf("\nProduto removido com sucesso\n"); //informa na tela que o produto foi removido com sucesso
                 break;
             case 0: break; //não faz nada e apenas serve como opção de retorno caso haja desistencia no meio do processo de remoção do produto
@@ -293,33 +277,34 @@ int removerProdutos() {
 }
 
 //função que atualiza a quantidade de produtos (só adiciona na verdade)
-int atualizarQuantidade() {
-    // pega a id do produto
+int atualizarQuantidade(Produto *produtos, int idTest) {
+    //verificação de input
     do {
-        printf("\ninsira o ID do produto - ");
-        scanf("%s", &varTemp);
-    } while (validateInput(varTemp, charConst) == INVALIDO);
-    idTest = atoi(varTemp);
-    varTempClean();
+        printf("\ninsira o ID do produto - "); //pede pro usuário inserir o id do produto a ser adicionado 
+        scanf("%s", &varTemp); //lê o input em uma variável string temporaria
+    } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
+    idTest = atoi(varTemp); //converte o input na variável string para a variavél de destino
+    varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
     for (int i=0; i<LimiteMax; i++) { //confere se a id do produto já existe
-        if (estoque[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
+        if (produtos[i].id == idTest) { //se a id do produto já existe, ele pede a quantidade a ser adicionada a tal produto
             //lê a quantidade nova a ser adicionada
-            int quantidadeAdicionada;
-            do {
-                printf("\nInsira a quantidade a ser adicionada - ");
-                scanf("%s", &varTemp);
-            } while (validateInput(varTemp, charConst) == INVALIDO);
-            quantidadeAdicionada = atoi(varTemp);
-            varTempClean();
-            estoque[i].quantidade = estoque[i].quantidade + quantidadeAdicionada; //adiciona a quantidade nova a quanitdade já existente
-            idTest = 0; //reseta o comparador de id pra 0 e fecha o for
-            printf("\n#####Quantidade atualizada com sucesso#####\n");
-            return 0;
+            int quantidadeAdicionada = 0;
+            //verificação de input
+            do { 
+                printf("\nInsira a quantidade a ser adicionada - "); //pede pro usuário informar a quantidade a ser adicionada
+                scanf("%s", &varTemp); //lê o input em uma variável string temporaria
+            } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
+            quantidadeAdicionada = atoi(varTemp); //converte o input na variável string para a variavél de destino
+            varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
+            produtos[i].quantidade = produtos[i].quantidade + quantidadeAdicionada; //adiciona a quantidade nova a quanitdade já existente
+            idTest = 0; //reseta o comparador de id para 0
+            printf("\n#####Quantidade atualizada com sucesso#####\n"); //informa na tela uma mensagem de sucesso na atualização da quantidade do produto
+            return 0; 
         }
     }
     if (idTest != 0) {
-        printf("erro: produto inexistente");
-        idTest = 0;
+        printf("erro: produto inexistente"); //informa na tela uma mensagem de erro na atualização da quantidade do produto
+        idTest = 0; //reseta o comparador de id para 0
     }
     return 0;
 }
@@ -327,44 +312,64 @@ int atualizarQuantidade() {
 //função que exibe o estoque
 void exibirEstoque(Produto *estoque) {
     printf("\n### Estoque ###\n");
-    for (int i = 0; i <LimiteMax; i++) {
+    for (int i=0; i<LimiteMax; i++) {
         if (estoque[i].id != 0) {
             printf("%s - Id: %i Quantidade: %d Valor: R$%.2f\n", estoque[i].nome, estoque[i].id, estoque[i].quantidade, estoque[i].valor);
         }
     }
 }
 
-//função que adiciona clientes
-void cadastrarCPF() {
-    printf("\ninsira o nome do cliente: ");
-    scanf("%s", clienteFísico[clientenum].nome); //pega o nome do cliente
-    //pega o cpf do cliente
-    do {
-            printf("insira o cpf do cliente (somente numeros): ");
-            scanf("%s", &varTemp);
-    } while (validateInput(varTemp, charConst) == INVALIDO);
-    cpfTest = atoi(varTemp);
-    varTempClean();
-    for (int x=0; x <LimiteMax; x++) { // pega o cpf do cliente e compara se já existe outro cliente com o mesmo cpf
-        if (clienteFísico[x].cpf == cpfTest) {
-            validacaoCliente = 1; // define a validação para 1 caso exista outro cliente com o mesmo cpf
-            break;
+//função que procura se um cliente tem certo cpf
+int cpfFinder(ClienteCPF *cliente, int cpf) {
+    for (int i=0; i<LimiteMax; i++) { // pega o cpf do cliente e compara se já existe outro cliente com o mesmo cpf
+        if (cliente[i].cpf == cpf) {
+            return 0; //retorna 0 caso a função encontre um cliente com o mesmo cpf informado como parâmetro
         }
     }
-    if (validacaoCliente == 1) { // caso exista outro cliente com o mesmo cpf, informa erro
-        printf("\nErro: cpf ja cadastrado.\n");
-    } else { // caso não exista outro cliente com o mesmo cpf, informa sucesso
-        clienteFísico[clientenum].cpf = cpfTest;
-        printf("\n#####Cliente cadastrado com sucesso#####\n");
-        clientenum++; // Incrementa o clientenum
+    return 1; //retorna 1 caso a função não encontre um cliente com o mesmo cpf informado como parâmetro
+}
+
+//função que produra se uma empresa tem certo cpf
+int cnpjFinder(ClienteCNPJ *empresa, int cnpj) {
+    for (int i=0; i<LimiteMax; i++) { // pega o cnpj da empresa e compara se já existe outra empresa com o mesmo cnpj
+        if (empresa[i].cnpj == cnpj) { 
+            return 0; //retorna 0 caso a função encontre uma empresa com o mesmo cnpj informado como parâmetro
+        }
     }
-    validacaoCliente = 0;// Reseta o valor da validação para 0
+    return 1; //retorna 1 caso a função não encontre uma empresa com o mesmo cpnj informado como parâmetro
+}
+
+//função que adiciona clientes
+int cadastrarCPF(ClienteCPF *cliente, int *contadorClientes) {
+    int cpfTest=0; //variavel usada pra conferir se existe um cliente cadastrado com tal cpf
+    int contadorTempC = *contadorClientes; //variável temporária que pega o valor do contador de clientes já cadastrados para poder usar como posição do array na variável de clientes
+    printf("\ninsira o nome do cliente: "); //pede pro usuário informar o nome do cliente 
+    scanf("%s", &cliente[contadorTempC].nome); //guarda o nome do cliente cadastrado no elemento de nomes da variável de clientes
+    //verificação de input
+    do {
+            printf("insira o cpf do cliente (somente numeros): "); //pede pro usuário inserir apenas os numeros do cpf do cliente
+            scanf("%s", &varTemp); //lê o input em uma variável string temporaria
+    } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
+    cpfTest = atoi(varTemp); //converte o input na variável string para a variavél de destino
+    varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
+    if (cpfFinder(cliente, cpfTest) == 0) { //if chama a função de procurar cpfs nos clientes cadastrados
+        printf("\nErro: cpf ja cadastrado.\n"); //caso exista outro cliente com o mesmo cpf, informa na tela um erro
+        return 1; //retorna 1 caso a operação de cadastro de cliente não seja bem sucedida
+    } else { // caso não exista outro cliente com o mesmo cpf, informa sucesso
+        cliente[contadorTempC].cpf = cpfTest; //passa o cpf da variável de comparação para o elemento de cpf da variável de clientes
+        printf("\n#####Cliente cadastrado com sucesso#####\n"); //informa na tela que a operação de cadastro de cliente doi bem sucedida
+        contadorClientes++; // Incrementa o clientenum
+    }
+    return 0; //retorna 0 caso a operação de cadastro de cliente seja bem sucedida
 }
 
 //Função para adicionar CNPJ
-void cadastrarCNPJ () {
-    printf("\nRazao Social: "); //pede pro usuário informar o nome da empresa
-    scanf("%s", empresa[empresanum].RS); //pega o nome da empresa
+int cadastrarCNPJ (ClienteCNPJ *empresa, int *contadorEmpresas) {
+    int cnpjTest = 0; //variavel usada pra conferir se existe um cliente cnpj cadastrado
+    int contadorTempE = *contadorEmpresas; //variável temporária que pega o valor de empresas já cadastradas para poder usar como posição do array na váriavel de empresas
+    printf("\nInsira a Razao Social da empresa: "); //pede pro usuário informar o nome da empresa
+    scanf("%s", &empresa[contadorTempE].RS); //pega o nome da empresa
+    printf("leu o nome\n");
     //verificação de input
     do {
         printf("\nCNPJ (somente numeros): "); //pede pro usuário informar o cnpj da empresa
@@ -372,38 +377,21 @@ void cadastrarCNPJ () {
     } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
     cnpjTest = atoi(varTemp); //converte o input na variável string para a variavél de destino
     varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
-    printf("\nTelefone ((xx) xxxx-xxxx): "); //pede pro usuário informar o telefone da empresa
-    scanf("%s", &empresa[empresanum].TF); //lê o telefone como string
-    for (int z=0; z<LimiteMax; z++) { // pega o cnpj da empresa e compara se já existe outra empresa com o mesmo cnpj
-        if (empresa[z].cnpj == cnpjTest) { 
-            // debugging // printf("Testando: %i", empresa[z].cnpj);
-            validacaoEmpresa = 1; // define a validação para 1 caso exista outro cliente com o mesmo cnpj
-            break; //sai do for
-        }
-    }
-    if (validacaoEmpresa == 1) { // caso exista outra empresa com o mesmo CNPJ, informa erro
-        printf("\nErro: CNPJ ja cadastrado.\n"); //informa na tela um erro
-    }
-    else { // caso não exista outra empresa com o mesmo cnpj, informa sucesso
-        empresa[empresanum].cnpj = cnpjTest; //passa o cpnj na variável placeholder pra seção de cnpj da variável de empresas cadstradas
+    if (cnpjFinder(empresa, cnpjTest) == 0) { //if chama a função de procurar cnpjs nas empresas cadastradas
+        printf("\nErro: CNPJ ja cadastrado.\n"); //caso exista outra empresa com o mesmo cnpj, informa na tela um erro
+        return 1; //retorna 1 caso a operação de cadastro de empresa não seja bem sucedido
+    } else { // caso não exista outra empresa com o mesmo cnpj, informa sucesso
+        empresa[contadorTempE].cnpj = cnpjTest; //passa o cpnj na variável placeholder pra seção de cnpj da variável de empresas cadstradas
+        printf("\nTelefone ((xx) xxxx-xxxx): "); //pede pro usuário informar o telefone da empresa
+        scanf("%s", &empresa[contadorTempE].TF); //lê o telefone como string no elemento de telefone da variável de empresas cadastradas
         printf("\n#####Empresa cadastrada com sucesso#####\n"); //informa na tela que o cadastro da empresa foi bem sucedido
-        empresanum++; // adiciona no contador de empresas cadastradas
+        contadorEmpresas++; // adiciona no contador de empresas cadastradas
     }
-    validacaoEmpresa = 0;// Reseta o valor da validação para 0
+    return 0; //retorna 0 caso a operação de cadastro de empresa seja bem sucedida
 }
 
 //função que realiza vendas
-int realizarVenda() {
-    for (int i=0; i<LimiteMax; i++) { //confere se existe qualquer cliente cadastrado
-        if (clienteFísico[i].cpf != 0) {
-            validacaoCliente = 1; //define a variavel de checagem de cliente para 1
-            break; // sai do for
-        }
-    }
-    if (validacaoCliente != 1) { //caso a variavel de checagem esteja default, executa um mensagem de erro e encerra o case
-        printf("\nErro: Nenhum cliente cadastrado\n");
-        printf("Por favor cadastre um cliente\n");
-    } 
+int realizarVenda(Produto *produtos, int idTest, int *notaFiscal, ClienteCPF *clientes, ClienteCNPJ *empresas) {
     //adendo: a integração do cliente na venda ainda não foi completamente implementada//
     //verificação de input
     do {
@@ -413,7 +401,7 @@ int realizarVenda() {
     idTest = atoi(varTemp); //converte o input na variável string para a variavél de destino
     varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
     for (int i=0; i<LimiteMax; i++) { //confere se a id do produto existe
-        if (estoque[i].id == idTest) { //se a id do produto existe, ele pede a quantidade a ser vendida
+        if (produtos[i].id == idTest) { //se a id do produto existe, ele pede a quantidade a ser vendida
             int quantidadeVenda; //variavel responsavel pela quantidade vendida
             //verificação de input
             do {
@@ -422,12 +410,12 @@ int realizarVenda() {
             } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
             quantidadeVenda = atoi(varTemp); //converte o input na variável string para a variavél de destino
             varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
-            if (estoque[i].quantidade >= quantidadeVenda) {//[i] usando para acessar elemento da array, confere se a quantidade de estoque do produto é maior ou igual a quantidade de venda
-                estoque[i].quantidade -= quantidadeVenda; // Diminue a quantidade do produto no estoque
-                nf = nf + 1;
-                valorTotal = estoque[i].valor * quantidadeVenda; //calcula o valor total da venda
-                time_t hora = time(NULL); //pega a hora da venda
-                notaFiscal(estoque[i].nome, quantidadeVenda, nf, valorTotal, hora); //chama a função que escreve a nota fiscal;
+            if (produtos[i].quantidade >= quantidadeVenda) {//[i] usando para acessar elemento da array, confere se a quantidade de estoque do produto é maior ou igual a quantidade de venda
+                produtos[i].quantidade -= quantidadeVenda; // Diminue a quantidade do produto no estoque
+                notaFiscal++;
+                float valorTotal; //variavel que vai conter o valor total da venda de um produto durante o processo de venda
+                valorTotal = produtos[i].valor * quantidadeVenda; //calcula o valor total da venda
+                impressorNotaFiscal(produtos[i].nome, quantidadeVenda, *notaFiscal, valorTotal); //chama a função que escreve a nota fiscal;
                 idTest = 0; //reseta o idTest para 0;
                 break; //sai do for
             } else {
@@ -445,14 +433,14 @@ int realizarVenda() {
 }
 
 //função do menu (administrador)
-void menuAdmin(User *usuario, int *userCount) {
+void menuAdmin(User *usuario, int *userCount, Produto *produtos, int contadorProdutos, int idTest, int *NF, ClienteCPF *clientes, int *contadorClientes, ClienteCNPJ *empresas, int *contadorEmpresas) {
     int opcao; //variavél que segura o valor referente a uma opção do menu
     int subOpcao; //variável que segura o valor referente a uma opção dos submenus
     do { //do while do menu principal
         printf("\n##### MENU #####\n");
         printf("1. Gerenciar estoque\n");
         printf("2. Gerenciar clientes\n");
-        printf("3. Registrar venda\n");
+        printf("3. Realizar venda\n");
         printf("0. Sair\n");
         //verificação de input
         do {
@@ -479,10 +467,10 @@ void menuAdmin(User *usuario, int *userCount) {
                     subOpcao = atoi(varTemp); //converte o input na variável string para a variavél de destino
                     varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
                     switch (subOpcao) {
-                        case 1: adicionarProdutos(); break; //chama a função que adiciona produtos novos
-                        case 2: removerProdutos(); break; //chama a função que remove produtos já cadastrados
-                        case 3: atualizarQuantidade(); break; //chama a função que atualiza a quantidade de produtos já adicionados
-                        case 4: exibirEstoque(estoque); break; //chama a função que exibe o estoque de produtos cadastrados
+                        case 1: adicionarProdutos(produtos, idTest, contadorProdutos); break; //chama a função que adiciona produtos novos
+                        case 2: removerProdutos(produtos, idTest); break; //chama a função que remove produtos já cadastrados
+                        case 3: atualizarQuantidade(produtos, idTest); break; //chama a função que atualiza a quantidade de produtos já adicionados
+                        case 4: exibirEstoque(produtos); break; //chama a função que exibe o estoque de produtos cadastrados
                         case 5: printf("\nAinda não implementado\n"); break; //adendo: falta fazer ainda
                         case 0: break; //faz o break do switch e volta pro menu principal
                         default: printf("Opcao invalida!\n"); //informa na tela que a opção escolhida é invalida
@@ -505,8 +493,8 @@ void menuAdmin(User *usuario, int *userCount) {
                     subOpcao = atoi(varTemp); //converte o input na variável string para a variavél de destino
                     varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
                     switch (subOpcao) {
-                        case 1: cadastrarCPF(); break; //chama a função que faz o cadastro de um cliente
-                        case 2: cadastrarCNPJ(); break; //chama a função qur faz o cadastro de uma empresa
+                        case 1: cadastrarCPF(clientes, contadorClientes); break; //chama a função que faz o cadastro de um cliente
+                        case 2: cadastrarCNPJ(empresas, contadorEmpresas); break; //chama a função qur faz o cadastro de uma empresa
                         case 3: do { //abre um subsubmenu relacionado a exibição dos cadastros de pessoas, empresas e usuários
                                     printf("\n##### MOSTRAR LISTA DE CADASTROS #####\n"); 
                                     printf("1. Mostrar pessoas físicas\n");
@@ -534,7 +522,7 @@ void menuAdmin(User *usuario, int *userCount) {
                 } while (subOpcao != 0); //do while do submenu repete o mesmo enquanto a variável do submenu for diferente de 0
                 break; //sai do switch do menu principal
             case 3: //chama a função de venda 
-                realizarVenda();    
+                realizarVenda(produtos, idTest, NF, clientes, empresas);    
                 break; //sai do switch do menu principal
             case 0: //abre o submenu com as opções para sair/fechar o sistema
                 do {
@@ -564,14 +552,14 @@ void menuAdmin(User *usuario, int *userCount) {
 }
 
 //função do menu (padrão)
-void menuDefault(User *usuario, int *userCount) {
+void menuDefault(Produto *produtos, int contadorProdutos, int idTest, int *NF, ClienteCPF *clientes, int *contadorClientes, ClienteCNPJ *empresas, int *contadorEmpresas) {
     int opcao; //variavél que segura o valor referente a uma opção do menu
     int subOpcao; //variável que segura o valor referente a uma opção dos submenus
     do { //do while do menu principal
         printf("\n##### MENU #####\n");
         printf("1. Gerenciar estoque\n");
         printf("2. Gerenciar clientes\n");
-        printf("3. Registrar venda\n");
+        printf("3. Realizar venda\n");
         printf("0. Sair\n");
         //verificação de input
         do {
@@ -597,10 +585,10 @@ void menuDefault(User *usuario, int *userCount) {
                     subOpcao = atoi(varTemp); //converte o input na variável string para a variavél de destino
                     varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
                     switch (subOpcao) {
-                        case 1: adicionarProdutos(); break; //chama a função que adiciona produtos novos
-                        case 2: removerProdutos(); break; //chama a função que remove produtos já cadastrados
-                        case 3: atualizarQuantidade(); break; //chama a função que atualiza a quantidade de produtos já adicionados
-                        case 4: exibirEstoque(estoque); break; //chama a função que exibe o estoque de produtos cadastrados
+                        case 1: adicionarProdutos(produtos, idTest, contadorProdutos); break; //chama a função que adiciona produtos novos
+                        case 2: removerProdutos(produtos, idTest); break; //chama a função que remove produtos já cadastrados
+                        case 3: atualizarQuantidade(produtos, idTest); break; //chama a função que atualiza a quantidade de produtos já adicionados
+                        case 4: exibirEstoque(produtos); break; //chama a função que exibe o estoque de produtos cadastrados
                         case 0: break; //faz o break do switch e volta pro menu principal
                         default: printf("Opcao invalida!\n"); //informa na tela que a opção escolhida é invalida
                     }
@@ -621,8 +609,8 @@ void menuDefault(User *usuario, int *userCount) {
                     subOpcao = atoi(varTemp); //converte o input na variável string para a variavél de destino
                     varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
                     switch (subOpcao) {
-                        case 1: cadastrarCPF(); break; //chama a função que faz o cadastro de um cliente
-                        case 2: cadastrarCNPJ(); break; //chama a função qur faz o cadastro de uma empresa
+                        case 1: cadastrarCPF(clientes, contadorClientes); break; //chama a função que faz o cadastro de um cliente
+                        case 2: cadastrarCNPJ(empresas, contadorEmpresas); break; //chama a função qur faz o cadastro de uma empresa
                         case 3: do { //abre um subsubmenu relacionado a exibição dos cadastros de pessoas, empresas e usuários
                                     printf("\n##### MOSTRAR LISTA DE CADASTROS #####\n"); 
                                     printf("1. Mostrar pessoas físicas\n");
@@ -649,7 +637,7 @@ void menuDefault(User *usuario, int *userCount) {
                 } while (subOpcao != 0); //do while do submenu repete o mesmo enquanto a variável do submenu for diferente de 0
                 break; //sai do switch do menu principal
             case 3: //chama a função de venda 
-                realizarVenda();    
+                realizarVenda(produtos, idTest, NF, clientes, empresas);    
                 break; //sai do switch do menu principal
             case 0: //abre o submenu com as opções para sair/fechar o sistema
                 do {
@@ -679,24 +667,36 @@ void menuDefault(User *usuario, int *userCount) {
 }
 
 //função que pede se o usuário quer fechar o programa ou tentar o login novamente
-int retry(int retry) {
-    do {
+int retry() {
+    int retry = 0; //variável que serve para selecionar uma opção do menu de tentar novamente
+    do { //abre um menuzinho de opções relacionadas a repetir o login
         printf("\ntentar novamente?\n");
         printf("1. sim\n");
         printf("2. não\n");
-        do {
-            printf("Escolha uma opcao: ");
-            scanf("%s", &varTemp);
-        } while (validateInput(varTemp, charConst) == INVALIDO);
-        retry = atoi(varTemp);
-        varTempClean();
+        //verificação de input
+        do { 
+            printf("Escolha uma opcao: "); //pede pro usuário informar uma opção
+            scanf("%s", &varTemp); //lê o input em uma variável string temporaria
+        } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
+        retry = atoi(varTemp); //converte o input na variável string para a variavél de destino
+        varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
         switch (retry) {
-            case 1: break;
-            case 2: isRunning = 1; break;
-            default: printf("opção invalida!\n");
-                     retry = 0;
+            case 1: break; //fehca o switch e encerra a função sem mudar o valor da variável que determina se o programa deve rodar de novo
+            case 2: isRunning = 1; break; //muda o valor da variável que determina se o programa deve rodar de novo, sai do switch e encerra a função
+            default: printf("opção invalida!\n"); //informa na tela que a opção escolhida é invalida
+                     retry = 0; //redefine o valor da variável de tentar novamente para 0 fazendo o do while repetir
         } 
-    } while (retry == 0);
+    } while (retry == 0); //do while do menuzinho de tentar novamnete repete caso a variável de tentar novamente seja igual a 0
+    return 0;
+}
+
+//função que aceita uma estrutura de usuário e uma string "nome" e verifica se existe uma string identica ao "nome" na estrutura de usuário
+int comparacaoUsuarios(User *usuario, char *comparativo) {
+    for (int i; i < LimiteMaxUser; i++) {
+        if (strcmp(usuario[i].user, comparativo) == 1) {
+            return 1;
+        }
+    }
     return 0;
 }
 
@@ -709,36 +709,54 @@ void disclaimer() {
     printf("#################################\n\n");
 }
 
+//função que limpa o id, cpf e cnpj de todos os produtos, clientes e empresas
+int limpadorGeral(Produto *produtos, ClienteCPF *clientes, ClienteCNPJ *empresas) {
+    for (int i=0; i<LimiteMax; i++) { //pequena função para limpar o lixo da memória dos ids dos produtos
+        produtos[i].id = 0;
+        clientes[i].cpf = 0;
+        empresas[i].cnpj = 0;
+    }
+    return 0;
+}
+
 int main() {
-    ANBT;
-    disclaimer();
+
+    //funções à serem aplicadas quando o programa abre
+    ANBT; //define o console pra aceitar acentos e outros bagulhonsons
+    disclaimer(); //bota na tela um disclaimer com a versão do estoque, a versão da build e sua data
+
     //definição de variáveis relacionadas ao login
     int userCount = 0; //variavel que conta quantos usuários cadstrados existem
     User usuario[LimiteMaxUser]; //variavel array que contém os usuários registrados no sistema
     
-    for (int i; i < LimiteMax; i++)  { //pequena função para limpar o lixo da memória dos cpfs dos clientes
-        clienteFísico[i].cpf = 0;
-        clienteJurídico[i].cnpj = 0;
-    }
-    int userTest = 0;
-    for (int i; i < LimiteMax; i++) {
-        if (strcmp(usuario[i].user, "") == 1) {
-            userTest = 1;
-            break;
-        }
-    }
-    if (userTest == 0) {
+    //definição de variaveis relacionadas ao estoque
+    Produto estoque[LimiteMax]; // Variavel array que é utilizada para guardar valores
+    int produtonum = 0; //variavel utilizada para contar o numero de produtos já cadastrados
+    int idTest = 0; //variavel utilizada para pegar o id inserido pelo usuário e comparar com a lista de ids dos produtos
+    int NF = 0; // Numeros de produtos do estoque
+
+    //definição de variaveis relacionadas aos clientes
+    ClienteCPF clientesPessoas[LimiteMax]; //Variavel array que é utilizada para guardar informações de clientes tipo pessoa física
+    int clientenum = 0; //contador de clientes cadastardos
+
+    //definição de variavéis relacionadas as empresas
+    ClienteCNPJ clientesEmpresas[LimiteMax]; //Variavel array que é utilizada para guardar informações de clientes tipo pessoa juridica
+    int empresanum = 0; //contador de clientes cnpj cadastardos
+
+    limpadorGeral(estoque, clientesPessoas, clientesEmpresas);
+
+    if (comparacaoUsuarios(usuario, "") == 0) {
         printf("Nenhum usuário registrado, favor registrar um usuário\n");
         registrarAdmin(usuario, &userCount);
     }
+
     do {
-            int logon = login(usuario);
-            int tryAgain = 0;
-            switch (logon) {
-                case 0: menuDefault(usuario, &userCount); break;
-                case 2: menuAdmin(usuario, &userCount); break; 
-                default: retry(&tryAgain);
-            }
+        int logon = login(usuario);
+        switch (logon) {
+            case 0: menuDefault(estoque, produtonum, idTest, &NF, clientesPessoas, &clientenum, clientesEmpresas, &empresanum); break;
+            case 2: menuAdmin(usuario, &userCount, estoque, produtonum, idTest, &NF, clientesPessoas, &clientenum, clientesEmpresas, &empresanum); break; 
+            default: retry();
+        }
     } while (isRunning == 0);
     return 0;
 }
