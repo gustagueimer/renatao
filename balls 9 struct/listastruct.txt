@@ -1,0 +1,289 @@
+ex1:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <windows.h>
+
+// Defiine o máximo de produtos/clientes que pode ser cadastrados
+#define charConst 64 //define a constante do maximo de caracteres por string
+#define LimiteMaxUser 10 //define a constante que representa o limite maximo de usuarios
+#define ANBT UINT CPAGE_UTF8 = 65001; \
+             SetConsoleOutputCP(CPAGE_UTF8); 
+
+// Estrutura que representa uma pessoa
+typedef struct {
+    char nome[charConst]; //elemento que representa a razão social da empresa 
+    char telefone[charConst]; //elemento que representa o telefone da empresa
+    char endereco[charConst]; //elemento que representa o cnpj da empresa
+} pessoa;
+
+//função que adiciona pessoas
+int cadastrarPessoas(pessoa *pessoas) {
+    for (int i=0;i<LimiteMaxUser;i++) {
+        printf("\ninsira o nome da pessoa: ");
+        fgets(pessoas[i].nome, charConst, stdin); //pega o nome do cliente
+        printf("insira o telefone ((xx) xxxx-xxxx) - ");
+        fgets(pessoas[i].telefone, charConst, stdin);
+        printf("insira o endereço - ");
+        fgets(pessoas[i].endereco, charConst, stdin);
+        printf("pessoa cadastrada com sussexo\n");
+    }
+    return 0;
+}
+
+//função que procura a pessoa com base no nome inserido pelo usuário
+int findPessoaByName(pessoa *pessoas) {
+    char buffer[charConst];
+    printf("insira o nome da pessoa\n");
+    fgets(buffer, charConst, stdin);
+    for (int i=0;i<LimiteMaxUser;i++) {
+        if (strcmp(buffer, pessoas[i].nome) == 0) {
+            printf("pessoa encontrada!\n\n");
+            printf("nome: %stelefone: %sendereço: %s\n", pessoas[i].nome, pessoas[i].telefone, pessoas[i].endereco);
+            return 0;
+        } else {
+            printf("pesquisando...\n");
+        }
+    }
+    printf("pessoa não encontrada na base de dados.\n\n");
+    return 1;
+}
+
+//função que mostra toda a base de dados
+int showAll(pessoa *pessoas) {
+    printf("Lista de contatos salvos:\n");
+    for (int i=0;i<LimiteMaxUser;i++) {
+        printf("%i - nome: %stelefone: %sendereço: %s\n", i+1, pessoas[i].nome, pessoas[i].telefone, pessoas[i].endereco);
+    }
+    return 0;
+}
+
+//função main 
+int main() {
+    ANBT;
+    pessoa pessoas[LimiteMaxUser];
+    cadastrarPessoas(pessoas);
+    for (int i=0;i<LimiteMaxUser;i++) {
+        findPessoaByName(pessoas);
+    }
+    showAll(pessoas);
+    system("pause");
+    return 0;
+}
+
+ex2:
+
+N/A
+
+ex3:
+
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+#define charConst 64
+#define arrayConst 4
+//balls 101
+
+//definição de estrutura
+typedef struct {
+    char nome[charConst];
+    float valor;
+    int quanitdadeVendida;
+} produto;
+
+//definição das funções
+void anbt() {
+    UINT CPAGE_UTF8 = 65001;
+    SetConsoleOutputCP(CPAGE_UTF8);
+}
+
+//função que vai nomear os produtos
+int namer(produto *produtos) {
+    for (int i=0;i<arrayConst;i++) {
+        switch (i) {
+            case 0: strcpy(produtos[i].nome, "chocolate"); break;
+            case 1: strcpy(produtos[i].nome, "sabão"); break;
+            case 2: strcpy(produtos[i].nome, "alfasse"); break;
+            case 3: strcpy(produtos[i].nome, "pepsi"); break;
+        }
+    }
+    return 0;
+}
+
+//função que define o valor de cada produto
+int valorizer(produto *produtos) {
+    for (int i=0;i<arrayConst;i++) {
+        switch (i) {
+            case 0: produtos[i].valor = 7.20; break;
+            case 1: produtos[i].valor = 32.50; break;
+            case 2: produtos[i].valor = 2.80; break;
+            case 3: produtos[i].valor = 3.99; break;
+        }
+    }
+    return 0;
+}
+
+//função que quantifica os produtos da semana 1
+int quantifier1(produto *produtos) {
+    for (int i=0;i<arrayConst;i++) {
+        switch (i) {
+            case 0: produtos[i].quanitdadeVendida = 64; break;
+            case 1: produtos[i].quanitdadeVendida = 26; break;
+            case 2: produtos[i].quanitdadeVendida = 78; break;
+            case 3: produtos[i].quanitdadeVendida = 128; break;
+        }
+    }
+    return 0;
+}
+
+//função que quantifica os produtos da semana 2
+int quantifier2(produto *produtos) {
+    for (int i=0;i<arrayConst;i++) {
+        switch (i) {
+            case 1: produtos[i].quanitdadeVendida = 64; break;
+            case 3: produtos[i].quanitdadeVendida = 26; break;
+            case 0: produtos[i].quanitdadeVendida = 78; break;
+            case 2: produtos[i].quanitdadeVendida = 128; break;
+        }
+    }
+    return 0;
+}
+
+//função que quantifica os produtos da semana 3
+int quantifier3(produto *produtos) {
+    for (int i=0;i<arrayConst;i++) {
+        switch (i) {
+            case 2: produtos[i].quanitdadeVendida = 64; break;
+            case 0: produtos[i].quanitdadeVendida = 26; break;
+            case 3: produtos[i].quanitdadeVendida = 78; break;
+            case 1: produtos[i].quanitdadeVendida = 128; break;
+        }
+    }
+    return 0;
+}
+
+//função que quantifica os produtos da semana 1
+int quantifier4(produto *produtos) {
+    for (int i=0;i<arrayConst;i++) {
+        switch (i) {
+            case 2: produtos[i].quanitdadeVendida = 64; break;
+            case 3: produtos[i].quanitdadeVendida = 26; break;
+            case 1: produtos[i].quanitdadeVendida = 78; break;
+            case 0: produtos[i].quanitdadeVendida = 128; break;
+        }
+    }
+    return 0;
+}
+
+//função que soma as vendas de todas as semanas de cada produto
+int weeksSomer(produto *produtoS1, produto *produtoS2, produto *produtoS3, produto *produtoS4, produto *produtoSF) {
+    for (int i=0;i<arrayConst;i++) {
+            produtoSF[i].quanitdadeVendida = produtoS1[i].quanitdadeVendida + produtoS2[i].quanitdadeVendida + produtoS3[i].quanitdadeVendida + produtoS4[i].quanitdadeVendida;
+
+    }
+    return 0;
+}
+
+//função de debug que printa tudo de tal semana (nome do produtos, valor do produtos, quantidade de venda dos produtos)
+int allPrinter(produto *produtos) {
+    for (int i=0;i<arrayConst;i++) {
+        printf("produto %i: %s, quantidade: %i, valor: %.2f\n", i+1, produtos[i].nome, produtos[i].quanitdadeVendida, produtos[i].valor);
+    }
+    return 0;
+}
+
+//função que vai escrever o produto que mais vendeu na tela
+int printBigger(produto *produtoSF) {
+    int bigger=0;
+    int hodl=0;
+    for (int i=0;i<arrayConst;i++) {
+        if (bigger < produtoSF[i].quanitdadeVendida) {
+            bigger = produtoSF[i].quanitdadeVendida;
+            hodl = i;
+        }
+    }
+    printf("\nproduto mais vendido: %s, quantidade: %i\n", produtoSF[hodl].nome, produtoSF[hodl].quanitdadeVendida);
+    return 0;
+}
+
+//função que calcula a diferença percentual do produto menos vendido pro mais vendido
+int lowerToBiggerDiference(produto *produtoSF) {
+    int bigger=0;
+    int holdBigger=0;
+    for (int i=0;i<arrayConst;i++) {
+        if (bigger < produtoSF[i].quanitdadeVendida) {
+            bigger = produtoSF[i].quanitdadeVendida;
+            holdBigger = i;
+        }
+    }
+    int lower=bigger;
+    int holdLower=0;
+    for (int i=00;i<arrayConst;i++) {
+        if (lower > produtoSF[i].quanitdadeVendida) {
+            lower = produtoSF[i].quanitdadeVendida;
+            holdLower = i;
+        }
+    }
+    float difference = ((float)bigger / (float)lower) * 100 - 100;
+    // debugging // printf("\nproduto mais vendido: %s, quantidade: %i\n", produtoSF[holdBigger].nome, produtoSF[holdBigger].quanitdadeVendida);
+    // debugging // printf("produto menos vendido: %s, quantidade: %i\n", produtoSF[holdLower].nome, produtoSF[holdLower].quanitdadeVendida);
+    printf("diferença do menos vendido pro mais vendido: +%.2f%%\n", difference);
+    return 0;
+}
+
+//função que faz o relatório de qual semana os produtos mais venderam
+int relatorioWeeks(produto produtoS1[arrayConst], produto produtoS2[arrayConst], produto produtoS3[arrayConst], produto produtoS4[arrayConst], produto produtoSF[arrayConst]) {
+    int bigger=0;
+    int semana[arrayConst] = {0};
+    for (int i=0;i<arrayConst;i++) {
+        for (int j=0;j<arrayConst;j++) {
+            switch (i) {
+                case 0: if (bigger < produtoS1[j].quanitdadeVendida) {bigger = produtoS1[j].quanitdadeVendida; semana[i] = j;} break;
+                case 1: if (bigger < produtoS2[j].quanitdadeVendida) {bigger = produtoS2[j].quanitdadeVendida; semana[i] = j;} break;
+                case 2: if (bigger < produtoS3[j].quanitdadeVendida) {bigger = produtoS3[j].quanitdadeVendida; semana[i] = j;} break;
+                case 3: if (bigger < produtoS4[j].quanitdadeVendida) {bigger = produtoS4[j].quanitdadeVendida; semana[i] = j;} break;
+            }
+        }
+        bigger = 0;
+    }
+    printf("#### relatorio de qual semana os produtos atingiram seu pico de vendas semanais ####\n");
+    for (int i=0;i<arrayConst;i++) {
+        printf("produto %i vendeu mais na semana %i\n", i+1, semana[i] + 1);
+    }
+    return 0;
+}
+
+//função main
+int main() {
+    anbt();
+    produto produtoS1[arrayConst];
+    produto produtoS2[arrayConst];
+    produto produtoS3[arrayConst];
+    produto produtoS4[arrayConst];
+    produto produtoSF[arrayConst];
+    printf("criador de estrutura de um produto e mostrador de muita coisa com tais produtos deluxe\n");
+    namer(&produtoS1);
+    namer(&produtoS2);
+    namer(&produtoS3);
+    namer(&produtoS4);
+    namer(&produtoSF);
+    for (int i=0;i<arrayConst;i++) {
+        printf("produto %i: %s\n", i+1, produtoS1[i].nome);
+    }
+    valorizer(&produtoS1);
+    valorizer(&produtoS2);
+    valorizer(&produtoS3);
+    valorizer(&produtoS4);
+    valorizer(&produtoSF);
+    quantifier1(&produtoS1);
+    quantifier2(&produtoS2);
+    quantifier3(&produtoS3);
+    quantifier4(&produtoS4);
+    weeksSomer(&produtoS1, &produtoS2, &produtoS3, &produtoS4, &produtoSF);
+    printBigger(&produtoSF);
+    lowerToBiggerDiference(&produtoSF);
+    relatorioWeeks(&produtoS1, &produtoS2, &produtoS3, &produtoS4, &produtoSF);
+    system("pause");
+    return 0;
+}
