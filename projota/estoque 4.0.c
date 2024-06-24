@@ -61,12 +61,15 @@ typedef struct {
 // definição de variáveis globais //
 
 //definição de variaveis relacionadas a versão do programa
-char buildVersion[charConst] = {"0.4.5"}; //variável que armazena o numero da versão da build
-char buildDate[charConst] = {"23/06/2024 17:00"}; //variável que armazena a data e hora da versão da build
+char buildVersion[charConst] = {"0.4.6"}; //variável que armazena o numero da versão da build
+char buildDate[charConst] = {"24/06/2024 2:30"}; //variável que armazena a data e hora da versão da build
 
 //definição de variáveis relacionadas a verificação de inputs
 char varTemp[charConst] = {'\0'}; //variavel char temporaria usada para validação de input
+
+//definição de variáveis relacionadas a se o programa está rodando e quantas vazes ele já rodou
 int isRunning = 0; //variavel que defnie se o programa continuará rodando ou não ||0: roda||any other: não roda||
+int timesRunned = 0; //variável que vai guardar o numero de execuções que o programa já teve
 
 // definição das funções //
 
@@ -75,6 +78,186 @@ void varTempClean() {
     char varClean[charConst] = {'\0'};
     memcpy(varTemp, varClean, charConst);
 }
+
+//funções relacionadas ao sistema de arquivos
+
+    //função que lê o arquivo que armazena o valor de quantas vezes o programa já foi rodado
+    int getTimesRunnedValue() {
+        FILE *file_timesRunned;
+        file_timesRunned = fopen("TimesRunned.txt", "r");
+        if (file_timesRunned != NULL) {
+            fscanf(file_timesRunned, "%d", &timesRunned);
+        }
+        fclose(file_timesRunned);
+        return 0;
+    }
+
+    //função que cria um arquivo com o valor de quantas vezes o programa já foi rodado
+    int saveTimesRunnedValue() {
+        FILE *file_timesRunned;
+        file_timesRunned = fopen("TimesRunned.txt", "w");
+        fprintf(file_timesRunned, "%d\n", timesRunned);
+        fclose(file_timesRunned);
+        return 0;
+    }
+
+    //função que lê o arquivo que armazena as informações relacionadas aos usuários
+    int getUsersValues(User *usuarios) {
+        FILE *file_usuarios;
+        file_usuarios = fopen("Usuarios.txt", "r");
+        if (file_usuarios != NULL) {
+            for (int i=0; i<LimiteMaxUser; i++) {
+                fscanf(file_usuarios, "%s", &usuarios[i].user);
+                fscanf(file_usuarios, "%s", &usuarios[i].password);
+                fscanf(file_usuarios, "%i", &usuarios[i].accessLevel);
+            }
+        }
+        fclose(file_usuarios);
+        return 0;
+    }
+
+    //função que cria um arquivo com as informações relacionadas aos usuários
+    int saveUsersValues(User *usuarios) {
+        FILE *file_usuarios;
+        file_usuarios = fopen("Usuarios.txt", "w");
+        for (int i=0; i<LimiteMaxUser; i++) {
+            fprintf(file_usuarios, "%s\n", usuarios[i].user);
+            fprintf(file_usuarios, "%s\n", usuarios[i].password);
+            fprintf(file_usuarios, "%d\n", usuarios[i].accessLevel);
+        }
+        fclose(file_usuarios);
+        return 0;
+    }
+
+    //função que lê o arquivo que armazena os valores das variáveis de contagem
+    int getCountsValues(int *userCount, int *produtosCount, int *clientesCount, int *empresasCount) {
+        FILE *file_counts;
+        file_counts = fopen("Counts.txt", "r");
+        if (file_counts != NULL) {
+            fscanf(file_counts, "%d", userCount);
+            fscanf(file_counts, "%d", produtosCount);
+            fscanf(file_counts, "%d", clientesCount);
+            fscanf(file_counts, "%d", empresasCount);
+        }
+        fclose(file_counts);
+        return 0;
+    }
+
+    //função que cria um arquivo com os valores das variáveis de contagem
+    int saveCountsValues(int userCount, int produtosCount, int clientesCount, int empresasCount) {
+        FILE *file_counts;
+        file_counts = fopen("Counts.txt", "w");
+        fprintf(file_counts, "%d\n", userCount);
+        fprintf(file_counts, "%d\n", produtosCount);
+        fprintf(file_counts, "%d\n", clientesCount);
+        fprintf(file_counts, "%d\n", empresasCount);
+        fclose(file_counts);
+        return 0;
+    }
+
+    //função que lê o arquivo que armazena o valor da variável que conta as notas fiscais
+    int getNotaFiscalValue(int *notaFiscal) {
+        FILE *file_notaFiscal;
+        file_notaFiscal = fopen("NotaFiscal.txt", "r");
+        if (file_notaFiscal != NULL) {
+            fscanf(file_notaFiscal, "%d", notaFiscal);
+        }
+        fclose(file_notaFiscal);
+        return 0;
+    }
+  
+    //função que cria um arquivo com o valor da variável que conta as notas fiscais
+    int saveNotaFiscalValue(int notaFiscal) {
+        FILE *file_notaFiscal;
+        file_notaFiscal = fopen("NotaFiscal.txt", "w");
+        fprintf(file_notaFiscal, "%d\n", notaFiscal);
+        fclose(file_notaFiscal);
+        return 0;
+    }
+
+    //função que lê o arquivo que armazena as informações relacionadas a variável de estoque dos produtos
+    int getEstoqueValues(Produto *estoque) {
+        FILE *file_estoque;
+        file_estoque = fopen("Estoque.txt", "r");
+        if (file_estoque != NULL) {
+            for (int i=0; i<LimiteMax; i++) {
+                fscanf(file_estoque, "%s", &estoque[i].nome);
+                fscanf(file_estoque, "%i", &estoque[i].id);
+                fscanf(file_estoque, "%i", &estoque[i].quantidade);
+                fscanf(file_estoque, "%f", &estoque[i].valor);
+            }
+        }
+        fclose(file_estoque);
+        return 0;
+    }
+
+    //função que cria um arquivo com as informações relacionadas a variável de estoque dos produtos
+    int saveEstoqueValues(Produto *estoque) {
+        FILE *file_estoque;
+        file_estoque = fopen("Estoque.txt", "w");
+        for (int i=0; i<LimiteMax; i++) {
+            fprintf(file_estoque, "%s\n", estoque[i].nome);
+            fprintf(file_estoque, "%d\n", estoque[i].id);
+            fprintf(file_estoque, "%d\n", estoque[i].quantidade);
+            fprintf(file_estoque, "%f\n", estoque[i].valor);
+        }
+        fclose(file_estoque);
+        return 0;
+    }
+
+    //função que lê um arquivocom as informações relacionadas a variável de clientes cadastrados
+    int getClientesValues(ClienteCPF *clientes) {
+        FILE *file_clientes;
+        file_clientes = fopen("Clientes.txt", "r");
+        if (file_clientes != NULL) {
+            for (int i=0; i<LimiteMax; i++) {
+                fscanf(file_clientes, "%s", &clientes[i].nome);
+                fscanf(file_clientes, "%d", &clientes[i].cpf);
+            }
+        }
+        fclose(file_clientes);
+        return 0;
+    }
+
+    //função que cria um arquivo com as informações relacionadas a variável de clientes cadastrados
+    int saveClientesValues(ClienteCPF *clientes) {
+        FILE *file_clientes;
+        file_clientes = fopen("Clientes.txt", "w");
+        for (int i=0; i<LimiteMax; i++) {
+            fprintf(file_clientes, "%s\n", clientes[i].nome);
+            fprintf(file_clientes, "%d\n", clientes[i].cpf);
+        }
+        fclose(file_clientes);
+        return 0;
+    }
+
+    //função que lê um arquivo com as infrmações relacionadas a variável de empresas cadastradas
+    int getEmpresasValues(ClienteCNPJ *empresas) {
+        FILE *file_empresas;
+        file_empresas = fopen("Empresas.txt", "r");
+        if (file_empresas != NULL) {
+            for (int i=0; i<LimiteMax; i++) {
+                fscanf(file_empresas, "%s", &empresas[i].RS);
+                fscanf(file_empresas, "%i", &empresas[i].cnpj);
+                fscanf(file_empresas, "%s", &empresas[i].TF);
+            }
+        }
+        fclose(file_empresas);
+        return 0;
+    }
+
+    //função que cria um arquivo com as informações relacionadas a variável de empresas cadastradas
+    int saveEmpresasValues(ClienteCNPJ *empresas) {
+        FILE *file_empresas;
+        file_empresas = fopen("Empresas.txt", "w");
+        for (int i=0; i<LimiteMax; i++) {
+            fprintf(file_empresas, "%s\n", empresas[i].RS);
+            fprintf(file_empresas, "%i\n", empresas[i].cnpj);
+            fprintf(file_empresas, "%s\n", empresas[i].TF);
+        }
+        fclose(file_empresas);
+        return 0;
+    }
 
 //função que valida um input apenas numérico
 int validateInput(char *input, int size) {
@@ -127,7 +310,7 @@ int registrarAdmin(User *usuario, int *userCount) {
     scanf("%s", usuario[0].password); //lê a senha definida
     usuario[0].accessLevel = 2; //garante o nivel de acesso de administrador para o primeiro usuário cadastrado automaticamente
     puts("\nadiministrador registrado com sucesso"); //printa na tela que a operação foi bem sucedida
-    userCount++; //sobe o contador de usuários cadastrados (0 -> 1)
+    *userCount = *userCount + 1; //sobe o contador de usuários cadastrados (0 -> 1)
     return 0;
 }
 
@@ -159,7 +342,7 @@ int registrarUsuario(User *usuario, int *userCount) {
         }
     } while (tempOpcao != -1); //fecha o loop do menu quando a variável temporária de seleção e opção for -1
     puts("usuário registrado com sucesso"); //informa na tela que o cadastro do novo usuário foi bem sucedido;
-    userCount++; //sobe o contador de usuários cadastrados
+    *userCount = *userCount + 1; //sobe o contador de usuários cadastrados
     return 0;
 }
 
@@ -709,12 +892,23 @@ void disclaimer() {
     printf("#################################\n\n");
 }
 
-//função que limpa o id, cpf e cnpj de todos os produtos, clientes e empresas
-int limpadorGeral(Produto *produtos, ClienteCPF *clientes, ClienteCNPJ *empresas) {
-    for (int i=0; i<LimiteMax; i++) { //pequena função para limpar o lixo da memória dos ids dos produtos
+//função que limpa tudo de todas as variáveis que armazenam os bagulhonsons
+int limpadorGeral(User *usuarios, Produto *produtos, ClienteCPF *clientes, ClienteCNPJ *empresas) {
+    for (int g=0; g<LimiteMaxUser; g++) {
+        strcpy(usuarios[g].user, "inutilizado");
+        strcpy(usuarios[g].password, "inutilizado");
+        usuarios[g].accessLevel = 0;
+    }
+    for (int i=0; i<LimiteMax; i++) { 
+        strcpy(produtos[i].nome, "inutilizado");
         produtos[i].id = 0;
+        produtos[i].quantidade = 0;
+        produtos[i].valor = 0;
+        strcpy(clientes[i].nome, "inutilizado");
         clientes[i].cpf = 0;
+        strcpy(empresas[i].RS, "inutilizado");
         empresas[i].cnpj = 0;
+        strcpy(empresas[i].TF, "inutilizado");
     }
     return 0;
 }
@@ -743,13 +937,24 @@ int main() {
     ClienteCNPJ clientesEmpresas[LimiteMax]; //Variavel array que é utilizada para guardar informações de clientes tipo pessoa juridica
     int empresanum = 0; //contador de clientes cnpj cadastardos
 
-    limpadorGeral(estoque, clientesPessoas, clientesEmpresas);
-
-    if (comparacaoUsuarios(usuario, "") == 0) {
-        printf("Nenhum usuário registrado, favor registrar um usuário\n");
-        registrarAdmin(usuario, &userCount);
+    //chama a função que confere se o programa já foi aberto alguma outra vez
+    getTimesRunnedValue();
+  
+    if (timesRunned == 0) {
+        limpadorGeral(usuario, estoque, clientesPessoas, clientesEmpresas);
+        if (comparacaoUsuarios(usuario, "") == 0) {
+            printf("Nenhum usuário registrado, favor registrar um usuário\n");
+            registrarAdmin(usuario, &userCount);
+        }
+    } else {
+        getUsersValues(usuario);
+        getCountsValues(&userCount, &produtonum, &clientenum, &empresanum);
+        getNotaFiscalValue(&NF);
+        getEstoqueValues(estoque);
+        getClientesValues(clientesPessoas);
+        getEmpresasValues(clientesEmpresas);
     }
-
+    
     do {
         int logon = login(usuario);
         switch (logon) {
@@ -758,6 +963,16 @@ int main() {
             default: retry();
         }
     } while (isRunning == 0);
+
+    //salvamento dos valores das variáveis em arquivos
+    timesRunned++;
+    saveTimesRunnedValue();
+    saveUsersValues(usuario);
+    saveCountsValues(userCount, produtonum, clientenum, empresanum);
+    saveNotaFiscalValue(NF);
+    saveEstoqueValues(estoque);
+    saveClientesValues(clientesPessoas);
+    saveEmpresasValues(clientesEmpresas);
     return 0;
 }
 
