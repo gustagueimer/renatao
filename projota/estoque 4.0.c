@@ -35,12 +35,6 @@ typedef struct {
     int cnpj; //elemento que representa o cnpj da empresa
 } ClienteCNPJ;
 
-// Estrutura que representa um fornecedor
-typedef struct {
-    char nome[charConst];
-    int cnpj;
-} Fornecedor;
-
 // Estrutura que representa uma empresa
 typedef struct {
     char user[charConst]; //elemento que representa o login/id do usuário
@@ -61,8 +55,8 @@ typedef struct {
 // definição de variáveis globais //
 
 //definição de variaveis relacionadas a versão do programa
-char buildVersion[charConst] = {"0.4.6"}; //variável que armazena o numero da versão da build
-char buildDate[charConst] = {"24/06/2024 2:30"}; //variável que armazena a data e hora da versão da build
+char buildVersion[charConst] = {"0.4.7"}; //variável que armazena o numero da versão da build
+char buildDate[charConst] = {"25/06/2024 11:11"}; //variável que armazena a data e hora da versão da build
 
 //definição de variáveis relacionadas a verificação de inputs
 char varTemp[charConst] = {'\0'}; //variavel char temporaria usada para validação de input
@@ -318,7 +312,7 @@ int registrarAdmin(User *usuario, int *userCount) {
 int registrarUsuario(User *usuario, int *userCount) {
     int tempOpcao; //varivale temporaria para escolher uma opção
     int tempCount = *userCount; //gambiarra pq usar o parametro pra definir a posição do array não estava funcionando por algum ferrenho motivo
-    printf("#### CADASTRAMENTO DE USUÁRIO ####\n");
+    printf("\n#### CADASTRAMENTO DE USUÁRIO ####\n");
     printf("informe o login do novo usuário - "); //pede pro usuário definir o id/login/username do novo usuario
     scanf("%s", usuario[tempCount].user); //lê o login inserido na seção de nome da variavel de usuarios
     printf("informe a senha do novo usuário - "); //pede pro usuário definir a senha do novo usuário
@@ -327,7 +321,7 @@ int registrarUsuario(User *usuario, int *userCount) {
     do {
         printf("informe o nivel de acesso do novo usuário\n"); //pede pro usuário definir o nivel de acesso do novo usuário
         printf("1. normal\n");
-        printf("2. administador\n");
+        printf("2. administador");
         //verificação de input
         do {
             printf("\nEscolha uma opção: "); 
@@ -342,21 +336,23 @@ int registrarUsuario(User *usuario, int *userCount) {
         }
     } while (tempOpcao != -1); //fecha o loop do menu quando a variável temporária de seleção e opção for -1
     puts("usuário registrado com sucesso"); //informa na tela que o cadastro do novo usuário foi bem sucedido;
-    *userCount = *userCount + 1; //sobe o contador de usuários cadastrados
+    *userCount += 1; //sobe o contador de usuários cadastrados
     return 0;
 }
 
 //função que faz o print de uma nota fiscal
-void impressorNotaFiscal(char nome[], int qnt, int nfCount, float valor) {
+void impressorNotaFiscal(char nome[], int qnt, int nfCount, float valorTotal, float valorTotalFinal, int desconto) {
     time_t hora = time(NULL); //variável relacionada com a hora da emissão da nota fiscal
     printf("Venda registrada com sucesso.\n");
-    printf("\n##### Comprovante fiscal#####\n"); 
-    printf("Nome do produto: %s\n", nome);
-    printf("Quantidade Vendida: %i\n", qnt); 
-    printf("valor: %.2f reais \n", valor);
-    printf("Nota fiscal n° %i\n", nfCount); 
-    printf("data da emissão: %s", asctime(localtime(&hora)));
-    printf("##### Farmacia Biopark #####\n");
+    printf("\n##### Comprovante Fiscal #####\n"); 
+    printf("Nome do Produto:         %s\n", nome);
+    printf("Quantidade Vendida:          %i\n", qnt); 
+    printf("Valor:                 R$%.2f\n", valorTotal);
+    printf("Valor Desconto:        R$%.2f\n", (valorTotal * desconto) / 100);
+    printf("Valor Final:           R$%.2f\n", valorTotalFinal);
+    printf("       Nota Fiscal n°%i        \n", nfCount); 
+    printf("   %s", asctime(localtime(&hora)));
+    printf("#####  Farmacia Biopark  #####\n");
 }
 
 //função que adiciona produtos
@@ -494,10 +490,40 @@ int atualizarQuantidade(Produto *produtos, int idTest) {
 
 //função que exibe o estoque
 void exibirEstoque(Produto *estoque) {
-    printf("\n### Estoque ###\n");
+    printf("\n#### ESTOQUE ####\n");
     for (int i=0; i<LimiteMax; i++) {
         if (estoque[i].id != 0) {
             printf("%s - Id: %i Quantidade: %d Valor: R$%.2f\n", estoque[i].nome, estoque[i].id, estoque[i].quantidade, estoque[i].valor);
+        }
+    }
+}
+
+//Função para exibir clientes cadastrados
+void exibirClientes(ClienteCPF *cliente) {
+    printf("\n#### CLIENTES CADASTRADOS ####\n");
+    for (int i = 0; i<LimiteMax; i++) {
+        if (cliente[i].cpf != 0) {
+            printf("Nome do cliente: %s CPF do cliente: %d\n", cliente[i].nome, cliente[i].cpf);
+        }
+    }
+}
+
+//Função para exibir empresas cadastradas
+void exibirEmpresas(ClienteCNPJ *empresa) {
+    printf("\n#### EMPRESAS CADASTRADAS ####\n");
+    for (int i=0; i<LimiteMax; i++) {
+        if (empresa[i].cnpj != 0) {
+            printf("Razão Social da empresa: %s CNPJ: %d\n", empresa[i].RS, empresa[i].cnpj);
+        }
+    }
+}
+
+//função para exibir usuários cadastrados
+void exibirUsuarios(User *usuario) {
+    printf("\n#### USUÁRIOS CADASTRADOS ####\n");
+    for (int i=0; i<LimiteMaxUser; i++) {
+        if (strcmp(usuario[i].user, "inutilizado") != 0) {
+            printf("user: %s Senha: %s Nível de acesso: %i\n", usuario[i].user, usuario[i].password, usuario[i].accessLevel);
         }
     }
 }
@@ -541,7 +567,7 @@ int cadastrarCPF(ClienteCPF *cliente, int *contadorClientes) {
     } else { // caso não exista outro cliente com o mesmo cpf, informa sucesso
         cliente[contadorTempC].cpf = cpfTest; //passa o cpf da variável de comparação para o elemento de cpf da variável de clientes
         printf("\n#####Cliente cadastrado com sucesso#####\n"); //informa na tela que a operação de cadastro de cliente doi bem sucedida
-        contadorClientes++; // Incrementa o clientenum
+        *contadorClientes += 1; // Incrementa o clientenum
     }
     return 0; //retorna 0 caso a operação de cadastro de cliente seja bem sucedida
 }
@@ -552,7 +578,6 @@ int cadastrarCNPJ (ClienteCNPJ *empresa, int *contadorEmpresas) {
     int contadorTempE = *contadorEmpresas; //variável temporária que pega o valor de empresas já cadastradas para poder usar como posição do array na váriavel de empresas
     printf("\nInsira a Razao Social da empresa: "); //pede pro usuário informar o nome da empresa
     scanf("%s", &empresa[contadorTempE].RS); //pega o nome da empresa
-    printf("leu o nome\n");
     //verificação de input
     do {
         printf("\nCNPJ (somente numeros): "); //pede pro usuário informar o cnpj da empresa
@@ -568,14 +593,56 @@ int cadastrarCNPJ (ClienteCNPJ *empresa, int *contadorEmpresas) {
         printf("\nTelefone ((xx) xxxx-xxxx): "); //pede pro usuário informar o telefone da empresa
         scanf("%s", &empresa[contadorTempE].TF); //lê o telefone como string no elemento de telefone da variável de empresas cadastradas
         printf("\n#####Empresa cadastrada com sucesso#####\n"); //informa na tela que o cadastro da empresa foi bem sucedido
-        contadorEmpresas++; // adiciona no contador de empresas cadastradas
+        *contadorEmpresas += 1; // adiciona no contador de empresas cadastradas
     }
     return 0; //retorna 0 caso a operação de cadastro de empresa seja bem sucedida
 }
 
 //função que realiza vendas
 int realizarVenda(Produto *produtos, int idTest, int *notaFiscal, ClienteCPF *clientes, ClienteCNPJ *empresas) {
+    int desconto = 0; //variável que vai segurar o valor da porcentagem de desconto na venda
+    printf("\n#### REALIZAÇÃO DE VENDA ####\n");
     //adendo: a integração do cliente na venda ainda não foi completamente implementada//
+    int tempOpcao = 0; //variável temporária de seleção de opção
+    int clienteFinder = 0; //variável temporária que segura um valor para ser comparado com cpfs e cpnjs
+    printf("cliente ou empresa cadastrada?\n"); //menuzinho que pede pro usuário se ele vai realizar a venda para u cliente ou empresa já cadastrada
+    printf("1. Sim\n");
+    printf("2. Não");
+    //verificação de input
+    do {
+        do {
+            printf("\nEscolha uma opção: "); //pede pro usuário informar o id do produto a ser vendido
+            scanf("%s", &varTemp); //lê o input em uma variável string temporaria
+        } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
+        tempOpcao = atoi(varTemp); //converte o input na variável string para a variavél de destino
+        varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
+        switch (tempOpcao) {
+            case 1: //caso que vai definir a porcentagem de desconto na venda
+                //verificação de input
+                do {
+                    printf("\nInsira o CPF/CNPJ: "); //pede pro usuário informar o id do produto a ser vendido
+                    scanf("%s", &varTemp); //lê o input em uma variável string temporaria
+                } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
+                clienteFinder = atoi(varTemp); //converte o input na variável string para a variavél de destino
+                varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
+                for (int i=0; i<LimiteMax; i++) { //for usado para percorrer os arrays de clientes e empresas
+                    if (clientes[i].cpf == clienteFinder) { //if compara se o valor informado pelo usuário é igual algum cpf dos clientes cadastrados
+                        desconto = 10; //se o valor informado pelo usuário for encontrado no banco de cpfs, o desconto será de 10%
+                        break; //sai do for
+                    } else if (empresas[i].cnpj == clienteFinder) { //if compara se o valor informado pelo usuário é igual algum cnpj das empresas cadastradas
+                        desconto = 30; //se o valor informado pelo usuário for encontrado no banco de cnpjs, o desconto será de 30%
+                        break; //sai do for
+                    } else if (i == (LimiteMax - 1)) { //if abre o erro caso o for chege no fim limite de tamanho dos arrays sem ter encontrado nenhum cpf ou cnpj compatível
+                        printf("Erro: Nenhum cliente ou empresa encontrados\n"); //informa na tela um erro falando que nenhum cpf ou cnpj igual o inserido pelo usuário foi encontrado nos dados
+                        return 1; //encerra a venda como uma execução mal sucedida
+                    }
+                }
+                tempOpcao = 2; //define a variável temporária de seleção de opção para 2 para fechar o do while
+                break; //fecha do switch
+            case 2: break; //fecha o switch
+            default: printf("Opção inválida\n"); //informa na tela que a opção escolhida não é valida
+        }
+    } while (tempOpcao != 2); //vai repetir esse menu de seleção do modo da venda até o usuário informar uma opção correta
     //verificação de input
     do {
         printf("\nID do produto: "); //pede pro usuário informar o id do produto a ser vendido
@@ -595,10 +662,12 @@ int realizarVenda(Produto *produtos, int idTest, int *notaFiscal, ClienteCPF *cl
             varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
             if (produtos[i].quantidade >= quantidadeVenda) {//[i] usando para acessar elemento da array, confere se a quantidade de estoque do produto é maior ou igual a quantidade de venda
                 produtos[i].quantidade -= quantidadeVenda; // Diminue a quantidade do produto no estoque
-                notaFiscal++;
-                float valorTotal; //variavel que vai conter o valor total da venda de um produto durante o processo de venda
+                *notaFiscal += 1; //sobe o contador de notas fiscais emitidas
+                float valorTotal; //variavel que vai conter o valor total da venda de um produto antes do desconto
+                float valorTotalFinal; //variável que vai conter o valor total da venda de um produto após o desconto 
                 valorTotal = produtos[i].valor * quantidadeVenda; //calcula o valor total da venda
-                impressorNotaFiscal(produtos[i].nome, quantidadeVenda, *notaFiscal, valorTotal); //chama a função que escreve a nota fiscal;
+                valorTotalFinal = valorTotal - ((valorTotal * desconto) / 100); //aplica o desconto no valor total da venda
+                impressorNotaFiscal(produtos[i].nome, quantidadeVenda, *notaFiscal, valorTotal, valorTotalFinal, desconto); //chama a função que escreve a nota fiscal;
                 idTest = 0; //reseta o idTest para 0;
                 break; //sai do for
             } else {
@@ -610,7 +679,7 @@ int realizarVenda(Produto *produtos, int idTest, int *notaFiscal, ClienteCPF *cl
     }
     if (idTest != 0) { //checa se o id é diferente de zero, caso seja, produz uma mensagem de erro
         printf("Erro: Produto Inexistente.\n"); //informa na tela um erro
-        idTest = 0; //reseta o idTest
+        return 1;
     }
     return 0;
 }
@@ -680,8 +749,9 @@ void menuAdmin(User *usuario, int *userCount, Produto *produtos, int contadorPro
                         case 2: cadastrarCNPJ(empresas, contadorEmpresas); break; //chama a função qur faz o cadastro de uma empresa
                         case 3: do { //abre um subsubmenu relacionado a exibição dos cadastros de pessoas, empresas e usuários
                                     printf("\n##### MOSTRAR LISTA DE CADASTROS #####\n"); 
-                                    printf("1. Mostrar pessoas físicas\n");
-                                    printf("2. Mostrar pessoas juridícas\n");
+                                    printf("1. Mostrar clientes\n");
+                                    printf("2. Mostrar empresas\n");
+                                    printf("3. Mostrar usuários\n");
                                     printf("0. Voltar\n");
                                     //verificação de input
                                     do {
@@ -690,8 +760,9 @@ void menuAdmin(User *usuario, int *userCount, Produto *produtos, int contadorPro
                                     } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
                                     subOpcao = atoi(varTemp); //converte o input na variável string para a variavél de destino
                                     switch (subOpcao) {
-                                        case 1: printf("\nAinda não implementado\n"); break; //adendo: tem que fazer
-                                        case 2: printf("\nAinda não implementado\n"); break; //adendo: também tem que fazer
+                                        case 1: exibirClientes(clientes); break; //chama a função que mostra os clientes cadastrados
+                                        case 2: exibirEmpresas(empresas); break; //chama a função que mostra as empresas cadastradas
+                                        case 3: exibirUsuarios(usuario); break; //chama a função que mostra os usuários cadastrados
                                         case 0: break; //faz o break do switch do subsubmenu
                                         default: printf("Opcao invalida!\n"); //infoma na tela que a opção escolhida é invalida
                                     }
@@ -806,8 +877,8 @@ void menuDefault(Produto *produtos, int contadorProdutos, int idTest, int *NF, C
                                     } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
                                     subOpcao = atoi(varTemp); //converte o input na variável string para a variavél de destino
                                     switch (subOpcao) {
-                                        case 1: printf("\nAinda não implementado\n"); break; //adendo: tem que fazer
-                                        case 2: printf("\nAinda não implementado\n"); break; //adendo: também tem que fazer
+                                        case 1: exibirClientes(clientes); break; //chama a função que mostra os clientes cadastrados
+                                        case 2: exibirEmpresas(empresas); break; //chama a função que mostra as empresas cadastradas
                                         case 0: break; //faz o break do switch do subsubmenu
                                         default: printf("Opcao invalida!\n"); //infoma na tela que a opção escolhida é invalida
                                     }
@@ -889,7 +960,7 @@ void disclaimer() {
     printf("  build: %s\n", buildVersion);
     printf("  date: %s\n", buildDate);
     printf("  Todos os direitos reservados.\n");
-    printf("#################################\n\n");
+    printf("#################################\n");
 }
 
 //função que limpa tudo de todas as variáveis que armazenam os bagulhonsons
@@ -943,7 +1014,7 @@ int main() {
     if (timesRunned == 0) {
         limpadorGeral(usuario, estoque, clientesPessoas, clientesEmpresas);
         if (comparacaoUsuarios(usuario, "") == 0) {
-            printf("Nenhum usuário registrado, favor registrar um usuário\n");
+            printf("\nNenhum usuário registrado, favor registrar um usuário\n");
             registrarAdmin(usuario, &userCount);
         }
     } else {
