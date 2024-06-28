@@ -25,14 +25,14 @@ typedef struct {
 // Estrutura que representa um cliente
 typedef struct { 
     char nome[charConst]; //elemento que representa o nome do cliente;
-    long cpf; //elemento que representa o cpf do cliente;
+    char cpf[charConst]; //elemento que representa o cpf do cliente;
 } ClienteCPF;
 
 // Estrutura que representa uma empresa
 typedef struct {
     char RS[charConst]; //elemento que representa a razão social da empresa 
     char TF[charConst]; //elemento que representa o telefone da empresa
-    long cnpj; //elemento que representa o cnpj da empresa
+    char cnpj[charConst]; //elemento que representa o cnpj da empresa
 } ClienteCNPJ;
 
 // Estrutura que representa uma empresa
@@ -62,8 +62,8 @@ typedef struct {
 // definição de variáveis globais //
 
 //definição de variaveis relacionadas a versão do programa
-char buildVersion[charConst] = {"0.5.0"}; //variável que armazena o numero da versão da build
-char buildDate[charConst] = {"25/06/2024 11:11"}; //variável que armazena a data e hora da versão da build
+char buildVersion[charConst] = {"0.5.2"}; //variável que armazena o numero da versão da build
+char buildDate[charConst] = {"28/06/2024 20:45"}; //variável que armazena a data e hora da versão da build
 
 //definição de variáveis relacionadas a verificação de inputs
 char varTemp[charConst] = {'\0'}; //variavel char temporaria usada para validação de input
@@ -217,7 +217,7 @@ void varTempClean() {
         if (file_clientes != NULL) {
             for (int i=0; i<LimiteMax; i++) {
                 fscanf(file_clientes, "%s", &clientes[i].nome);
-                fscanf(file_clientes, "%ld", &clientes[i].cpf);
+                fscanf(file_clientes, "%s", &clientes[i].cpf);
             }
         }
         fclose(file_clientes);
@@ -230,7 +230,7 @@ void varTempClean() {
         file_clientes = fopen("./arquivos/Clientes.txt", "w");
         for (int i=0; i<LimiteMax; i++) {
             fprintf(file_clientes, "%s\n", clientes[i].nome);
-            fprintf(file_clientes, "%ld\n", clientes[i].cpf);
+            fprintf(file_clientes, "%s\n", clientes[i].cpf);
         }
         fclose(file_clientes);
         return 0;
@@ -242,9 +242,9 @@ void varTempClean() {
         file_empresas = fopen("./arquivos/Empresas.txt", "r");
         if (file_empresas != NULL) {
             for (int i=0; i<LimiteMax; i++) {
-                fscanf(file_empresas, "%63s", &empresas[i].RS);
-                fscanf(file_empresas, "%li", &empresas[i].cnpj);
-                fscanf(file_empresas, "%63s", &empresas[i].TF);
+                fscanf(file_empresas, "%s", &empresas[i].RS);
+                fscanf(file_empresas, "%s", &empresas[i].cnpj);
+                fscanf(file_empresas, "%s", &empresas[i].TF);
             }
         }
         fclose(file_empresas);
@@ -257,7 +257,7 @@ void varTempClean() {
         file_empresas = fopen("./arquivos/Empresas.txt", "w");
         for (int i=0; i<LimiteMax; i++) {
             fprintf(file_empresas, "%s\n", empresas[i].RS);
-            fprintf(file_empresas, "%li\n", empresas[i].cnpj);
+            fprintf(file_empresas, "%s\n", empresas[i].cnpj);
             fprintf(file_empresas, "%s\n", empresas[i].TF);
         }
         fclose(file_empresas);
@@ -270,10 +270,10 @@ void varTempClean() {
         file_relatorioProdutos = fopen("./arquivos/ValoresRelatoriosProdutos.txt", "r");
         if (file_relatorioProdutos != NULL) {
             for (int i=0; i<LimiteMaxRelatório; i++) {
-                fscanf(file_relatorioProdutos, "%63s", &controle[i].nomeProduto);
+                fscanf(file_relatorioProdutos, "%s", &controle[i].nomeProduto);
                 fscanf(file_relatorioProdutos, "%i", &controle[i].idProduto);
                 fscanf(file_relatorioProdutos, "%i", &controle[i].quantidadeModificada);
-                fscanf(file_relatorioProdutos, "%63s", &controle[i].dataVenda);
+                fscanf(file_relatorioProdutos, "%s", &controle[i].dataVenda);
             }
         }
         fclose(file_relatorioProdutos);
@@ -734,7 +734,7 @@ void exibirEstoque(Produto *estoque) {
     printf("\n#### ESTOQUE ####\n");
     for (int i=0; i<LimiteMax; i++) {
         if (estoque[i].id != 0) {
-            printf("%s - Id: %i Quantidade: %d Valor: R$%.2f\n", estoque[i].nome, estoque[i].id, estoque[i].quantidade, estoque[i].valor);
+            printf("%s - Id: %i | Quantidade: %d | Valor: R$%.2f\n", estoque[i].nome, estoque[i].id, estoque[i].quantidade, estoque[i].valor);
         }
     }
 }
@@ -743,8 +743,8 @@ void exibirEstoque(Produto *estoque) {
 void exibirClientes(ClienteCPF *cliente) {
     printf("\n#### CLIENTES CADASTRADOS ####\n");
     for (int i = 0; i<LimiteMax; i++) {
-        if (cliente[i].cpf != 0) {
-            printf("Nome do cliente: %s CPF do cliente: %ld\n", cliente[i].nome, cliente[i].cpf);
+        if (strcmp(cliente[i].cpf, "0") != 0) {
+            printf("Nome do cliente: %s | CPF do cliente: %s\n", cliente[i].nome, cliente[i].cpf);
         }
     }
 }
@@ -753,8 +753,8 @@ void exibirClientes(ClienteCPF *cliente) {
 void exibirEmpresas(ClienteCNPJ *empresa) {
     printf("\n#### EMPRESAS CADASTRADAS ####\n");
     for (int i=0; i<LimiteMax; i++) {
-        if (empresa[i].cnpj != 0) {
-            printf("Razão Social da empresa: %s CNPJ: %ld\n", empresa[i].RS, empresa[i].cnpj);
+        if (strcmp(empresa[i].cnpj, "0") != 0) {
+            printf("Razão Social da empresa: %s | CNPJ: %s | telefone: %s\n", empresa[i].RS, empresa[i].cnpj, empresa[i].TF);
         }
     }
 }
@@ -770,9 +770,9 @@ void exibirUsuarios(User *usuario) {
 }
 
 //função que procura se um cliente tem certo cpf
-int cpfFinder(ClienteCPF *cliente, int cpf) {
+int cpfFinder(ClienteCPF *cliente, char *cpf) {
     for (int i=0; i<LimiteMax; i++) { // pega o cpf do cliente e compara se já existe outro cliente com o mesmo cpf
-        if (cliente[i].cpf == cpf) {
+        if (strcmp(cliente[i].cpf, cpf) == 0) {
             return 0; //retorna 0 caso a função encontre um cliente com o mesmo cpf informado como parâmetro
         }
     }
@@ -780,9 +780,9 @@ int cpfFinder(ClienteCPF *cliente, int cpf) {
 }
 
 //função que produra se uma empresa tem certo cpf
-int cnpjFinder(ClienteCNPJ *empresa, int cnpj) {
+int cnpjFinder(ClienteCNPJ *empresa, char *cnpj) {
     for (int i=0; i<LimiteMax; i++) { // pega o cnpj da empresa e compara se já existe outra empresa com o mesmo cnpj
-        if (empresa[i].cnpj == cnpj) { 
+        if (strcmp(empresa[i].cnpj, cnpj) == 0) { 
             return 0; //retorna 0 caso a função encontre uma empresa com o mesmo cnpj informado como parâmetro
         }
     }
@@ -791,23 +791,17 @@ int cnpjFinder(ClienteCNPJ *empresa, int cnpj) {
 
 //função que adiciona clientes
 int cadastrarCPF(ClienteCPF *cliente, int *contadorClientes) {
-    char *endptr;
-    long long cpfTest=0; //variavel usada pra conferir se existe um cliente cadastrado com tal cpf
+    char cpfTest[charConst]; //variavel usada pra conferir se existe um cliente cadastrado com tal cpf
     int contadorTempC = *contadorClientes; //variável temporária que pega o valor do contador de clientes já cadastrados para poder usar como posição do array na variável de clientes
     printf("\ninsira o nome do cliente: "); //pede pro usuário informar o nome do cliente 
     scanf("%s", &cliente[contadorTempC].nome); //guarda o nome do cliente cadastrado no elemento de nomes da variável de clientes
-    //verificação de input
-    do {
-            printf("insira o cpf do cliente (somente numeros): "); //pede pro usuário inserir apenas os numeros do cpf do cliente
-            scanf("%s", &varTemp); //lê o input em uma variável string temporaria
-    } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
-    cpfTest = atoi(varTemp); //converte o input na variável string para a variavél de destino
-    varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
+    printf("insira o cpf do cliente (somente numeros): "); //pede pro usuário inserir apenas os numeros do cpf do cliente
+    scanf("%s", &cpfTest); //lê o input em uma variável string temporaria
     if (cpfFinder(cliente, cpfTest) == 0) { //if chama a função de procurar cpfs nos clientes cadastrados
         printf("\nErro: cpf ja cadastrado.\n"); //caso exista outro cliente com o mesmo cpf, informa na tela um erro
         return 1; //retorna 1 caso a operação de cadastro de cliente não seja bem sucedida
     } else { // caso não exista outro cliente com o mesmo cpf, informa sucesso
-        cliente[contadorTempC].cpf = cpfTest; //passa o cpf da variável de comparação para o elemento de cpf da variável de clientes
+        strcpy(cliente[contadorTempC].cpf, cpfTest); //passa o cpf da variável de comparação para o elemento de cpf da variável de clientes
         printf("\n#####Cliente cadastrado com sucesso#####\n"); //informa na tela que a operação de cadastro de cliente doi bem sucedida
         *contadorClientes += 1; // Incrementa o clientenum
     }
@@ -816,25 +810,20 @@ int cadastrarCPF(ClienteCPF *cliente, int *contadorClientes) {
 
 //Função para adicionar CNPJ
 int cadastrarCNPJ (ClienteCNPJ *empresa, int *contadorEmpresas) {
-    long cnpjTest = 0; //variavel usada pra conferir se existe um cliente cnpj cadastrado
+    char cnpjTest[charConst]; //variavel usada pra conferir se existe um cliente cnpj cadastrado
     int contadorTempE = *contadorEmpresas; //variável temporária que pega o valor de empresas já cadastradas para poder usar como posição do array na váriavel de empresas
     printf("\nInsira a Razao Social da empresa: "); //pede pro usuário informar o nome da empresa
     scanf("%s", &empresa[contadorTempE].RS); //pega o nome da empresa
-    //verificação de input
-    do {
-        printf("\nCNPJ (somente numeros): "); //pede pro usuário informar o cnpj da empresa
-        scanf("%s", &varTemp); //lê o input em uma variável string temporaria
-        printf("vartempo: %s\n", varTemp);
-    } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
-    cnpjTest = atoi(varTemp); //converte o input na variável string para a variavél de destino
-    varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
+    printf("\nCNPJ (somente numeros): "); //pede pro usuário informar o cnpj da empresa
+    scanf("%s", &cnpjTest); //lê o input em uma variável string temporaria
     if (cnpjFinder(empresa, cnpjTest) == 0) { //if chama a função de procurar cnpjs nas empresas cadastradas
         printf("\nErro: CNPJ ja cadastrado.\n"); //caso exista outra empresa com o mesmo cnpj, informa na tela um erro
         return 1; //retorna 1 caso a operação de cadastro de empresa não seja bem sucedido
     } else { // caso não exista outra empresa com o mesmo cnpj, informa sucesso
-        empresa[contadorTempE].cnpj = cnpjTest; //passa o cpnj na variável placeholder pra seção de cnpj da variável de empresas cadstradas
-        printf("\nTelefone ((xx) xxxx-xxxx): "); //pede pro usuário informar o telefone da empresa
+        strcpy(empresa[contadorTempE].cnpj, cnpjTest); //passa o cpnj na variável placeholder pra seção de cnpj da variável de empresas cadstradas
+        printf("\nTelefone ex:(xx)xxxx-xxxx: "); //pede pro usuário informar o telefone da empresa
         scanf("%s", &empresa[contadorTempE].TF); //lê o telefone como string no elemento de telefone da variável de empresas cadastradas
+        //função pra arrumar o telefone
         printf("\n#####Empresa cadastrada com sucesso#####\n"); //informa na tela que o cadastro da empresa foi bem sucedido
         *contadorEmpresas += 1; // adiciona no contador de empresas cadastradas
     }
@@ -847,7 +836,7 @@ int realizarVenda(Produto *produtos, int idTest, int *notaFiscal, ClienteCPF *cl
     printf("\n#### REALIZAÇÃO DE VENDA ####\n");
     //adendo: a integração do cliente na venda ainda não foi completamente implementada//
     int tempOpcao = 0; //variável temporária de seleção de opção
-    int clienteFinder = 0; //variável temporária que segura um valor para ser comparado com cpfs e cpnjs
+    char clienteFinder[charConst]; //variável temporária que segura um valor para ser comparado com cpfs e cpnjs
     printf("cliente ou empresa cadastrada?\n"); //menuzinho que pede pro usuário se ele vai realizar a venda para u cliente ou empresa já cadastrada
     printf("1. Sim\n");
     printf("2. Não");
@@ -861,18 +850,13 @@ int realizarVenda(Produto *produtos, int idTest, int *notaFiscal, ClienteCPF *cl
         varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
         switch (tempOpcao) {
             case 1: //caso que vai definir a porcentagem de desconto na venda
-                //verificação de input
-                do {
-                    printf("\nInsira o CPF/CNPJ: "); //pede pro usuário informar o id do produto a ser vendido
-                    scanf("%s", &varTemp); //lê o input em uma variável string temporaria
-                } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
-                clienteFinder = atoi(varTemp); //converte o input na variável string para a variavél de destino
-                varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
+                printf("\nInsira o CPF/CNPJ: "); //pede pro usuário informar o id do produto a ser vendido
+                scanf("%s", &clienteFinder); //lê o input em uma variável string temporaria
                 for (int i=0; i<LimiteMax; i++) { //for usado para percorrer os arrays de clientes e empresas
-                    if (clientes[i].cpf == clienteFinder) { //if compara se o valor informado pelo usuário é igual algum cpf dos clientes cadastrados
+                    if (strcmp(clientes[i].cpf, clienteFinder) == 0) { //if compara se o valor informado pelo usuário é igual algum cpf dos clientes cadastrados
                         desconto = 10; //se o valor informado pelo usuário for encontrado no banco de cpfs, o desconto será de 10%
                         break; //sai do for
-                    } else if (empresas[i].cnpj == clienteFinder) { //if compara se o valor informado pelo usuário é igual algum cnpj das empresas cadastradas
+                    } else if (strcmp(empresas[i].cnpj, clienteFinder) == 0) { //if compara se o valor informado pelo usuário é igual algum cnpj das empresas cadastradas
                         desconto = 30; //se o valor informado pelo usuário for encontrado no banco de cnpjs, o desconto será de 30%
                         break; //sai do for
                     } else if (i == (LimiteMax - 1)) { //if abre o erro caso o for chege no fim limite de tamanho dos arrays sem ter encontrado nenhum cpf ou cnpj compatível
@@ -976,8 +960,8 @@ void menuAdmin(User *usuario, int *userCount, Produto *produtos, int contadorPro
             case 2: //abre o submenu relacionado a clientes                    
                 do {
                     printf("\n##### MENU - PESSOAS #####\n"); 
-                    printf("1. Cadastrar pessoa física\n");
-                    printf("2. Cadastrar pessoa juridíca\n");
+                    printf("1. Cadastrar clientes\n");
+                    printf("2. Cadastrar empresas\n");
                     printf("3. Mostrar lista de cadastros\n");
                     printf("4. Cadastrar novo usuário\n");
                     printf("0. Voltar\n");
@@ -1116,8 +1100,8 @@ void menuDefault(Produto *produtos, int contadorProdutos, int idTest, int *NF, C
             case 2: //abre o submenu relacionado a clientes                    
                 do {
                     printf("\n##### MENU - PESSOAS #####\n"); 
-                    printf("1. Cadastrar pessoa física\n");
-                    printf("2. Cadastrar pessoa juridíca\n");
+                    printf("1. Cadastrar cliente\n");
+                    printf("2. Cadastrar empresa\n");
                     printf("3. Mostrar lista de cadastros\n");
                     printf("0. Voltar\n");
                     //verificação de input
@@ -1132,8 +1116,8 @@ void menuDefault(Produto *produtos, int contadorProdutos, int idTest, int *NF, C
                         case 2: cadastrarCNPJ(empresas, contadorEmpresas); break; //chama a função qur faz o cadastro de uma empresa
                         case 3: do { //abre um subsubmenu relacionado a exibição dos cadastros de pessoas, empresas e usuários
                                     printf("\n##### MOSTRAR LISTA DE CADASTROS #####\n"); 
-                                    printf("1. Mostrar pessoas físicas\n");
-                                    printf("2. Mostrar pessoas juridícas\n");
+                                    printf("1. Mostrar clientes\n");
+                                    printf("2. Mostrar empresas\n");
                                     printf("0. Voltar\n");
                                     //verificação de input
                                     do {
@@ -1242,9 +1226,9 @@ int limpadorGeral(User *usuarios, Produto *produtos, ClienteCPF *clientes, Clien
         produtos[i].quantidade = 0;
         produtos[i].valor = 0;
         strcpy(clientes[i].nome, "inutilizado");
-        clientes[i].cpf = 0;
+        strcpy(clientes[i].cpf, "0");
         strcpy(empresas[i].RS, "inutilizado");
-        empresas[i].cnpj = 0;
+        strcpy(empresas[i].cnpj, "0");
         strcpy(empresas[i].TF, "inutilizado");
     }
     for (int j=0; j<LimiteMaxRelatório; j++) {
