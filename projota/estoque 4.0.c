@@ -49,8 +49,15 @@ typedef struct {
     int quantidadeVendida; //elemento que armazena a quantidade vendida
     float valor; //elemento que armazena o valor pelo qual foi vendido
     int notaFiscal; //elemento que armaena a nota fiscal da venda
-    time_t dataVenda; //elemento que armazena a data da venda
-} Relatotio;
+    char dataVenda[charConst]; //elemento que armazena a data da venda
+} RelatorioVendas;
+
+typedef struct {
+    char nomeProduto[charConst]; //elemento que armazena o nome do produto
+    int idProduto; //elemento que armazena o id do produto
+    int quantidadeModificada; //elemento que armazena a quantidade vendida
+    char dataVenda[charConst]; //elemento que armazena a data da venda
+} RelatorioProdutos;
 
 // definição de variáveis globais //
 
@@ -124,7 +131,7 @@ void varTempClean() {
     }
 
     //função que lê o arquivo que armazena os valores das variáveis de contagem
-    int getCountsValues(int *userCount, int *produtosCount, int *clientesCount, int *empresasCount) {
+    int getCountsValues(int *userCount, int *produtosCount, int *clientesCount, int *empresasCount, int *controleProdutosCount, int *controleVendasCount) {
         FILE *file_counts;
         file_counts = fopen("Counts.txt", "r");
         if (file_counts != NULL) {
@@ -132,19 +139,23 @@ void varTempClean() {
             fscanf(file_counts, "%d", produtosCount);
             fscanf(file_counts, "%d", clientesCount);
             fscanf(file_counts, "%d", empresasCount);
+            fscanf(file_counts, "%d", controleProdutosCount);
+            fscanf(file_counts, "%d", controleVendasCount);
         }
         fclose(file_counts);
         return 0;
     }
 
     //função que cria um arquivo com os valores das variáveis de contagem
-    int saveCountsValues(int userCount, int produtosCount, int clientesCount, int empresasCount) {
+    int saveCountsValues(int userCount, int produtosCount, int clientesCount, int empresasCount, int controleProdutosCount, int controleVendasCount) {
         FILE *file_counts;
         file_counts = fopen("Counts.txt", "w");
         fprintf(file_counts, "%d\n", userCount);
         fprintf(file_counts, "%d\n", produtosCount);
         fprintf(file_counts, "%d\n", clientesCount);
         fprintf(file_counts, "%d\n", empresasCount);
+        fprintf(file_counts, "%d\n", controleProdutosCount);
+        fprintf(file_counts, "%d\n", controleVendasCount);
         fclose(file_counts);
         return 0;
     }
@@ -253,6 +264,70 @@ void varTempClean() {
         return 0;
     }
 
+    //função que lê um arquivo com as informações relacionadas a variável de relatórios de produtos
+    int getRelatoriosProdutosValues(RelatorioProdutos *controle) {
+        FILE *file_relatorioProdutos;
+        file_relatorioProdutos = fopen("ValoresRelatoriosProdutos.txt", "r");
+        if (file_relatorioProdutos != NULL) {
+            for (int i=0; i<LimiteMaxRelatório; i++) {
+                fscanf(file_relatorioProdutos, "%s", &controle[i].nomeProduto);
+                fscanf(file_relatorioProdutos, "%i", &controle[i].idProduto);
+                fscanf(file_relatorioProdutos, "%i", &controle[i].quantidadeModificada);
+                fscanf(file_relatorioProdutos, "%s", &controle[i].dataVenda);
+            }
+        }
+        fclose(file_relatorioProdutos);
+        return 0;
+    }
+
+    //função que cria um arquivo com as informações relacionadas a variável de relatórios de produtos
+    int saveRelatoriosProdutosValues(RelatorioProdutos *controle) {
+        FILE *file_relatorioProdutos;
+        file_relatorioProdutos = fopen("ValoresRelatoriosProdutos.txt", "w");
+        for (int i=0; i<LimiteMaxRelatório; i++) {
+            fprintf(file_relatorioProdutos, "%s\n", controle[i].nomeProduto);
+            fprintf(file_relatorioProdutos, "%d\n", controle[i].idProduto);
+            fprintf(file_relatorioProdutos, "%d\n", controle[i].quantidadeModificada);
+            fprintf(file_relatorioProdutos, "%s\n", controle[i].dataVenda);
+        }
+        fclose(file_relatorioProdutos);
+        return 0;
+    }
+
+    //função que lê um arquivo com as informações relacionadas a variável de relatórios de vendas
+    int getRelatoriosVendasValues(RelatorioVendas *controle) {
+        FILE *file_relatorioVendas;
+        file_relatorioVendas = fopen("ValoresRelatoriosVendas.txt", "r");
+        if (file_relatorioVendas != NULL) {
+            for (int i=0; i<LimiteMaxRelatório; i++) {
+                fscanf(file_relatorioVendas, "%s", &controle[i].nomeProduto);
+                fscanf(file_relatorioVendas, "%d", &controle[i].idProduto);
+                fscanf(file_relatorioVendas, "%d", &controle[i].quantidadeVendida);
+                fscanf(file_relatorioVendas, "%f", &controle[i].valor);
+                fscanf(file_relatorioVendas, "%d", &controle[i].notaFiscal);
+                fscanf(file_relatorioVendas, "%s", &controle[i].dataVenda);
+            }
+        }
+        fclose(file_relatorioVendas);
+        return 0;
+    }
+
+    //função que cria um arquivo com as informações relacionadas a variável de relatórios de vendas
+    int saveRelatoriosVendasValues(RelatorioVendas *controle) {
+        FILE *file_relatorioVendas;
+        file_relatorioVendas = fopen("ValoresRelatoriosVendas.txt", "w");
+        for (int i=0; i<LimiteMaxRelatório; i++) {
+            fprintf(file_relatorioVendas, "%s\n", controle[i].nomeProduto);
+            fprintf(file_relatorioVendas, "%d\n", controle[i].idProduto);
+            fprintf(file_relatorioVendas, "%d\n", controle[i].quantidadeVendida);
+            fprintf(file_relatorioVendas, "%f\n", controle[i].valor);
+            fprintf(file_relatorioVendas, "%d\n", controle[i].notaFiscal);
+            fprintf(file_relatorioVendas, "%s\n", controle[i].dataVenda);
+        }
+        fclose(file_relatorioVendas);
+        return 0;
+    }
+
 //função que valida um input apenas numérico
 int validateInput(char *input, int size) {
     for (int i=0;i<size;i++) { //for que vai percorrer o array da variável informada como parâmetro com base no tamanho passado como parametro
@@ -269,6 +344,66 @@ int validateInput(char *input, int size) {
     }
     // debugging // printf("saiu do for\n");
     return VALIDO; //caso não exista qualquer caractere diferente de digitos e pontuações, retorna valido como resultado da verificação
+}
+
+int registrarControleProdutos(RelatorioProdutos *produto, Produto *modificado, int idTest, int quantidade, char *tipoOperacao, int *contadorRelatorioProdutos) {
+    time_t data = time(NULL); //variável relacionada com a hora da modificação
+    int posicao = 0;
+    for (int i=0;i<LimiteMax; i++) {
+        if (modificado[i].id == idTest) {
+            posicao = i;
+            break;
+        }
+    }
+    strcpy(produto[*contadorRelatorioProdutos].nomeProduto, modificado[posicao].nome);
+    produto[*contadorRelatorioProdutos].idProduto = modificado[posicao].id;
+    if (strcmp(tipoOperacao, "venda") == 0) {
+        produto[*contadorRelatorioProdutos].quantidadeModificada = quantidade * (-1);
+    } else {
+        produto[*contadorRelatorioProdutos].quantidadeModificada = quantidade;
+    }
+    //macumba pro salvador de tempo funcionar
+    strcpy(produto[*contadorRelatorioProdutos].dataVenda, asctime(localtime(&data)));
+    strtok(produto[*contadorRelatorioProdutos].dataVenda, "\n");
+    for (int i=0; i<charConst; i++) {
+        if(produto[*contadorRelatorioProdutos].dataVenda[i] != '\0') {
+            if(produto[*contadorRelatorioProdutos].dataVenda[i] == ' ') {
+                produto[*contadorRelatorioProdutos].dataVenda[i] = '_';
+            }
+        }
+    }
+    *contadorRelatorioProdutos += 1;
+    return 0;
+}
+
+//função que registra uma venda na variável de relatórios de venda
+int registrarControleVenda(RelatorioVendas *vendas, Produto *produto, int idTest, int quantidade, float valor, int notaFiscal, int *contadorRelatorioVendas) {
+    time_t data = time(NULL);
+    int posicao = 0;
+    for (int i=0; i<LimiteMax; i++) {
+        if (produto[i].id == idTest) {
+            posicao = i;
+            break;
+        }
+    }
+    printf("posição: %i\n", posicao);
+    strcpy(vendas[*contadorRelatorioVendas].nomeProduto, produto[posicao].nome); printf("step 1\n");
+    vendas[*contadorRelatorioVendas].idProduto = produto[posicao].id; printf("step 2\n");
+    vendas[*contadorRelatorioVendas].quantidadeVendida = quantidade; printf("step 3\n");
+    vendas[*contadorRelatorioVendas].valor = valor; printf("step 4\n");
+    vendas[*contadorRelatorioVendas].notaFiscal = notaFiscal; printf("step 5\n");
+    //gambiarra dnv
+    strcpy(vendas[*contadorRelatorioVendas].dataVenda, asctime(localtime(&data))); printf("step 6\n");
+    strtok(vendas[*contadorRelatorioVendas].dataVenda, "\n"); printf("step 7\n");
+    for (int i=0; i<charConst; i++) {
+        if (vendas[*contadorRelatorioVendas].dataVenda[i] != '\0') {
+            if (vendas[*contadorRelatorioVendas].dataVenda[i] == ' ') {
+                vendas[*contadorRelatorioVendas].dataVenda[i] = '_'; printf("step 8\n");
+            }
+        }
+    }
+    *contadorRelatorioVendas += 1;
+    return 0;
 }
 
 //função de login
@@ -456,7 +591,7 @@ int removerProdutos(Produto *produtos, int idTest) {
 }
 
 //função que atualiza a quantidade de produtos (só adiciona na verdade)
-int atualizarQuantidade(Produto *produtos, int idTest) {
+int atualizarQuantidade(Produto *produtos, int idTest, RelatorioProdutos *controleProdutos, int *contadorControleProdutos) {
     //verificação de input
     do {
         printf("\ninsira o ID do produto - "); //pede pro usuário inserir o id do produto a ser adicionado 
@@ -475,7 +610,8 @@ int atualizarQuantidade(Produto *produtos, int idTest) {
             } while (validateInput(varTemp, charConst) == INVALIDO); //repete o do while caso a função de validação retorne invalido
             quantidadeAdicionada = atoi(varTemp); //converte o input na variável string para a variavél de destino
             varTempClean(); //função que limpa a variável temporária após a mesma já ter sido utilizada
-            produtos[i].quantidade = produtos[i].quantidade + quantidadeAdicionada; //adiciona a quantidade nova a quanitdade já existente
+            produtos[i].quantidade = produtos[i].quantidade + quantidadeAdicionada; //adiciona a quantidade nova a quanitdade já existentes
+            registrarControleProdutos(controleProdutos, produtos, idTest, quantidadeAdicionada, "adição", contadorControleProdutos);
             idTest = 0; //reseta o comparador de id para 0
             printf("\n#####Quantidade atualizada com sucesso#####\n"); //informa na tela uma mensagem de sucesso na atualização da quantidade do produto
             return 0; 
@@ -599,7 +735,7 @@ int cadastrarCNPJ (ClienteCNPJ *empresa, int *contadorEmpresas) {
 }
 
 //função que realiza vendas
-int realizarVenda(Produto *produtos, int idTest, int *notaFiscal, ClienteCPF *clientes, ClienteCNPJ *empresas) {
+int realizarVenda(Produto *produtos, int idTest, int *notaFiscal, ClienteCPF *clientes, ClienteCNPJ *empresas, RelatorioProdutos *controleProdutos, int *contadorControleProdutos, RelatorioVendas *controleVendas, int *contadorControleVendas) {
     int desconto = 0; //variável que vai segurar o valor da porcentagem de desconto na venda
     printf("\n#### REALIZAÇÃO DE VENDA ####\n");
     //adendo: a integração do cliente na venda ainda não foi completamente implementada//
@@ -667,6 +803,8 @@ int realizarVenda(Produto *produtos, int idTest, int *notaFiscal, ClienteCPF *cl
                 float valorTotalFinal; //variável que vai conter o valor total da venda de um produto após o desconto 
                 valorTotal = produtos[i].valor * quantidadeVenda; //calcula o valor total da venda
                 valorTotalFinal = valorTotal - ((valorTotal * desconto) / 100); //aplica o desconto no valor total da venda
+                registrarControleProdutos(controleProdutos, produtos, idTest, quantidadeVenda, "venda", contadorControleProdutos);
+                registrarControleVenda(controleVendas, produtos, idTest, quantidadeVenda, valorTotalFinal, *notaFiscal, contadorControleVendas);
                 impressorNotaFiscal(produtos[i].nome, quantidadeVenda, *notaFiscal, valorTotal, valorTotalFinal, desconto); //chama a função que escreve a nota fiscal;
                 idTest = 0; //reseta o idTest para 0;
                 break; //sai do for
@@ -685,7 +823,7 @@ int realizarVenda(Produto *produtos, int idTest, int *notaFiscal, ClienteCPF *cl
 }
 
 //função do menu (administrador)
-void menuAdmin(User *usuario, int *userCount, Produto *produtos, int contadorProdutos, int idTest, int *NF, ClienteCPF *clientes, int *contadorClientes, ClienteCNPJ *empresas, int *contadorEmpresas) {
+void menuAdmin(User *usuario, int *userCount, Produto *produtos, int contadorProdutos, int idTest, int *NF, ClienteCPF *clientes, int *contadorClientes, ClienteCNPJ *empresas, int *contadorEmpresas, RelatorioProdutos *controleProdutos, int *contadorControleProdutos, RelatorioVendas *controleVendas, int *contadorControleVendas) {
     int opcao; //variavél que segura o valor referente a uma opção do menu
     int subOpcao; //variável que segura o valor referente a uma opção dos submenus
     do { //do while do menu principal
@@ -721,7 +859,7 @@ void menuAdmin(User *usuario, int *userCount, Produto *produtos, int contadorPro
                     switch (subOpcao) {
                         case 1: adicionarProdutos(produtos, idTest, contadorProdutos); break; //chama a função que adiciona produtos novos
                         case 2: removerProdutos(produtos, idTest); break; //chama a função que remove produtos já cadastrados
-                        case 3: atualizarQuantidade(produtos, idTest); break; //chama a função que atualiza a quantidade de produtos já adicionados
+                        case 3: atualizarQuantidade(produtos, idTest, controleProdutos, contadorControleProdutos); break; //chama a função que atualiza a quantidade de produtos já adicionados
                         case 4: exibirEstoque(produtos); break; //chama a função que exibe o estoque de produtos cadastrados
                         case 5: printf("\nAinda não implementado\n"); break; //adendo: falta fazer ainda
                         case 0: break; //faz o break do switch e volta pro menu principal
@@ -776,7 +914,7 @@ void menuAdmin(User *usuario, int *userCount, Produto *produtos, int contadorPro
                 } while (subOpcao != 0); //do while do submenu repete o mesmo enquanto a variável do submenu for diferente de 0
                 break; //sai do switch do menu principal
             case 3: //chama a função de venda 
-                realizarVenda(produtos, idTest, NF, clientes, empresas);    
+                realizarVenda(produtos, idTest, NF, clientes, empresas, controleProdutos, contadorControleProdutos, controleVendas, contadorControleVendas);    
                 break; //sai do switch do menu principal
             case 0: //abre o submenu com as opções para sair/fechar o sistema
                 do {
@@ -806,7 +944,7 @@ void menuAdmin(User *usuario, int *userCount, Produto *produtos, int contadorPro
 }
 
 //função do menu (padrão)
-void menuDefault(Produto *produtos, int contadorProdutos, int idTest, int *NF, ClienteCPF *clientes, int *contadorClientes, ClienteCNPJ *empresas, int *contadorEmpresas) {
+void menuDefault(Produto *produtos, int contadorProdutos, int idTest, int *NF, ClienteCPF *clientes, int *contadorClientes, ClienteCNPJ *empresas, int *contadorEmpresas, RelatorioProdutos *controleProdutos, int *contadorControleProdutos, RelatorioVendas *controleVendas, int *contadorControleVendas) {
     int opcao; //variavél que segura o valor referente a uma opção do menu
     int subOpcao; //variável que segura o valor referente a uma opção dos submenus
     do { //do while do menu principal
@@ -841,7 +979,7 @@ void menuDefault(Produto *produtos, int contadorProdutos, int idTest, int *NF, C
                     switch (subOpcao) {
                         case 1: adicionarProdutos(produtos, idTest, contadorProdutos); break; //chama a função que adiciona produtos novos
                         case 2: removerProdutos(produtos, idTest); break; //chama a função que remove produtos já cadastrados
-                        case 3: atualizarQuantidade(produtos, idTest); break; //chama a função que atualiza a quantidade de produtos já adicionados
+                        case 3: atualizarQuantidade(produtos, idTest, controleProdutos, contadorControleProdutos); break; //chama a função que atualiza a quantidade de produtos já adicionados
                         case 4: exibirEstoque(produtos); break; //chama a função que exibe o estoque de produtos cadastrados
                         case 0: break; //faz o break do switch e volta pro menu principal
                         default: printf("Opcao invalida!\n"); //informa na tela que a opção escolhida é invalida
@@ -891,7 +1029,7 @@ void menuDefault(Produto *produtos, int contadorProdutos, int idTest, int *NF, C
                 } while (subOpcao != 0); //do while do submenu repete o mesmo enquanto a variável do submenu for diferente de 0
                 break; //sai do switch do menu principal
             case 3: //chama a função de venda 
-                realizarVenda(produtos, idTest, NF, clientes, empresas);    
+                realizarVenda(produtos, idTest, NF, clientes, empresas, controleVendas, contadorControleProdutos, controleVendas, contadorControleVendas);    
                 break; //sai do switch do menu principal
             case 0: //abre o submenu com as opções para sair/fechar o sistema
                 do {
@@ -964,7 +1102,7 @@ void disclaimer() {
 }
 
 //função que limpa tudo de todas as variáveis que armazenam os bagulhonsons
-int limpadorGeral(User *usuarios, Produto *produtos, ClienteCPF *clientes, ClienteCNPJ *empresas) {
+int limpadorGeral(User *usuarios, Produto *produtos, ClienteCPF *clientes, ClienteCNPJ *empresas, RelatorioProdutos *controleProdutos, RelatorioVendas *controleVendas) {
     for (int g=0; g<LimiteMaxUser; g++) {
         strcpy(usuarios[g].user, "inutilizado");
         strcpy(usuarios[g].password, "inutilizado");
@@ -980,6 +1118,20 @@ int limpadorGeral(User *usuarios, Produto *produtos, ClienteCPF *clientes, Clien
         strcpy(empresas[i].RS, "inutilizado");
         empresas[i].cnpj = 0;
         strcpy(empresas[i].TF, "inutilizado");
+    }
+    for (int j=0; j<LimiteMaxRelatório; j++) {
+        strcpy(controleProdutos[j].nomeProduto, "slot_livre");
+        controleProdutos[j].idProduto = 0;
+        controleProdutos[j].quantidadeModificada = 0;
+        strcpy(controleProdutos[j].dataVenda, "sem_tempo");
+    }
+    for (int k=0; k<LimiteMaxRelatório; k++) {
+        strcpy(controleVendas[k].nomeProduto, "slot_livre");
+        controleVendas[k].idProduto = 0;
+        controleVendas[k].quantidadeVendida = 0;
+        controleVendas[k].valor = 0;
+        controleVendas[k].notaFiscal = 0;
+        strcpy(controleVendas[k].dataVenda, "sem_tempo");
     }
     return 0;
 }
@@ -1008,29 +1160,37 @@ int main() {
     ClienteCNPJ clientesEmpresas[LimiteMax]; //Variavel array que é utilizada para guardar informações de clientes tipo pessoa juridica
     int empresanum = 0; //contador de clientes cnpj cadastardos
 
+    //definição das variáveis relacionadas com o sistema de relatórios
+    RelatorioProdutos controleProdutos[LimiteMaxRelatório]; //variável que vai monitorar tudo que entra e sai do estoque
+    RelatorioVendas controleVendas[LimiteMaxRelatório]; //variável que vai monitorar toda venda realizada
+    int contadorControleProdutos = 0;
+    int contadorControleVendas = 0;
+
     //chama a função que confere se o programa já foi aberto alguma outra vez
     getTimesRunnedValue();
   
     if (timesRunned == 0) {
-        limpadorGeral(usuario, estoque, clientesPessoas, clientesEmpresas);
+        limpadorGeral(usuario, estoque, clientesPessoas, clientesEmpresas, controleProdutos, controleVendas);
         if (comparacaoUsuarios(usuario, "") == 0) {
             printf("\nNenhum usuário registrado, favor registrar um usuário\n");
             registrarAdmin(usuario, &userCount);
         }
     } else {
         getUsersValues(usuario);
-        getCountsValues(&userCount, &produtonum, &clientenum, &empresanum);
+        getCountsValues(&userCount, &produtonum, &clientenum, &empresanum, &contadorControleProdutos, &contadorControleVendas);
         getNotaFiscalValue(&NF);
         getEstoqueValues(estoque);
         getClientesValues(clientesPessoas);
         getEmpresasValues(clientesEmpresas);
+        getRelatoriosProdutosValues(controleProdutos);
+        getRelatoriosVendasValues(controleVendas);
     }
     
     do {
         int logon = login(usuario);
         switch (logon) {
-            case 0: menuDefault(estoque, produtonum, idTest, &NF, clientesPessoas, &clientenum, clientesEmpresas, &empresanum); break;
-            case 2: menuAdmin(usuario, &userCount, estoque, produtonum, idTest, &NF, clientesPessoas, &clientenum, clientesEmpresas, &empresanum); break; 
+            case 0: menuDefault(estoque, produtonum, idTest, &NF, clientesPessoas, &clientenum, clientesEmpresas, &empresanum, controleProdutos, &contadorControleProdutos, controleVendas, &contadorControleVendas); break;
+            case 2: menuAdmin(usuario, &userCount, estoque, produtonum, idTest, &NF, clientesPessoas, &clientenum, clientesEmpresas, &empresanum, controleProdutos, &contadorControleProdutos, controleVendas, &contadorControleVendas); break; 
             default: retry();
         }
     } while (isRunning == 0);
@@ -1039,15 +1199,12 @@ int main() {
     timesRunned++;
     saveTimesRunnedValue();
     saveUsersValues(usuario);
-    saveCountsValues(userCount, produtonum, clientenum, empresanum);
+    saveCountsValues(userCount, produtonum, clientenum, empresanum, contadorControleProdutos, contadorControleVendas);
     saveNotaFiscalValue(NF);
     saveEstoqueValues(estoque);
     saveClientesValues(clientesPessoas);
     saveEmpresasValues(clientesEmpresas);
+    saveRelatoriosProdutosValues(controleProdutos);
+    saveRelatoriosVendasValues(controleVendas);
     return 0;
 }
-
-//ideias//
-//adicionar cadastro de fornecedores
-//não limitar a venda ao cliente cadastrado, separar opções
-//adicionar valor ao cliente cadastrado
